@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMenu | Beta v2.8</title>
+    <title>SuperMenu | Mieux manger, moins payer</title>
+    
+    <link rel="icon" href="https://fav.farm/🥗" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -13,6 +16,8 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .modal-blur { backdrop-filter: blur(12px); }
         
+        :root { --store-color: #e31e24; }
+
         .check-box {
             width: 24px; height: 24px;
             border: 2px solid rgba(255,255,255,0.2);
@@ -33,13 +38,13 @@
 </head>
 <body class="text-slate-900 italic">
 
-    <div class="bg-slate-900 border-b-4 transition-colors duration-500" id="topBorder">
+    <div class="bg-slate-900 border-b-4 transition-colors duration-500" id="topBorder" style="border-color: #e31e24;">
         <div class="max-w-6xl mx-auto px-6 py-3 flex flex-col md:flex-row justify-between items-center text-white">
             <div class="flex items-center space-x-4">
                 <span class="bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase" id="statusBadge">Offre en cours</span>
                 <span class="text-[11px] font-bold opacity-70 uppercase tracking-widest italic">Du 19 fév. au 25 fév. 2026</span>
             </div>
-            <a id="storeLink" href="#" target="_blank" class="text-[10px] font-black uppercase underline hover:opacity-80 transition-opacity mt-2 md:mt-0 italic">
+            <a id="storeLink" href="https://www.superc.ca/circulaire-en-ligne" target="_blank" class="text-[10px] font-black uppercase underline hover:opacity-80 transition-opacity mt-2 md:mt-0 italic">
                 Circulaire officielle <span id="linkStoreName">Super C</span>
             </a>
         </div>
@@ -74,7 +79,7 @@
         </div>
 
         <header class="mb-12">
-            <div class="bg-white border-y border-r border-slate-200 p-10 rounded-[4rem] shadow-sm border-l-[16px] transition-all duration-500" id="headerBorder">
+            <div class="bg-white border-y border-r border-slate-200 p-10 rounded-[4rem] shadow-sm border-l-[16px] transition-all duration-500" id="headerBorder" style="border-left-color: #e31e24;">
                 <h1 class="text-2xl font-black text-slate-900 mb-4 uppercase tracking-tighter italic">
                     Bienvenue sur <span id="storeColorText" class="text-red-600">SuperMenu</span>.
                 </h1>
@@ -86,7 +91,7 @@
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 font-black italic text-white">
-            <div id="cardBudget" class="bg-red-600 p-8 rounded-[3rem] shadow-xl">
+            <div id="cardBudget" class="bg-red-600 p-8 rounded-[3rem] shadow-xl transition-colors duration-500">
                 <p class="text-white/60 text-[10px] uppercase mb-1">Budget Hebdo</p>
                 <p id="totalPrice" class="text-4xl">0,00 $</p>
             </div>
@@ -124,7 +129,7 @@
 
     <script>
         const storeConfig = {
-            superc: { name: "Super C", color: "#e31e24", url: "https://www.superc.ca", tip: "Viandes format familial en rabais.", recipes: [
+            superc: { name: "Super C", color: "#e31e24", url: "https://www.superc.ca/circulaire-en-ligne", tip: "Viandes format familial en rabais.", recipes: [
                 { name: "Spaghetti Bolo", price: 8.50, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Bœuf haché", "Pâtes", "Sauce"], steps: ["Porter de l'eau salée à ébullition.","Brunir le bœuf avec des oignons.","Ajouter la sauce et laisser réduire.","Cuire les pâtes al dente.","Mélanger et servir chaud."] },
                 { name: "Tacos Poulet", price: 11.20, img: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500", items: ["Poulet", "Tortillas", "Laitue"], steps: ["Émincer le poulet en lanières.","Saisir au wok avec des épices.","Chauffer les tortillas à la vapeur.","Préparer la salsa et la laitue.","Assembler avec de la crème sure."] },
                 { name: "Stir-fry Tofu", price: 7.00, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500", items: ["Tofu", "Brocoli", "Riz"], steps: ["Détailler le tofu en gros cubes.","Sauter au wok jusqu'à ce qu'il soit doré.","Ajouter les légumes croquants.","Déglacer avec de la sauce soja.","Servir sur le riz vapeur."] },
@@ -133,7 +138,7 @@
                 { name: "Poulet Rôti", price: 12.00, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", items: ["Poulet entier", "Patates", "Carottes"], steps: ["Préchauffer le four à 375°F.","Assaisonner le poulet vigoureusement.","Disposer les légumes autour.","Rôtir pendant environ 1h20.","Laisser reposer avant de servir."] },
                 { name: "Soupe à l'Orge", price: 6.50, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Bouillon", "Légumes", "Orge"], steps: ["Chauffer le bouillon de bœuf.","Couper les carottes et navets.","Verser l'orge dans la marmite.","Mijoter à feu doux 45 minutes.","Ajuster le sel et le poivre."] }
             ]},
-            maxi: { name: "Maxi", color: "#3b82f6", url: "https://www.maxi.ca", tip: "Points PC Optimum doublés !", recipes: [
+            maxi: { name: "Maxi", color: "#3b82f6", url: "https://www.maxi.ca/print-flyer", tip: "Points PC Optimum doublés !", recipes: [
                 { name: "Porc Effiloché", price: 9.50, img: "https://images.unsplash.com/photo-1527324688151-0e627063f2b1?w=500", items: ["Porc", "Sauce BBQ", "Pains"], steps: ["Placer l'épaule dans la mijoteuse.","Couvrir de sauce et épices.","Cuire 8h à basse température.","Effilocher à la fourchette.","Servir dans des pains briochés."] },
                 { name: "Chili Rouge", price: 6.80, img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500", items: ["Haricots", "Bœuf", "Maïs"], steps: ["Faire brunir le bœuf haché.","Ajouter oignons et poivrons.","Verser tomates et haricots.","Laisser mijoter 30 minutes.","Dresser avec du fromage râpé."] },
                 { name: "Quesadillas", price: 10.00, img: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=500", items: ["Tortillas", "Fromage", "Poivrons"], steps: ["Trancher les poivrons finement.","Garnir la moitié d'une tortilla.","Plier et chauffer à la poêle.","Griller 2 min par côté.","Trancher en triangles."] },
@@ -142,7 +147,7 @@
                 { name: "Côtelettes Porc", price: 13.50, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Patates", "Haricots"], steps: ["Saisir les côtelettes à la poêle.","Préparer une purée onctueuse.","Cuire les haricots à la vapeur.","Réaliser une sauce au jus de viande.","Dresser harmonieusement."] },
                 { name: "Mac & Cheese", price: 7.20, img: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500", items: ["Macaroni", "Cheddar", "Lait"], steps: ["Bouillir les pâtes.","Faire un roux (beurre/farine).","Incorporer le lait et fromage.","Mélanger avec les pâtes.","Passer au four 10 min."] }
             ]},
-            iga: { name: "IGA", color: "#059669", url: "https://www.iga.net", tip: "Viandes Sterling Silver en vedette.", recipes: [
+            iga: { name: "IGA", color: "#059669", url: "https://www.iga.net/fr/circulaire_hebdomadaire", tip: "Viandes Sterling Silver en vedette.", recipes: [
                 { name: "Bavette Grillée", price: 17.50, img: "https://images.unsplash.com/photo-1558030006-450675393462?w=500", items: ["Bavette", "Échalotes", "Vin"], steps: ["Tempérer la viande 20 min.","Saisir à feu vif 3 min par côté.","Faire suer les échalotes.","Déglacer au vin rouge.","Trancher et napper de sauce."] },
                 { name: "Salade Quinoa", price: 9.00, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500", items: ["Quinoa", "Concombre", "Feta"], steps: ["Cuire le quinoa dans l'eau salée.","Laisser refroidir complètement.","Couper concombre et feta en dés.","Mélanger avec huile d'olive/citron.","Parsemer de menthe fraîche."] },
                 { name: "Penne Arrabbiata", price: 8.50, img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=500", items: ["Penne", "Piment", "Ail"], steps: ["Faire revenir l'ail et piment.","Ajouter les tomates concassées.","Laisser mijoter 15 minutes.","Cuire les penne al dente.","Sauter les pâtes dans la sauce."] },
@@ -151,7 +156,7 @@
                 { name: "Lasagne Classique", price: 12.00, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Pâtes", "Bœuf", "Ricotta"], steps: ["Préparer la bolognaise.","Mélanger ricotta et herbes.","Monter les étages de la lasagne.","Couvrir de mozzarella.","Cuire 45 min au four."] },
                 { name: "Poulet au Beurre", price: 13.00, img: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500", items: ["Poulet", "Sauce", "Naan"], steps: ["Dorer le poulet en cubes.","Ajouter la sauce masala.","Incorporer la crème à la fin.","Mijoter 10 minutes.","Accompagner de pain naan."] }
             ]},
-            metro: { name: "Métro", color: "#f97316", url: "https://www.metro.ca", tip: "Marques Irresistibles en vedette.", recipes: [
+            metro: { name: "Métro", color: "#f97316", url: "https://www.metro.ca/circulaire-en-ligne", tip: "Marques Irresistibles en vedette.", recipes: [
                 { name: "Longe de Porc", price: 12.00, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Navet", "Moutarde"], steps: ["Badigeonner de moutarde.","Disposer les navets.","Rôtir à 350°F.","Arroser régulièrement.","Laisser reposer 10 min."] },
                 { name: "Omelette Jambon", price: 6.50, img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=500", items: ["Oeufs", "Jambon", "Fromage"], steps: ["Battre les oeufs.","Faire chauffer la poêle.","Verser et garnir.","Plier proprement.","Servir avec toasts."] },
                 { name: "Ratatouille", price: 8.00, img: "https://images.unsplash.com/photo-1572453860999-18607ee8c5a5?w=500", items: ["Aubergine", "Tomate", "Zucchini"], steps: ["Couper tous les légumes.","Sauter dans l'ordre.","Ajouter ail et herbes.","Mijoter 45 minutes.","Savourer chaud ou froid."] },
@@ -160,7 +165,7 @@
                 { name: "Boeuf Bourguignon", price: 16.00, img: "https://images.unsplash.com/photo-1534939561126-755ec61b8c9e?w=500", items: ["Boeuf", "Vin rouge", "Carottes"], steps: ["Mariner la viande.","Dorer les cubes bœuf.","Ajouter vin et légumes.","Mijoter 3h à feu doux.","Vérifier la tendreté."] },
                 { name: "Club Sandwich", price: 10.50, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", items: ["Pain", "Dinde", "Bacon"], steps: ["Griller 3 pains.","Étager dinde et laitue.","Ajouter bacon croustillant.","Fermer et trancher.","Servir avec cornichons."] }
             ]},
-            provigo: { name: "Provigo", color: "#6366f1", url: "https://www.provigo.ca", tip: "Bio PC Le Choix du Président.", recipes: [
+            provigo: { name: "Provigo", color: "#6366f1", url: "https://www.provigo.ca/print-flyer", tip: "Bio PC Le Choix du Président.", recipes: [
                 { name: "Bowl Énergie", price: 11.00, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500", items: ["Kale", "Patate douce", "Pois"], steps: ["Rôtir les patates.","Préparer le kale.","Rincer les pois chiches.","Assembler le bol.","Saucer au tahini."] },
                 { name: "Fusilli Pesto", price: 8.50, img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=500", items: ["Pâtes", "Pesto", "Tomates"], steps: ["Cuire les pâtes.","Couper les tomates.","Mélanger au pesto.","Ajouter parmesan.","Servir tiède."] },
                 { name: "Wrap Thon", price: 7.00, img: "https://images.unsplash.com/photo-1601050633729-19508588079b?w=500", items: ["Wrap", "Thon", "Mayo"], steps: ["Égoutter le thon.","Mélanger thon/mayo.","Étaler sur wrap.","Rouler fermement.","Trancher en biseau."] },
@@ -169,7 +174,7 @@
                 { name: "Chili Carne", price: 11.00, img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500", items: ["Bœuf", "Haricots", "Piment"], steps: ["Brunir le bœuf.","Ajouter piment.","Verser sauce tomate.","Mijoter 1h.","Servir avec riz."] },
                 { name: "Gratin Oignon", price: 8.00, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Oignon", "Fromage", "Pain"], steps: ["Suer les oignons.","Mouiller bouillon.","Mettre au bol.","Pain et fromage.","Gratiner fort."] }
             ]},
-            loblaw: { name: "Loblaws", color: "#facc15", url: "https://www.loblaws.ca", tip: "Offres PC Optimum en vedette.", recipes: [
+            loblaw: { name: "Loblaws", color: "#facc15", url: "https://www.loblaws.ca/print-flyer", tip: "Offres PC Optimum en vedette.", recipes: [
                 { name: "Saumon Grillé", price: 16.00, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500", items: ["Saumon", "Asperges", "Citron"], steps: ["Chauffer le grill.","Huiler le saumon.","Griller les asperges.","Cuire 10 minutes.","Poivrer et servir."] },
                 { name: "Salade César", price: 11.00, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", items: ["Romaine", "Bacon", "Pain"], steps: ["Laver la romaine.","Griller le bacon.","Faire les croûtons.","Mélanger la sauce.","Dresser l'assiette."] },
                 { name: "Risotto Champis", price: 13.00, img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=500", items: ["Riz", "Champignons", "Beurre"], steps: ["Chauffer le bouillon.","Sauter les champis.","Nacrer le riz.","Verser le bouillon.","Lier au parmesan."] },
