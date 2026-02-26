@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SuperMenu | Mieux manger, moins payer</title>
-    
-    <link rel="icon" href="https://fav.farm/🥗" />
-
+    <link rel="icon" href="https://fav.farm/🛒" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -15,25 +13,24 @@
         .recipe-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .modal-blur { backdrop-filter: blur(12px); }
-        
         :root { --store-color: #e31e24; }
-
-        .check-box {
-            width: 24px; height: 24px;
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.3s ease;
-        }
-        .checked-item .check-box {
-            background-color: var(--store-color);
-            border-color: var(--store-color);
-        }
+        .check-box { width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .checked-item .check-box { background-color: var(--store-color); border-color: var(--store-color); }
         .checked-item .item-text { opacity: 0.4; text-decoration: line-through; }
         .check-icon { display: none; color: white; width: 16px; height: 16px; }
         .checked-item .check-icon { display: block; }
-        
         .recipe-img { height: 180px; width: 100%; object-fit: cover; border-radius: 1.5rem; }
+
+        @media print {
+            nav, header, .grid-cols-1, .grid-cols-4, #recipeGrid, #statusBadge, #topBorder, button, .bg-red-600\/20 { display: none !important; }
+            body { background: white; color: black; }
+            .premium-list { background: white; color: black; border: none; padding: 0; }
+            #shoppingList { display: block !important; }
+            .flex.items-center { border-bottom: 1px solid #eee; padding: 10px 0; }
+            .item-text { color: black !important; opacity: 1 !important; text-decoration: none !important; }
+            .check-box { border: 1px solid #000 !important; }
+            #storeListTitle { color: black !important; font-size: 24pt; }
+        }
     </style>
 </head>
 <body class="text-slate-900 italic">
@@ -42,9 +39,9 @@
         <div class="max-w-6xl mx-auto px-6 py-3 flex flex-col md:flex-row justify-between items-center text-white">
             <div class="flex items-center space-x-4">
                 <span class="bg-red-600 px-3 py-1 rounded-full text-[10px] font-black uppercase" id="statusBadge">Offre en cours</span>
-                <span class="text-[11px] font-bold opacity-70 uppercase tracking-widest italic">Du 19 fév. au 25 fév. 2026</span>
+                <span id="autoDates" class="text-[11px] font-bold opacity-70 uppercase tracking-widest italic">Chargement...</span>
             </div>
-            <a id="storeLink" href="https://www.superc.ca/circulaire-en-ligne" target="_blank" class="text-[10px] font-black uppercase underline hover:opacity-80 transition-opacity mt-2 md:mt-0 italic">
+            <a id="storeLink" href="#" target="_blank" class="text-[10px] font-black uppercase underline hover:opacity-80 transition-opacity mt-2 md:mt-0 italic">
                 Circulaire officielle <span id="linkStoreName">Super C</span>
             </a>
         </div>
@@ -58,14 +55,12 @@
                     <span class="not-italic font-black text-xl uppercase">MENU</span>
                 </div>
             </div>
-
             <div class="flex overflow-x-auto no-scrollbar space-x-2 max-w-full pb-1 mt-4 md:mt-0">
                 <button onclick="switchStore('superc')" id="btn-superc" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all">Super C</button>
                 <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">Maxi</button>
-                <button onclick="switchStore('loblaw')" id="btn-loblaw" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">Loblaws</button>
+                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">Provigo</button>
                 <button onclick="switchStore('iga')" id="btn-iga" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">IGA</button>
                 <button onclick="switchStore('metro')" id="btn-metro" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">Métro</button>
-                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab px-4 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400">Provigo</button>
             </div>
         </div>
     </nav>
@@ -85,13 +80,14 @@
                 </h1>
                 <p class="text-slate-500 text-lg leading-relaxed max-w-4xl">
                     Notre mission est simple : <strong>vous aider à mieux manger tout en payant moins.</strong> 
-                    Chaque semaine, nous analysons la circulaire pour créer un menu équilibré basé exclusivement sur les spéciaux en vigueur. Ne cherchez plus quoi cuisiner, nous avons déjà fait le calcul.
+                    Chaque semaine, nous analysons la circulaire pour créer un menu équilibré basé exclusivement sur les spéciaux en vigueur. 
+                    Ne cherchez plus quoi cuisiner, nous avons déjà fait le calcul.
                 </p>
             </div>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 font-black italic text-white">
-            <div id="cardBudget" class="bg-red-600 p-8 rounded-[3rem] shadow-xl transition-colors duration-500">
+            <div id="cardBudget" class="bg-red-600 p-8 rounded-[3rem] shadow-xl">
                 <p class="text-white/60 text-[10px] uppercase mb-1">Budget Hebdo</p>
                 <p id="totalPrice" class="text-4xl">0,00 $</p>
             </div>
@@ -111,7 +107,9 @@
             <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-white/10 pb-8">
                 <div><h2 id="storeListTitle" class="text-4xl font-black tracking-tighter text-red-600 uppercase italic">Ma Liste</h2></div>
                 <div class="flex space-x-3 mt-6 md:mt-0">
-                    <button onclick="shareList()" class="bg-white/10 px-6 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-white/20 transition-all italic">📤 Partager</button>
+                    <button onclick="window.print()" class="bg-white/10 text-white px-6 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-white/20 transition-all italic flex items-center">
+                        <span class="mr-2">🖨️</span> Imprimer
+                    </button>
                     <button onclick="resetList()" class="bg-red-600/20 text-red-400 px-6 py-3 rounded-2xl text-[10px] font-black uppercase hover:bg-red-600/40 transition-all italic">Vider</button>
                 </div>
             </div>
@@ -128,60 +126,63 @@
     </div>
 
     <script>
+        function updateWeekDates() {
+            const now = new Date();
+            const day = now.getDay();
+            const diffToThursday = (day >= 4) ? day - 4 : day + 3;
+            const start = new Date(now);
+            start.setDate(now.getDate() - diffToThursday);
+            const end = new Date(start);
+            end.setDate(start.getDate() + 6);
+            const options = { day: 'numeric', month: 'short' };
+            document.getElementById('autoDates').innerText = `Du ${start.toLocaleDateString('fr-CA', options)} au ${end.toLocaleDateString('fr-CA', options)} ${end.getFullYear()}`;
+        }
+
         const storeConfig = {
-            superc: { name: "Super C", color: "#e31e24", url: "https://www.superc.ca/circulaire-en-ligne", tip: "Viandes format familial en rabais.", recipes: [
-                { name: "Spaghetti Bolo", price: 8.50, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Bœuf haché", "Pâtes", "Sauce"], steps: ["Porter de l'eau salée à ébullition.","Brunir le bœuf avec des oignons.","Ajouter la sauce et laisser réduire.","Cuire les pâtes al dente.","Mélanger et servir chaud."] },
-                { name: "Tacos Poulet", price: 11.20, img: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500", items: ["Poulet", "Tortillas", "Laitue"], steps: ["Émincer le poulet en lanières.","Saisir au wok avec des épices.","Chauffer les tortillas à la vapeur.","Préparer la salsa et la laitue.","Assembler avec de la crème sure."] },
-                { name: "Stir-fry Tofu", price: 7.00, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500", items: ["Tofu", "Brocoli", "Riz"], steps: ["Détailler le tofu en gros cubes.","Sauter au wok jusqu'à ce qu'il soit doré.","Ajouter les légumes croquants.","Déglacer avec de la sauce soja.","Servir sur le riz vapeur."] },
-                { name: "Pizza Garnie", price: 9.00, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500", items: ["Pâte", "Pepperoni", "Fromage"], steps: ["Préchauffer le four à 425°F.","Étaler la pâte finement.","Napper de sauce et de pepperoni.","Couvrir de fromage râpé.","Cuire 15 min au centre du four."] },
-                { name: "Fish & Chips", price: 14.50, img: "https://images.unsplash.com/photo-1524335582521-5f7e34743ee7?w=500", items: ["Poisson", "Frites", "Citron"], steps: ["Préchauffer le four pour les frites.","Cuire les filets panés à part.","Trancher les citrons en quartiers.","Préparer une sauce tartare rapide.","Dresser les assiettes bien chaudes."] },
-                { name: "Poulet Rôti", price: 12.00, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", items: ["Poulet entier", "Patates", "Carottes"], steps: ["Préchauffer le four à 375°F.","Assaisonner le poulet vigoureusement.","Disposer les légumes autour.","Rôtir pendant environ 1h20.","Laisser reposer avant de servir."] },
-                { name: "Soupe à l'Orge", price: 6.50, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Bouillon", "Légumes", "Orge"], steps: ["Chauffer le bouillon de bœuf.","Couper les carottes et navets.","Verser l'orge dans la marmite.","Mijoter à feu doux 45 minutes.","Ajuster le sel et le poivre."] }
+            superc: { name: "Super C", color: "#e31e24", url: "https://www.superc.ca/circulaire", tip: "Viandes format familial en rabais.", recipes: [
+                { name: "Sauté de Bœuf", price: 8.77, img: "https://images.unsplash.com/photo-1512058560566-427a1bd5a560?w=500", items: ["Bœuf", "Poivrons", "Riz"], steps: ["Trancher le bœuf contre le grain.","Préparer la marinade (soja, gingembre).","Chauffer le wok à feu vif.","Saisir la viande 2 minutes.","Ajouter les légumes et le riz."] },
+                { name: "Poulet BBQ", price: 10.50, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", items: ["Poulet", "Sauce BBQ", "Patates"], steps: ["Préchauffer le four à 375°F.","Laver et couper les patates en dés.","Badigeonner le poulet de sauce.","Cuire le tout sur une plaque.","Vérifier la température interne."] },
+                { name: "Filet de Porc", price: 7.44, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Moutarde", "Légumes"], steps: ["Saisir le filet à la poêle.","Tartiner généreusement de moutarde.","Entourer de légumes racines.","Enfourner pendant 25 minutes.","Laisser reposer avant de trancher."] },
+                { name: "Spaghetti Bœuf", price: 6.80, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Pâtes", "Sauce", "Bœuf haché"], steps: ["Cuire les pâtes al dente.","Dorer le bœuf avec des oignons.","Ajouter la sauce tomate.","Mijoter à feu doux 20 min.","Mélanger et servir chaud."] },
+                { name: "Bol Burrito", price: 7.25, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500", items: ["Haricots", "Maïs", "Riz"], steps: ["Cuire le riz à la vapeur.","Rincer les haricots noirs.","Préparer une salsa de maïs.","Disposer en étages dans un bol.","Garnir de lime et coriandre."] },
+                { name: "Tacos Poulet", price: 11.20, img: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500", items: ["Poulet", "Tortillas", "Chou"], steps: ["Griller les lanières de poulet.","Trancher le chou finement.","Chauffer les tortillas.","Assembler avec de la crème sure.","Ajouter une touche de piment."] },
+                { name: "Burger Bœuf", price: 9.40, img: "https://images.unsplash.com/photo-1521305916504-4a1121188589?w=500", items: ["Bœuf haché", "Pains", "Fromage"], steps: ["Façonner les galettes de bœuf.","Griller sur le BBQ ou poêle.","Ajouter le fromage à la fin.","Griller légèrement les pains.","Garnir de laitue et tomates."] }
             ]},
-            maxi: { name: "Maxi", color: "#3b82f6", url: "https://www.maxi.ca/print-flyer", tip: "Points PC Optimum doublés !", recipes: [
-                { name: "Porc Effiloché", price: 9.50, img: "https://images.unsplash.com/photo-1527324688151-0e627063f2b1?w=500", items: ["Porc", "Sauce BBQ", "Pains"], steps: ["Placer l'épaule dans la mijoteuse.","Couvrir de sauce et épices.","Cuire 8h à basse température.","Effilocher à la fourchette.","Servir dans des pains briochés."] },
-                { name: "Chili Rouge", price: 6.80, img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500", items: ["Haricots", "Bœuf", "Maïs"], steps: ["Faire brunir le bœuf haché.","Ajouter oignons et poivrons.","Verser tomates et haricots.","Laisser mijoter 30 minutes.","Dresser avec du fromage râpé."] },
-                { name: "Quesadillas", price: 10.00, img: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=500", items: ["Tortillas", "Fromage", "Poivrons"], steps: ["Trancher les poivrons finement.","Garnir la moitié d'une tortilla.","Plier et chauffer à la poêle.","Griller 2 min par côté.","Trancher en triangles."] },
-                { name: "Pâté Chinois", price: 8.90, img: "https://images.unsplash.com/photo-1592415499556-74fcb9f18667?w=500", items: ["Bœuf", "Maïs", "Patates"], steps: ["Cuire les patates en purée.","Faire revenir le bœuf haché.","Superposer viande, maïs, purée.","Cuire au four à 375°F.","Gratiner 5 min à la fin."] },
-                { name: "Burger Poisson", price: 12.00, img: "https://images.unsplash.com/photo-1521305916504-4a1121188589?w=500", items: ["Pains", "Poisson", "Laitue"], steps: ["Cuire le poisson pané au four.","Toaster l'intérieur des pains.","Tartiner de mayonnaise citronnée.","Ajouter la laitue croquante.","Assembler et servir."] },
-                { name: "Côtelettes Porc", price: 13.50, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Patates", "Haricots"], steps: ["Saisir les côtelettes à la poêle.","Préparer une purée onctueuse.","Cuire les haricots à la vapeur.","Réaliser une sauce au jus de viande.","Dresser harmonieusement."] },
-                { name: "Mac & Cheese", price: 7.20, img: "https://images.unsplash.com/photo-1543339308-43e59d6b73a6?w=500", items: ["Macaroni", "Cheddar", "Lait"], steps: ["Bouillir les pâtes.","Faire un roux (beurre/farine).","Incorporer le lait et fromage.","Mélanger avec les pâtes.","Passer au four 10 min."] }
+            maxi: { name: "Maxi", color: "#3b82f6", url: "https://www.maxi.ca/print-flyer", tip: "Visez les formats Imbattables.", recipes: [
+                { name: "Pizza Deluxe", price: 7.50, img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500", items: ["Pâte", "Pepperoni", "Fromage"], steps: ["Étaler la pâte sur une plaque.","Étendre la sauce uniformément.","Ajouter le pepperoni et fromage.","Cuire à 425°F pendant 12 min.","Laisser reposer 2 minutes."] },
+                { name: "Salade Pâtes", price: 5.80, img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=500", items: ["Fusilli", "Olives", "Feta"], steps: ["Bouillir les fusillis.","Rincer à l'eau très froide.","Couper olives et feta en dés.","Mélanger avec huile d'olive.","Réfrigérer avant de servir."] },
+                { name: "Quesadillas", price: 8.30, img: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=500", items: ["Tortillas", "Haricots", "Oignons"], steps: ["Sauter oignons et poivrons.","Placer la garniture sur la tortilla.","Replier et griller à la poêle.","Retourner après 2 minutes.","Couper en triangles."] },
+                { name: "Sauté Tofu", price: 6.45, img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500", items: ["Tofu", "Brocoli", "Soja"], steps: ["Presser le tofu pour l'égoutter.","Couper en cubes et dorer.","Sauter les brocolis à part.","Réunir avec la sauce soja.","Servir sur un lit de nouilles."] },
+                { name: "Pâté Chinois", price: 9.90, img: "https://images.unsplash.com/photo-1592415499556-74fcb9f18667?w=500", items: ["Bœuf", "Maïs", "Patates"], steps: ["Faire une purée de patates.","Cuire le bœuf haché.","Étager viande, maïs et purée.","Ajouter des noisettes de beurre.","Gratiner au four 15 minutes."] },
+                { name: "Chili Bœuf", price: 10.15, img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500", items: ["Bœuf", "Haricots", "Tomates"], steps: ["Dorer le bœuf et l'ail.","Ajouter les tomates en dés.","Incorporer les haricots rouges.","Mijoter pendant 45 minutes.","Rectifier l'assaisonnement."] },
+                { name: "Fusilli Rosée", price: 8.10, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Pâtes", "Sauce", "Épinards"], steps: ["Cuire les fusillis à point.","Chauffer la sauce rosée.","Ajouter les épinards frais.","Mélanger jusqu'à flétrissement.","Parsemer de parmesan."] }
             ]},
-            iga: { name: "IGA", color: "#059669", url: "https://www.iga.net/fr/circulaire_hebdomadaire", tip: "Viandes Sterling Silver en vedette.", recipes: [
-                { name: "Bavette Grillée", price: 17.50, img: "https://images.unsplash.com/photo-1558030006-450675393462?w=500", items: ["Bavette", "Échalotes", "Vin"], steps: ["Tempérer la viande 20 min.","Saisir à feu vif 3 min par côté.","Faire suer les échalotes.","Déglacer au vin rouge.","Trancher et napper de sauce."] },
-                { name: "Salade Quinoa", price: 9.00, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500", items: ["Quinoa", "Concombre", "Feta"], steps: ["Cuire le quinoa dans l'eau salée.","Laisser refroidir complètement.","Couper concombre et feta en dés.","Mélanger avec huile d'olive/citron.","Parsemer de menthe fraîche."] },
-                { name: "Penne Arrabbiata", price: 8.50, img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=500", items: ["Penne", "Piment", "Ail"], steps: ["Faire revenir l'ail et piment.","Ajouter les tomates concassées.","Laisser mijoter 15 minutes.","Cuire les penne al dente.","Sauter les pâtes dans la sauce."] },
-                { name: "Wok Crevettes", price: 15.00, img: "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=500", items: ["Crevettes", "Pois", "Gingembre"], steps: ["Préparer les légumes du wok.","Sauter les crevettes à feu vif.","Ajouter le gingembre et ail.","Verser un trait de soja/miel.","Servir immédiatement."] },
-                { name: "Morue Papillote", price: 14.50, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500", items: ["Morue", "Zucchini", "Thym"], steps: ["Placer la morue sur l'alu.","Ajouter zucchini et herbes.","Fermer hermétiquement.","Cuire 15 min à 400°F.","Servir dans le papier."] },
-                { name: "Lasagne Classique", price: 12.00, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Pâtes", "Bœuf", "Ricotta"], steps: ["Préparer la bolognaise.","Mélanger ricotta et herbes.","Monter les étages de la lasagne.","Couvrir de mozzarella.","Cuire 45 min au four."] },
-                { name: "Poulet au Beurre", price: 13.00, img: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500", items: ["Poulet", "Sauce", "Naan"], steps: ["Dorer le poulet en cubes.","Ajouter la sauce masala.","Incorporer la crème à la fin.","Mijoter 10 minutes.","Accompagner de pain naan."] }
+            provigo: { name: "Provigo", color: "#ed1c24", url: "https://www.provigo.ca/print-flyer", tip: "Produits PC en vedette ici.", recipes: [
+                { name: "Poulet Rôti", price: 12.99, img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500", items: ["Poulet entier", "Herbes", "Légumes"], steps: ["Préchauffer à 400°F.","Frotter le poulet d'herbes.","Disposer les légumes autour.","Rôtir pendant 75 minutes.","Vérifier la cuisson à la cuisse."] },
+                { name: "Pâtes au Pesto", price: 7.95, img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=500", items: ["Pâtes", "Pesto PC", "Tomates"], steps: ["Cuire les pâtes choisies.","Couper les tomates cerises.","Mélanger le pesto et les pâtes.","Ajouter un peu d'eau de cuisson.","Garnir de basilic frais."] },
+                { name: "Steak Grillé", price: 15.20, img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c?w=500", items: ["Bœuf", "Beurre", "Ail"], steps: ["Sortir la viande à l'avance.","Saisir à feu très vif.","Ajouter ail et beurre fondu.","Cuire selon le degré désiré.","Laisser reposer 5 minutes."] },
+                { name: "Poisson Vapeur", price: 13.80, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500", items: ["Poisson", "Citron", "Gingembre"], steps: ["Préparer le panier vapeur.","Assaisonner les filets.","Ajouter citron et gingembre.","Cuire à la vapeur 10 min.","Servir avec du riz blanc."] },
+                { name: "Salade Grecque", price: 6.90, img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500", items: ["Concombres", "Feta", "Olives"], steps: ["Dés de concombres et poivrons.","Ajouter les olives noires.","Émietter la feta par-dessus.","Verser une huile d'origan.","Mélanger très délicatement."] },
+                { name: "Soupe Légumes", price: 5.50, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Carottes", "Céleri", "Bouillon"], steps: ["Hacher menu tous les légumes.","Faire suer dans l'huile.","Couvrir de bouillon chaud.","Mijoter pendant 30 minutes.","Mixer ou laisser entier."] },
+                { name: "Frittata Oeufs", price: 8.75, img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=500", items: ["Oeufs", "Patates", "Poivrons"], steps: ["Cuire les patates en dés.","Battre les oeufs et assaisonner.","Verser sur les légumes poêlés.","Cuire à feu doux 8 min.","Finir sous le grill du four."] }
             ]},
-            metro: { name: "Métro", color: "#f97316", url: "https://www.metro.ca/circulaire-en-ligne", tip: "Marques Irresistibles en vedette.", recipes: [
-                { name: "Longe de Porc", price: 12.00, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Navet", "Moutarde"], steps: ["Badigeonner de moutarde.","Disposer les navets.","Rôtir à 350°F.","Arroser régulièrement.","Laisser reposer 10 min."] },
-                { name: "Omelette Jambon", price: 6.50, img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=500", items: ["Oeufs", "Jambon", "Fromage"], steps: ["Battre les oeufs.","Faire chauffer la poêle.","Verser et garnir.","Plier proprement.","Servir avec toasts."] },
-                { name: "Ratatouille", price: 8.00, img: "https://images.unsplash.com/photo-1572453860999-18607ee8c5a5?w=500", items: ["Aubergine", "Tomate", "Zucchini"], steps: ["Couper tous les légumes.","Sauter dans l'ordre.","Ajouter ail et herbes.","Mijoter 45 minutes.","Savourer chaud ou froid."] },
-                { name: "Gnocchis Beurre", price: 9.50, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Gnocchis", "Beurre", "Sauge"], steps: ["Bouillir les gnocchis.","Chauffer le beurre noisette.","Frire la sauge.","Sauter les gnocchis.","Servir bien doré."] },
-                { name: "Truite Amandes", price: 14.00, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500", items: ["Truite", "Amandes", "Haricots"], steps: ["Griller les amandes.","Saisir la truite peau.","Cuire les haricots verts.","Dresser l'assiette.","Arroser de beurre citron."] },
-                { name: "Boeuf Bourguignon", price: 16.00, img: "https://images.unsplash.com/photo-1534939561126-755ec61b8c9e?w=500", items: ["Boeuf", "Vin rouge", "Carottes"], steps: ["Mariner la viande.","Dorer les cubes bœuf.","Ajouter vin et légumes.","Mijoter 3h à feu doux.","Vérifier la tendreté."] },
-                { name: "Club Sandwich", price: 10.50, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", items: ["Pain", "Dinde", "Bacon"], steps: ["Griller 3 pains.","Étager dinde et laitue.","Ajouter bacon croustillant.","Fermer et trancher.","Servir avec cornichons."] }
+            iga: { name: "IGA", color: "#059669", url: "https://www.iga.net/fr/circulaire", tip: "Spéciaux Vive la Bouffe ici.", recipes: [
+                { name: "Saumon Erable", price: 14.30, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500", items: ["Saumon", "Érable", "Asperges"], steps: ["Badigeonner le saumon d'érable.","Placer sur une plaque huilée.","Disposer les asperges à côté.","Cuire à 400°F pendant 15 min.","Finir avec un peu de poivre."] },
+                { name: "Risotto Champis", price: 11.50, img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=500", items: ["Riz Arborio", "Champignons", "Beurre"], steps: ["Sauter les champignons frais.","Nacrer le riz avec l'oignon.","Ajouter le bouillon louche à louche.","Remuer jusqu'à absorption complète.","Incorporer beurre et parmesan."] },
+                { name: "Bavette Échalotes", price: 17.80, img: "https://images.unsplash.com/photo-1558030006-450675393462?w=500", items: ["Bavette", "Échalotes", "Vin"], steps: ["Sortir la viande du froid.","Saisir vivement à la poêle.","Faire revenir les échalotes.","Déglacer au vin rouge.","Trancher la viande en biais."] },
+                { name: "Truite Amandine", price: 13.90, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500", items: ["Truite", "Amandes", "Citron"], steps: ["Passer la truite dans la farine.","Dorer au beurre noisette.","Griller les amandes à part.","Arroser de jus de citron.","Servir avec du persil haché."] },
+                { name: "Wok Crevettes", price: 15.40, img: "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=500", items: ["Crevettes", "Pois", "Gingembre"], steps: ["Nettoyer les crevettes fraîches.","Sauter à l'ail et gingembre.","Ajouter les pois mange-tout.","Verser un trait de soja.","Servir sur vermicelles de riz."] },
+                { name: "Soupe Oignon", price: 8.50, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Oignons", "Bouillon", "Fromage"], steps: ["Caraméliser lentement les oignons.","Mouiller avec le bouillon.","Mijoter pendant 20 minutes.","Déposer croûtons et fromage.","Gratiner au four à 'Broil'."] },
+                { name: "Poulet Citron", price: 12.60, img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500", items: ["Poulet", "Citron", "Ail"], steps: ["Dorer les hauts de cuisses.","Ajouter tranches de citron.","Mettre les gousses d'ail.","Cuire à couvert 20 minutes.","Réduire le jus de cuisson."] }
             ]},
-            provigo: { name: "Provigo", color: "#6366f1", url: "https://www.provigo.ca/print-flyer", tip: "Bio PC Le Choix du Président.", recipes: [
-                { name: "Bowl Énergie", price: 11.00, img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500", items: ["Kale", "Patate douce", "Pois"], steps: ["Rôtir les patates.","Préparer le kale.","Rincer les pois chiches.","Assembler le bol.","Saucer au tahini."] },
-                { name: "Fusilli Pesto", price: 8.50, img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856?w=500", items: ["Pâtes", "Pesto", "Tomates"], steps: ["Cuire les pâtes.","Couper les tomates.","Mélanger au pesto.","Ajouter parmesan.","Servir tiède."] },
-                { name: "Wrap Thon", price: 7.00, img: "https://images.unsplash.com/photo-1601050633729-19508588079b?w=500", items: ["Wrap", "Thon", "Mayo"], steps: ["Égoutter le thon.","Mélanger thon/mayo.","Étaler sur wrap.","Rouler fermement.","Trancher en biseau."] },
-                { name: "Poulet Citron", price: 12.50, img: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500", items: ["Cuisses", "Citron", "Olive"], steps: ["Placer au four.","Ajouter citron/olives.","Huiler et saler.","Cuire 45 min.","Dorer la peau."] },
-                { name: "Filet de Sole", price: 13.50, img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500", items: ["Sole", "Câpres", "Épinards"], steps: ["Fariner le poisson.","Saisir au beurre.","Ajouter câpres.","Faire tomber épinards.","Servir léger."] },
-                { name: "Chili Carne", price: 11.00, img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?w=500", items: ["Bœuf", "Haricots", "Piment"], steps: ["Brunir le bœuf.","Ajouter piment.","Verser sauce tomate.","Mijoter 1h.","Servir avec riz."] },
-                { name: "Gratin Oignon", price: 8.00, img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500", items: ["Oignon", "Fromage", "Pain"], steps: ["Suer les oignons.","Mouiller bouillon.","Mettre au bol.","Pain et fromage.","Gratiner fort."] }
-            ]},
-            loblaw: { name: "Loblaws", color: "#facc15", url: "https://www.loblaws.ca/print-flyer", tip: "Offres PC Optimum en vedette.", recipes: [
-                { name: "Saumon Grillé", price: 16.00, img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500", items: ["Saumon", "Asperges", "Citron"], steps: ["Chauffer le grill.","Huiler le saumon.","Griller les asperges.","Cuire 10 minutes.","Poivrer et servir."] },
-                { name: "Salade César", price: 11.00, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", items: ["Romaine", "Bacon", "Pain"], steps: ["Laver la romaine.","Griller le bacon.","Faire les croûtons.","Mélanger la sauce.","Dresser l'assiette."] },
-                { name: "Risotto Champis", price: 13.00, img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=500", items: ["Riz", "Champignons", "Beurre"], steps: ["Chauffer le bouillon.","Sauter les champis.","Nacrer le riz.","Verser le bouillon.","Lier au parmesan."] },
-                { name: "Steak au Poivre", price: 18.00, img: "https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=500", items: ["Steak", "Crème", "Poivre"], steps: ["Poivrer le steak.","Saisir à la poêle.","Ajouter la crème.","Réduire la sauce.","Napper la viande."] },
-                { name: "Moules Marinières", price: 15.00, img: "https://images.unsplash.com/photo-1453831362806-3d5577f014a4?w=500", items: ["Moules", "Vin blanc", "Persil"], steps: ["Laver les moules.","Suer les échalotes.","Verser le vin.","Cuire 5 minutes.","Parsemer de persil."] },
-                { name: "Curry de Poulet", price: 14.00, img: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=500", items: ["Poulet", "Lait coco", "Épices"], steps: ["Dorer le poulet.","Ajouter le curry.","Verser le coco.","Mijoter 20 min.","Servir sur riz."] },
-                { name: "Bagels Lox", price: 12.00, img: "https://images.unsplash.com/photo-1510913817173-9804e10df36a?w=500", items: ["Bagels", "Saumon fumé", "Fromage"], steps: ["Toaster le bagel.","Mettre le fromage.","Placer le saumon.","Ajouter les câpres.","Trancher en deux."] }
+            metro: { name: "Métro", color: "#f97316", url: "https://www.metro.ca/circulaire", tip: "Exclusivités Moi en rabais.", recipes: [
+                { name: "Pâtes Rosée", price: 7.15, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Penne", "Sauce", "Saucisses"], steps: ["Cuire les pennes al dente.","Retirer la peau des saucisses.","Faire rissoler la chair.","Mélanger avec la sauce rosée.","Servir avec du basilic."] },
+                { name: "Longe de Porc", price: 11.40, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Navets", "Érable"], steps: ["Préchauffer le four à 350°F.","Saisir la longe de porc.","Ajouter les navets en dés.","Napper de sirop d'érable.","Cuire environ 45 minutes."] },
+                { name: "Gratin Patates", price: 7.90, img: "https://images.unsplash.com/photo-1592415499556-74fcb9f18667?w=500", items: ["Patates", "Crème", "Fromage"], steps: ["Trancher les patates fines.","Beurrer un plat à gratin.","Alterner patates et crème.","Couvrir de fromage râpé.","Enfourner 1h à 375°F."] },
+                { name: "Salade César", price: 10.20, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", items: ["Romaine", "Bacon", "Pain"], steps: ["Laver les cœurs de romaine.","Faire griller le bacon.","Préparer des croûtons à l'ail.","Mélanger avec la sauce crémeuse.","Finir avec des copeaux de parmesan."] },
+                { name: "Frittata Maison", price: 8.80, img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55?w=500", items: ["Oeufs", "Poivrons", "Oignons"], steps: ["Battre les oeufs vigoureusement.","Sauter les légumes à part.","Verser les oeufs sur les légumes.","Cuire doucement à la poêle.","Terminer la cuisson au four."] },
+                { name: "Club Sandwich", price: 9.60, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", items: ["Dinde", "Pain", "Bacon"], steps: ["Griller trois tranches de pain.","Cuire le bacon croustillant.","Étager dinde, bacon, laitue.","Ajouter de la mayonnaise.","Couper en triangles."] },
+                { name: "Boeuf Mijoté", price: 13.50, img: "https://images.unsplash.com/photo-1534939561126-755ec61b8c9e?w=500", items: ["Boeuf", "Carottes", "Oignons"], steps: ["Dorer les cubes de bœuf.","Ajouter carottes et oignons.","Couvrir de bouillon de bœuf.","Mijoter à feu doux 2h.","Vérifier la tendreté de la viande."] }
             ]}
         };
 
@@ -190,7 +191,6 @@
         function switchStore(id) {
             currentStore = id;
             const c = storeConfig[id];
-            
             document.documentElement.style.setProperty('--store-color', c.color);
             document.getElementById('topBorder').style.borderColor = c.color;
             document.getElementById('headerBorder').style.borderLeftColor = c.color;
@@ -199,11 +199,8 @@
             document.getElementById('statusBadge').style.backgroundColor = c.color;
             document.getElementById('storeColorText').style.color = c.color;
             document.getElementById('storeListTitle').style.color = c.color;
-            
-            const dTitle = document.getElementById('dynamicStoreTitle');
-            dTitle.style.color = c.color;
-            dTitle.innerText = c.name;
-
+            document.getElementById('dynamicStoreTitle').innerText = c.name;
+            document.getElementById('dynamicStoreTitle').style.color = c.color;
             document.getElementById('tipText').innerText = c.tip;
             document.getElementById('linkStoreName').innerText = c.name;
             document.getElementById('storeLink').href = c.url;
@@ -215,12 +212,11 @@
             const active = document.getElementById(`btn-${id}`);
             active.classList.add('text-white');
             active.style.backgroundColor = c.color;
-            
             render();
         }
 
         function toggleItem(el, name) {
-            const checked = JSON.parse(localStorage.getItem('sm_v28') || '[]');
+            const checked = JSON.parse(localStorage.getItem('sm_v30') || '[]');
             if (el.classList.contains('checked-item')) {
                 el.classList.remove('checked-item');
                 const idx = checked.indexOf(name);
@@ -229,15 +225,14 @@
                 el.classList.add('checked-item');
                 checked.push(name);
             }
-            localStorage.setItem('sm_v28', JSON.stringify(checked));
+            localStorage.setItem('sm_v30', JSON.stringify(checked));
         }
 
         function render() {
             const config = storeConfig[currentStore];
             const grid = document.getElementById('recipeGrid');
             const list = document.getElementById('shoppingList');
-            const savedChecked = JSON.parse(localStorage.getItem('sm_v28') || '[]');
-            
+            const savedChecked = JSON.parse(localStorage.getItem('sm_v30') || '[]');
             grid.innerHTML = ''; list.innerHTML = '';
             let total = 0;
 
@@ -253,7 +248,6 @@
                             <button onclick="openModal(${i})" class="bg-slate-900 text-white text-[9px] font-black px-4 py-2 rounded-xl uppercase italic">Recette</button>
                         </div>
                     </div>`;
-
                 r.items.forEach(item => {
                     const isChecked = savedChecked.includes(item);
                     list.innerHTML += `
@@ -267,30 +261,22 @@
             document.getElementById('savedPrice').innerText = (total * 0.45).toFixed(2) + " $";
         }
 
-        function shareList() {
-            const config = storeConfig[currentStore];
-            let text = `🛒 Liste SuperMenu (${config.name}) :\n\n`;
-            config.recipes.forEach(r => { text += `🍴 ${r.name}\n`; r.items.forEach(i => text += `- ${i}\n`); });
-            if (navigator.share) navigator.share({ title: 'Ma Liste SuperMenu', text: text });
-            else alert("Lien copié !");
-        }
-
         function openModal(i) {
             const r = storeConfig[currentStore].recipes[i];
             const color = storeConfig[currentStore].color;
             document.getElementById('modalContent').innerHTML = `
                 <img src="${r.img}" class="w-full h-40 object-cover rounded-[2rem] mb-6 shadow-md" />
                 <h3 class="text-2xl font-black uppercase mb-4" style="color:${color}">${r.name}</h3>
-                <div class="h-1 w-12 bg-slate-100 mb-6"></div>
                 <div class="space-y-4">
-                    ${r.steps.map((s, idx) => `<div class="flex items-start"><span class="font-black mr-3 text-lg" style="color:${color}">${idx+1}</span><p class="text-slate-600 text-sm italic font-medium leading-relaxed">${s}</p></div>`).join('')}
+                    ${r.steps.map((s, idx) => `<div class="flex items-start"><span class="font-black mr-3" style="color:${color}">${idx+1}</span><p class="text-slate-600 text-sm italic">${s}</p></div>`).join('')}
                 </div>`;
             document.getElementById('recipeModal').classList.remove('opacity-0', 'pointer-events-none');
         }
 
         function closeModal() { document.getElementById('recipeModal').classList.add('opacity-0', 'pointer-events-none'); }
-        function resetList() { localStorage.removeItem('sm_v28'); render(); }
-
+        function resetList() { localStorage.removeItem('sm_v30'); render(); }
+        
+        updateWeekDates();
         switchStore('superc');
     </script>
 </body>
