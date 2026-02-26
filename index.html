@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMenu | Lien IGA Corrigé</title>
+    <title>SuperMenu | Version Finale</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -13,10 +13,7 @@
         .bar-container { height: 100px; display: flex; align-items: flex-end; justify-content: center; width: 45px; position: relative; }
         .bar-fill { width: 100%; border-radius: 6px 6px 0 0; transition: height 1s ease-out; }
         
-        .btn-premium {
-            background: #0f172a;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .btn-premium { background: #0f172a; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         .btn-premium:hover { transform: scale(1.05); }
 
         #recipeModal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(10px); }
@@ -110,16 +107,16 @@
             superc: { color: "#e31e24", name: "Super C", link: "https://www.superc.ca/circulaire" },
             maxi: { color: "#3b82f6", name: "Maxi", link: "https://www.maxi.ca/print-flyer" },
             metro: { color: "#f97316", name: "Métro", link: "https://www.metro.ca/circulaire" },
-            iga: { color: "#059669", name: "IGA", link: "https://www.iga.ca/fr/circulaire" }, // LIEN CORRIGÉ ICI
+            iga: { color: "#059669", name: "IGA", link: "https://www.iga.ca/fr/circulaire" },
             provigo: { color: "#ed1c24", name: "Provigo", link: "https://www.provigo.ca/print-flyer" }
         };
 
         const recipesData = [
             { name: "Pâtes Rosée", price: 7.15, img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500", items: ["Penne", "Sauce", "Saucisses"], steps: ["Bouillir l'eau.", "Cuire les pâtes.", "Chauffer la sauce.", "Mélanger.", "Servir."] },
-            { name: "Longe de Porc", price: 11.40, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Navets", "Érable"], steps: ["Saisir le porc.", "Cuire au four.", "Préparer navets.", "Glacer érable.", "Trancher."] },
-            { name: "Gratin Patates", price: 7.90, img: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500", items: ["Patates", "Crème", "Fromage"], steps: ["Trancher.", "Mélanger crème.", "Assembler.", "Gratiner.", "Déguster."] },
-            { name: "Salade César", price: 10.20, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", items: ["Romaine", "Bacon", "Pain"], steps: ["Laver.", "Cuire bacon.", "Croûtons.", "Vinaigrette.", "Servir."] },
-            { name: "Frittata Maison", price: 8.80, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", items: ["Oeufs", "Poivrons", "Oignons"], steps: ["Battre.", "Sauter légumes.", "Verser.", "Cuire.", "Savourer."] },
+            { name: "Longe de Porc", price: 11.40, img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500", items: ["Porc", "Navets", "Érable"], steps: ["Saisir.", "Cuire.", "Navets.", "Glacer.", "Trancher."] },
+            { name: "Gratin Patates", price: 7.90, img: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=500", items: ["Patates", "Crème", "Fromage"], steps: ["Trancher.", "Crème.", "Assembler.", "Gratiner.", "Déguster."] },
+            { name: "Salade César", price: 10.20, img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500", items: ["Romaine", "Bacon", "Pain"], steps: ["Laver.", "Bacon.", "Croûtons.", "Sauce.", "Servir."] },
+            { name: "Frittata Maison", price: 8.80, img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=500", items: ["Oeufs", "Poivrons", "Oignons"], steps: ["Battre.", "Sauter.", "Verser.", "Cuire.", "Savourer."] },
             { name: "Club Sandwich", price: 9.60, img: "https://images.unsplash.com/photo-1528733359334-e150b998e201?w=500", items: ["Dinde", "Pain", "Bacon"], steps: ["Toaster.", "Garnir.", "Bacon.", "Assembler.", "Couper."] },
             { name: "Boeuf Mijoté", price: 13.50, img: "https://images.unsplash.com/photo-1534939561126-855b8675edf7?w=500", items: ["Boeuf", "Carottes", "Oignons"], steps: ["Brunir.", "Mijoter.", "Légumes.", "Réduire.", "Servir."] }
         ];
@@ -144,8 +141,6 @@
             document.getElementById('activeStoreName').style.borderColor = config.color;
             document.getElementById('topStoreName').innerText = config.name;
             document.getElementById('accentBar').style.backgroundColor = config.color;
-            
-            // Mise à jour dynamique du lien vers la circulaire
             document.getElementById('topCirculaireLink').href = config.link;
 
             document.querySelectorAll('.store-tab').forEach(b => {
@@ -182,6 +177,7 @@
                 });
             });
 
+            // LOGIQUE DU COMPARATIF
             const totals = Object.keys(storeConfig).map(k => ({
                 id: k, name: storeConfig[k].name, color: storeConfig[k].color,
                 total: recipesData.reduce((s, r) => s + r.price, 0) * multipliers[k]
