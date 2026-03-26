@@ -89,16 +89,21 @@
             <div class="flex flex-wrap gap-4 mb-10">
                 <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl flex items-center gap-6">
                     <div>
-                        <span class="text-[9px] font-black uppercase tracking-widest text-white/50 block">Vedette du 26 mars au 1er avril</span>
+                        <span class="text-[9px] font-black uppercase tracking-widest text-white/50 block">Vedette Circulaire</span>
                         <span id="featuredItemName" class="text-2xl font-black italic uppercase"></span>
                     </div>
                     <span id="featuredPrice" class="text-3xl font-black italic"></span>
                 </div>
             </div>
 
-            <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">
-                Ouvrir la circulaire <span id="flyerName"></span>
-            </a>
+            <div class="flex flex-col items-start gap-4">
+                <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">
+                    Ouvrir la circulaire <span id="flyerName"></span>
+                </a>
+                <span class="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 ml-2">
+                    Semaine du 26 mars au 1er avril 2026
+                </span>
+            </div>
         </div>
     </header>
 
@@ -109,7 +114,7 @@
                 <div>
                     <h3 class="font-black text-4xl uppercase italic">COMPARATEUR</h3>
                     <p id="savingsPercent" class="text-8xl font-black italic my-4"></p>
-                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Rabais moyen sur les essentiels</p>
+                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Rabais moyen sur les vedettes</p>
                 </div>
                 <div class="flex items-end space-x-6 h-48" id="comparisonBars"></div>
             </div>
@@ -121,7 +126,7 @@
             <h2 class="text-5xl font-black uppercase italic mb-10">Liste de courses</h2>
             <div id="groceryList" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16"></div>
             <div class="flex justify-center">
-                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Générer la liste PDF</button>
+                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Générer la liste PDF (1 page)</button>
             </div>
         </section>
     </main>
@@ -170,7 +175,7 @@
                 recipes: [
                     { name: "Saumon Laqué à l'Érable", price: 16.50, items: ["Saumon", "Érable", "Soja"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Préparer la laque avec sirop d'érable et sauce soja.", "Disposer les pavés de saumon sur une plaque de cuisson.", "Cuire au four à 400F pendant environ 12 minutes.", "Badigeonner de laque à mi-cuisson pour une belle couleur.", "Servir avec un riz sauvage et quelques zestes de lime."] },
                     { name: "Tartare de Saumon Minute", price: 18.20, items: ["Saumon", "Câpres", "Lime"], img: "https://images.unsplash.com/photo-1534080333201-1b6d0891636c", steps: ["Couper le saumon frais en petits dés réguliers au couteau.", "Mélanger avec des câpres, des échalotes et de la ciboulette.", "Assaisonner d'huile d'olive et de jus de lime au moment de servir.", "Garder au frais jusqu'à la toute dernière minute.", "Accompagner de croûtons de baguette bien croustillants."] },
-                    { name: "Pâtes au Saumon Crémeux", price: 14.80, items: ["Pâtes", "Saumon", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856", steps: ["Cuire les pâtes al dente dans une grande eau salée.", "Sauter les dés de saumon rapidement dans du beurre.", "Ajouter la crème liquide et laisser réduire doucement.", "Mélanger les pâtes avec la sauce et beaucoup d'aneth frais.", "Poivrer généreusement avec un poivre blanc moulu."] },
+                    { name: "Pâtes au Saumon Crémeux", price: 14.80, items: ["Pâtes", "Saumon", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les pâtes al dente dans une grande eau salée.", "Sauter les dés de saumon rapidement dans du beurre.", "Ajouter la crème liquide et laisser réduire doucement.", "Mélanger les pâtes avec la sauce et beaucoup d'aneth frais.", "Poivrer généreusement avec un poivre blanc moulu."] },
                     { name: "Saumon en Papillote", price: 15.40, items: ["Saumon", "Citron", "Légumes"], img: "https://images.unsplash.com/photo-1485921325833-c519f76c4927", steps: ["Déposer le saumon sur une feuille de papier parchemin.", "Ajouter des rondelles de citron et des pointes d'asperges.", "Refermer hermétiquement la papillote pour garder la vapeur.", "Cuire au four 15 minutes pour une texture ultra fondante.", "Ouvrir délicatement pour profiter des parfums qui s'échappent."] },
                     { name: "Poke Bowl au Saumon", price: 17.00, items: ["Saumon", "Riz", "Avocat"], img: "https://images.unsplash.com/photo-1546069901-eacef0df6022", steps: ["Mariner les dés de saumon dans du soja et de l'huile de sésame.", "Préparer un bol de riz vinaigré tiède comme base.", "Ajouter l'avocat, le concombre et quelques edamames.", "Disposer le saumon mariné sur le dessus du bol.", "Saupoudrer de graines de sésame et d'oignons verts."] },
                     { name: "Salade de Saumon Grillé", price: 13.90, items: ["Saumon", "Laitue", "Féta"], img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", steps: ["Griller le pavé de saumon côté peau pendant 8 minutes.", "Déchirer la chair en gros morceaux à la fourchette.", "Mélanger avec une salade verte, des olives et du féta.", "Arroser d'une vinaigrette légère au citron et à l'origan.", "Un repas complet, frais et prêt en moins de 15 minutes."] },
@@ -186,21 +191,21 @@
                     { name: "Porc Effiloché Express", price: 15.00, items: ["Porc", "Sauce BBQ", "Épices"], img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836", steps: ["Frotter l'épaule de porc avec un mélange d'épices à BBQ.", "Cuire à basse température (250F) pendant environ 6 heures.", "Effilocher la viande avec deux fourchettes une fois tendre.", "Incorporer votre sauce BBQ préférée généreusement.", "Servir dans des pains ronds avec une salade de chou."] },
                     { name: "Côtelettes à la Moutarde", price: 12.80, items: ["Porc", "Moutarde", "Crème"], img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd", steps: ["Poêler les côtelettes de porc avec un peu d'ail.", "Retirer la viande et ajouter de la crème dans la poêle.", "Incorporer deux cuillères de moutarde à l'ancienne.", "Remettre le porc dans la sauce pour le réchauffer.", "Accompagner d'une purée de pommes de terre onctueuse."] },
                     { name: "Brochettes de Porc au Miel", price: 13.50, items: ["Porc", "Miel", "Zucchini"], img: "https://images.unsplash.com/photo-1532636875304-0c89119d9b4d", steps: ["Alterner cubes de porc et tranches de zucchini sur les pics.", "Badigeonner d'un mélange de miel, ail et sauce soja.", "Griller sur le BBQ ou sous le gril du four pendant 10 minutes.", "Tourner régulièrement pour une cuisson uniforme et dorée.", "Servir avec un couscous aux herbes fraîches."] },
-                    { name: "Ragoût de Porc au Fond de Veau", price: 14.20, items: ["Porc", "Patates", "Carottes"], img: "https://images.unsplash.com/photo-1547592166-23ac45744acd", steps: ["Faire dorer les cubes de porc dans une marmite.", "Ajouter les carottes, les patates et les épices (clou de girofle).", "Mouiller à hauteur avec de l'eau et un fond de veau.", "Mijoter doucement pendant 1h30 jusqu'à tendreté.", "Un plat réconfortant parfait pour les soirées fraîches."] },
-                    { name: "Porc aux Pommes", price: 13.90, items: ["Porc", "Pommes", "Érable"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Saisir le porc, puis réserver au chaud.", "Dans la même poêle, faire dorer des quartiers de pommes.", "Remettre le porc et arroser d'un trait de sirop d'érable.", "Laisser caraméliser quelques minutes à feu moyen.", "Servir avec une purée de courge ou de navet."] }
+                    { name: "Ragoût de Porc au Romarin", price: 14.20, items: ["Porc", "Patates", "Carottes"], img: "https://images.unsplash.com/photo-1547592166-23ac45744acd", steps: ["Faire dorer les cubes de porc dans une marmite.", "Ajouter les carottes, les patates et les épices (clou de girofle).", "Mouiller à hauteur avec de l'eau et un fond de veau.", "Mijoter doucement pendant 1h30 jusqu'à tendreté.", "Un plat réconfortant parfait pour les soirées fraîches."] },
+                    { name: "Porc aux Pommes & Miel", price: 13.90, items: ["Porc", "Pommes", "Érable"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Saisir le porc, puis réserver au chaud.", "Dans la même poêle, faire dorer des quartiers de pommes.", "Remettre le porc et arroser d'un trait de sirop d'érable.", "Laisser caraméliser quelques minutes à feu moyen.", "Servir avec une purée de courge ou de navet."] }
                 ]
             },
             provigo: { 
                 name: "Provigo", color: "#ed1c24", savings: "-33%", vedette: "Asperges Vertes", vPrice: "1.99$/botte", 
                 url: "https://www.provigo.ca/print-flyer", hero: "https://images.unsplash.com/photo-1556910103-1c02745aae4d", 
                 recipes: [
-                    { name: "Risotto aux Asperges Vertes", price: 10.50, items: ["Riz", "Asperges", "Parmesan"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Faire revenir l'oignon et le riz arborio dans le beurre.", "Ajouter le bouillon de légumes louche après louche.", "Intégrer les pointes d'asperges à 10 minutes de la fin.", "Terminer par le parmesan et une noix de beurre.", "Le résultat doit être crémeux et les asperges encore vertes."] },
+                    { name: "Risotto aux Asperges Printanier", price: 10.50, items: ["Riz", "Asperges", "Parmesan"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Faire revenir l'oignon et le riz arborio dans le beurre.", "Ajouter le bouillon de légumes louche après louche.", "Intégrer les pointes d'asperges à 10 minutes de la fin.", "Terminer par le parmesan et une noix de beurre.", "Le résultat doit être crémeux et les asperges encore vertes."] },
                     { name: "Asperges au Prosciutto", price: 13.20, items: ["Asperges", "Prosciutto", "Balsamique"], img: "https://images.unsplash.com/photo-1516685018646-527ad952f864", steps: ["Blanchir les asperges 2 minutes à l'eau bouillante salée.", "Enrouler chaque asperge dans une fine tranche de prosciutto.", "Passer au four à 400F pendant 8 minutes pour le croustillant.", "Arroser d'un filet de réduction de vinaigre balsamique.", "Une entrée élégante qui se prépare en quelques minutes."] },
-                    { name: "Quiche aux Asperges", price: 11.80, items: ["Pâte", "Asperges", "Oeufs"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Disposer les tronçons d'asperges sur une pâte brisée.", "Mélanger 3 œufs avec de la crème et du poivre.", "Émietter du fromage féta sur les asperges.", "Verser l'appareil aux œufs sur la garniture.", "Cuire au four 35 minutes jusqu'à ce que la quiche soit ferme."] },
+                    { name: "Quiche aux Asperges & Féta", price: 11.80, items: ["Pâte", "Asperges", "Oeufs"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Disposer les tronçons d'asperges sur une pâte brisée.", "Mélanger 3 œufs avec de la crème et du poivre.", "Émietter du fromage féta sur les asperges.", "Verser l'appareil aux œufs sur la garniture.", "Cuire au four 35 minutes jusqu'à ce que la quiche soit ferme."] },
                     { name: "Pâtes au Citron et Asperges", price: 9.40, items: ["Pâtes", "Asperges", "Citron"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les pâtes courtes (penne ou fusilli).", "Sauter les asperges à l'ail dans l'huile d'olive.", "Mélanger les pâtes, les asperges et le jus de citron.", "Ajouter beaucoup de zestes de citron et de poivre.", "Terminer par un filet d'huile de qualité au service."] },
-                    { name: "Velouté d'Asperges", price: 7.50, items: ["Asperges", "Bouillon", "Crème"], img: "https://images.unsplash.com/photo-1547592102-614caaa8915c", steps: ["Faire bouillir les asperges dans un bouillon de poulet.", "Réserver les pointes pour la décoration finale.", "Passer le reste au mélangeur avec une touche de crème.", "Rectifier l'assaisonnement avec du sel de mer.", "Servir bien chaud avec les pointes réservées sur le dessus."] },
+                    { name: "Velouté d'Asperges Onctueux", price: 7.50, items: ["Asperges", "Bouillon", "Crème"], img: "https://images.unsplash.com/photo-1547592102-614caaa8915c", steps: ["Faire bouillir les asperges dans un bouillon de poulet.", "Réserver les pointes pour la décoration finale.", "Passer le reste au mélangeur avec une touche de crème.", "Rectifier l'assaisonnement avec du sel de mer.", "Servir bien chaud avec les pointes réservées sur le dessus."] },
                     { name: "Salade de Radis et Asperges", price: 11.00, items: ["Asperges", "Radis", "Noix"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Couper les asperges crues en fines lamelles (mandoline).", "Ajouter les radis tranchés et des noix de grenobles.", "Préparer une vinaigrette au miel et à la moutarde.", "Mélanger délicatement pour ne pas briser les légumes.", "Parsemer de fromage de chèvre frais pour la gourmandise."] },
-                    { name: "Asperges Gratinées", price: 8.90, items: ["Asperges", "Fromage", "Beurre"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Disposer les asperges dans un plat à gratin beurré.", "Saler, poivrer et recouvrir de fromage gruyère râpé.", "Passer sous le gril du four pendant environ 5 minutes.", "Le fromage doit être bouillonnant et légèrement bruni.", "Servir en accompagnement d'une grillade ou d'un poisson."] }
+                    { name: "Asperges Gratinées au Gruyère", price: 8.90, items: ["Asperges", "Fromage", "Beurre"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Disposer les asperges dans un plat à gratin beurré.", "Saler, poivrer et recouvrir de fromage gruyère râpé.", "Passer sous le gril du four pendant environ 5 minutes.", "Le fromage doit être bouillonnant et légèrement bruni.", "Servir en accompagnement d'une grillade ou d'un poisson."] }
                 ]
             }
         };
@@ -245,7 +250,7 @@
                     <h3 class="font-black text-3xl uppercase italic mb-8">${first.name}</h3>
                     <div class="flex justify-between items-center">
                         <span class="text-4xl font-black italic" style="color:${store.color}">${first.price.toFixed(2)} $</span>
-                        <button onclick='openModal("${storeId}", 0)' class="bg-slate-950 text-white text-[10px] font-black px-8 py-4 rounded-2xl uppercase italic">Voir la recette</button>
+                        <button onclick='openModal("${storeId}", 0)' class="bg-slate-950 text-white text-[10px] font-black px-8 py-4 rounded-2xl uppercase italic">Voir recette</button>
                     </div>
                 </div>`;
 
