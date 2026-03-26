@@ -3,131 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMenu | 35 Recettes du Temps des Sucres</title>
+    <title>SuperMenu | Temps des Sucres 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --store-color: #e31e24; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; transition: all 0.5s ease; font-style: italic; }
         
-        .nav-container { display: flex; flex-direction: column; align-items: center; padding: 1rem; gap: 1rem; }
-        @media (min-width: 768px) { .nav-container { flex-direction: row; justify-content: space-between; } }
-
         .hero-banner { 
-            position: relative; min-height: 550px; border-radius: 0 0 2rem 2rem; 
-            display: flex; align-items: center; padding: 2rem 5%; color: white;
-            overflow: hidden; background-color: #1a1a1a;
+            position: relative; height: 650px; border-radius: 0 0 4rem 4rem; 
+            display: flex; align-items: center; padding: 0 8%; color: white;
+            overflow: hidden; background-color: #111;
         }
-        @media (min-width: 768px) { .hero-banner { height: 600px; border-radius: 0 0 4rem 4rem; padding: 0 8%; } }
-
         .hero-img-bg {
-            position: absolute; right: 0; top: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center; z-index: 1; 
-            transition: background-image 0.8s ease-in-out;
-            background-repeat: no-repeat;
+            position: absolute; right: 0; top: 0; width: 75%; height: 100%;
+            background-size: cover; background-position: center; z-index: 1; transition: background-image 0.6s ease;
         }
-        @media (min-width: 768px) { .hero-img-bg { width: 65%; } }
-
         .hero-gradient {
             position: absolute; inset: 0; z-index: 2;
-            background: linear-gradient(180deg, var(--store-color) 45%, rgba(0,0,0,0.4) 100%);
-        }
-        @media (min-width: 768px) { 
-            .hero-gradient { background: linear-gradient(90deg, var(--store-color) 0%, var(--store-color) 50%, rgba(0,0,0,0) 95%); } 
+            background: linear-gradient(90deg, var(--store-color) 0%, var(--store-color) 25%, rgba(0,0,0,0) 85%);
         }
 
-        .recipe-card { background: white; border-radius: 2.5rem; padding: 1.5rem; border: 2px solid transparent; transition: all 0.4s ease; height: 100%; }
-        .img-container { height: 220px; width: 100%; border-radius: 2rem; overflow: hidden; margin-bottom: 1.5rem; position: relative; background: #eee; }
-        .fallback-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; padding: 15px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: white; z-index: 1; }
-        .recipe-img { height: 100%; width: 100%; object-fit: cover; position: absolute; z-index: 2; top:0; left:0; }
+        .recipe-card {
+            background: white; border-radius: 3.5rem; padding: 1.75rem;
+            border: 2px solid transparent; transition: all 0.4s ease; height: 100%;
+        }
 
-        .grocery-item.checked { opacity: 0.3; text-decoration: line-through; }
+        .img-container { height: 240px; width: 100%; border-radius: 2.2rem; overflow: hidden; margin-bottom: 1.5rem; position: relative; background: var(--store-color); }
+        .recipe-img { height: 100%; width: 100%; object-fit: cover; position: absolute; z-index: 5; top:0; left:0; transition: opacity 0.3s; }
         
-        #recipeModal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 15px; overflow-y: auto; }
-        .modal-content { background: white; max-width: 1100px; margin: 20px auto; border-radius: 2.5rem; display: flex; flex-direction: column; overflow: hidden; }
+        .fallback-content {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            padding: 25px; text-align: center; color: white; font-weight: 800; font-size: 1.1rem;
+            text-transform: uppercase; z-index: 2; line-height: 1.2;
+        }
+
+        #recipeModal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); padding: 40px; overflow-y: auto; }
+        .modal-content { background: white; max-width: 1100px; margin: auto; border-radius: 3.5rem; display: flex; flex-direction: column; overflow: hidden; min-height: 80vh; }
         @media (min-width: 768px) { .modal-content { flex-direction: row; } }
-        
-        @media print { .no-print { display: none !important; } }
+        .modal-text-side { flex: 1; padding: 3rem; overflow-y: auto; font-style: normal; }
+        .modal-img-side { width: 100%; height: 300px; position: relative; background: var(--store-color); }
+        @media (min-width: 768px) { .modal-img-side { width: 45%; height: auto; } }
+
+        @media print {
+            body * { visibility: hidden; }
+            #grocerySection, #grocerySection * { visibility: visible; color: black !important; }
+            #grocerySection { position: absolute; left: 0; top: 0; width: 100%; background: white !important; }
+        }
     </style>
 </head>
 <body>
 
-    <nav class="bg-white sticky top-0 z-40 border-b border-slate-100 no-print">
-        <div class="max-w-7xl mx-auto nav-container">
+    <nav class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div id="navBrandIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-colors">
-                    <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+                <div id="navBrandIcon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg transition-colors">
+                    <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </div>
-                <div>
-                    <span class="text-xl font-black uppercase italic tracking-tighter block leading-none">SUPER<span class="text-slate-300">MENU</span></span>
-                    <span class="text-[9px] font-bold uppercase text-slate-400 tracking-wider">Économies du Québec</span>
-                </div>
+                <span class="text-2xl font-black uppercase not-italic tracking-tighter">SUPER<span class="text-slate-300">MENU</span></span>
             </div>
-
-            <div class="flex flex-wrap justify-center bg-slate-100 p-1.5 rounded-2xl gap-1">
-                <button onclick="switchStore('superc')" id="btn-superc" class="store-tab text-[10px] font-black px-4 py-2.5 rounded-xl uppercase transition-all">Super C</button>
-                <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab text-[10px] font-black px-4 py-2.5 rounded-xl uppercase transition-all">Maxi</button>
-                <button onclick="switchStore('metro')" id="btn-metro" class="store-tab text-[10px] font-black px-4 py-2.5 rounded-xl uppercase transition-all">Métro</button>
-                <button onclick="switchStore('iga')" id="btn-iga" class="store-tab text-[10px] font-black px-4 py-2.5 rounded-xl uppercase transition-all">IGA</button>
-                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab text-[10px] font-black px-4 py-2.5 rounded-xl uppercase transition-all">Provigo</button>
+            <div class="flex bg-slate-100 p-2 rounded-2xl space-x-1 overflow-x-auto">
+                <button onclick="switchStore('superc')" id="btn-superc" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Super C</button>
+                <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Maxi</button>
+                <button onclick="switchStore('metro')" id="btn-metro" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Métro</button>
+                <button onclick="switchStore('iga')" id="btn-iga" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">IGA</button>
+                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Provigo</button>
             </div>
         </div>
     </nav>
 
-    <header class="hero-banner no-print">
+    <header class="hero-banner">
         <div class="hero-img-bg" id="heroImg"></div>
         <div class="hero-gradient"></div>
         <div class="max-w-5xl relative z-10">
-            <p class="text-[11px] font-black uppercase tracking-[0.4em] mb-4 text-white/80 italic">C'est le temps des sucres !</p>
-            <h1 class="text-5xl md:text-8xl font-black uppercase italic leading-[0.85] tracking-tighter mb-4" id="bannerTitle"></h1>
-            <p class="max-w-xl text-lg font-bold mb-8 text-white/90 leading-snug">Nos 35 nouvelles recettes maximisent vos économies selon les circulaires du Québec.</p>
+            <div class="mb-6">
+                <span class="bg-white text-slate-950 px-4 py-2 rounded-full text-[10px] font-black uppercase italic tracking-widest">Édition Spéciale</span>
+                <p class="mt-4 text-xl md:text-2xl font-bold text-white/95 leading-tight not-italic">
+                    C'est le temps des sucres ! <br>
+                    <span class="text-white/70 text-lg font-medium">Nos 35 nouvelles recettes maximisent vos économies selon les circulaires du Québec.</span>
+                </p>
+            </div>
             
-            <div class="flex flex-wrap items-center gap-6 mb-8">
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-3xl flex items-center gap-6">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-black uppercase text-white/60">Vedette de Saison</span>
+            <h1 class="text-6xl md:text-8xl font-black uppercase italic leading-[0.85] tracking-tighter mb-8" id="bannerTitle"></h1>
+            
+            <div class="flex flex-wrap gap-4 mb-10">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl flex items-center gap-6">
+                    <div>
+                        <span class="text-[9px] font-black uppercase tracking-widest text-white/50 block">Vedette du 26 mars au 1er avril</span>
                         <span id="featuredItemName" class="text-2xl font-black italic uppercase"></span>
                     </div>
-                    <span id="featuredPrice" class="text-4xl font-black italic"></span>
+                    <span id="featuredPrice" class="text-3xl font-black italic"></span>
                 </div>
             </div>
-            <a id="circulaireLink" href="#" target="_blank" class="bg-white text-slate-950 px-8 py-4 rounded-2xl font-black uppercase italic text-[11px] shadow-2xl inline-block hover:scale-105 transition-transform">VOIR LA CIRCULAIRE <span id="circulaireName"></span></a>
+
+            <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">
+                Ouvrir la circulaire <span id="flyerName"></span>
+            </a>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-16 no-print">
-            <div id="featuredRecipeContainer"></div>
-            <div class="lg:col-span-2 bg-white border border-slate-100 rounded-[3rem] p-10 shadow-sm flex flex-col md:flex-row justify-between items-center">
-                <div class="text-left">
-                    <h3 class="font-black text-3xl uppercase italic mb-2">ANALYSE ÉCO</h3>
-                    <p id="savingsPercent" class="text-7xl font-black italic leading-none my-4"></p>
-                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Économies sur les prix réguliers</p>
+    <main class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
+            <div id="featuredRecipe"></div>
+            <div class="lg:col-span-2 bg-white border border-slate-100 rounded-[4rem] p-12 shadow-sm flex flex-col md:flex-row justify-between items-center">
+                <div>
+                    <h3 class="font-black text-4xl uppercase italic">COMPARATEUR</h3>
+                    <p id="savingsPercent" class="text-8xl font-black italic my-4"></p>
+                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Rabais moyen sur les essentiels</p>
                 </div>
                 <div class="flex items-end space-x-6 h-48" id="comparisonBars"></div>
             </div>
         </div>
 
-        <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20 no-print"></div>
+        <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24"></div>
 
-        <section class="bg-slate-950 rounded-[3rem] p-10 md:p-16 text-white shadow-2xl">
-            <h2 class="text-4xl font-black uppercase italic mb-10">Ma Liste d'Achats</h2>
-            <div id="groceryList" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"></div>
-            <div class="flex justify-center no-print">
-                <button onclick="window.print()" class="bg-white text-slate-950 px-12 py-5 rounded-2xl font-black uppercase italic text-sm hover:bg-slate-200 transition-all shadow-xl">Imprimer ma semaine</button>
+        <section id="grocerySection" class="bg-slate-950 rounded-[4rem] p-16 text-white shadow-2xl">
+            <h2 class="text-5xl font-black uppercase italic mb-10">Liste de courses</h2>
+            <div id="groceryList" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16"></div>
+            <div class="flex justify-center">
+                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Générer la liste PDF</button>
             </div>
         </section>
     </main>
 
     <div id="recipeModal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="w-full md:w-1/2 h-64 md:h-auto relative overflow-hidden bg-slate-100">
-                <img id="modalImg" class="w-full h-full object-cover" src="">
-            </div>
-            <div class="p-8 md:p-12 flex-1 relative bg-white">
-                <button onclick="closeModal()" class="absolute top-6 right-6 text-2xl font-bold">✕</button>
-                <h2 id="modalTitle" class="text-4xl font-black uppercase italic mb-8"></h2>
-                <div id="modalSteps" class="space-y-6 text-slate-700 italic"></div>
+            <div class="modal-img-side" id="modalImgContainer"></div>
+            <div class="modal-text-side">
+                <h2 id="modalTitle" class="text-5xl font-black uppercase italic mb-10"></h2>
+                <div id="modalSteps" class="space-y-8"></div>
             </div>
         </div>
     </div>
@@ -135,76 +139,76 @@
     <script>
         const storeData = {
             superc: { 
-                name: "Super C", color: "#e31e24", savings: "-44%", vedette: "Bifteck d'aloyau", vPrice: "6.77$/lb", 
-                url: "https://www.superc.ca/circulaire",
-                hero: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80", 
+                name: "Super C", color: "#e31e24", savings: "-44%", vedette: "Aloyau", vPrice: "6.77$/lb", 
+                url: "https://www.superc.ca/circulaire", hero: "https://images.unsplash.com/photo-1544025162-d76694265947", 
                 recipes: [
-                    { name: "Aloyau au Poivre Noir", price: 14.50, items: ["Bœuf", "Poivre", "Crème", "Beurre"], img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c", steps: ["Tempérer la viande 30 min.", "Saisir 3 min par côté à feu vif.", "Déglacer à la crème et poivre.", "Laisser reposer 5 min.", "Servir tranché finement."] },
-                    { name: "Burger Gourmet Super C", price: 9.20, items: ["Bœuf haché", "Bacon", "Cheddar", "Pain brioché"], img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", steps: ["Former les galettes de bœuf.", "Griller le bacon à part.", "Cuire le bœuf 4 min par côté.", "Fondre le cheddar sur la viande.", "Toaster le pain brioché."] },
-                    { name: "Tacos de Bœuf Épicés", price: 11.50, items: ["Bœuf", "Salsa", "Lime", "Tortillas"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Émincer le bœuf en lanières.", "Sauter avec épices mexicaines.", "Chauffer les tortillas.", "Garnir de salsa fraîche.", "Ajouter un filet de lime."] },
-                    { name: "Bœuf Strogonoff Rapide", price: 12.80, items: ["Bœuf", "Champignons", "Crème sure", "Nouilles"], img: "https://images.unsplash.com/photo-1534939561126-755ec29b8b83", steps: ["Sauter bœuf et oignons.", "Ajouter les champignons.", "Verser la crème sure.", "Mijoter 10 min.", "Servir sur des nouilles."] },
-                    { name: "Salade Thaï au Bœuf", price: 13.40, items: ["Bœuf", "Gingembre", "Coriandre", "Laitue"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Griller le bœuf saignant.", "Trancher en fines lanières.", "Préparer sauce soja-gingembre.", "Mélanger avec la verdure.", "Garnir de coriandre."] },
-                    { name: "Brochettes Teriyaki", price: 10.90, items: ["Bœuf", "Poivrons", "Ananas", "Sauce Teriyaki"], img: "https://images.unsplash.com/photo-1559742811-822873691df0", steps: ["Couper bœuf en cubes.", "Mariner sauce Teriyaki.", "Alterner viande et fruits.", "Griller 8 min au BBQ.", "Laquer de sauce en fin."] },
-                    { name: "Bœuf Sauté aux Brocolis", price: 12.00, items: ["Bœuf", "Brocoli", "Ail", "Riz"], img: "https://images.unsplash.com/photo-1512058560566-42d9973b376c", steps: ["Blanchir les brocolis.", "Saisir le bœuf à l'ail.", "Mélanger les deux au wok.", "Ajouter sauce huître.", "Servir sur riz blanc."] }
+                    { name: "Aloyau au Beurre d'Érable", price: 14.50, items: ["Bœuf", "Sirop d'Érable", "Beurre"], img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c", steps: ["Tempérer le steak 30 minutes hors du réfrigérateur.", "Saisir à feu très vif 4 minutes par face pour caraméliser.", "Mélanger du beurre mou avec du sirop d'érable pur.", "Déposer une noisette de beurre sur la viande chaude.", "Laisser reposer sous papier aluminium avant de trancher."] },
+                    { name: "Sauté de Bœuf au Gingembre", price: 11.20, items: ["Bœuf", "Gingembre", "Brocoli"], img: "https://images.unsplash.com/photo-1512058560366-cd2429593232", steps: ["Trancher le bœuf en très fines lanières contre le grain.", "Sauter rapidement avec de l'ail et du gingembre frais.", "Ajouter les têtes de brocoli et un fond d'eau.", "Déglacer avec une sauce à base de soja et de miel.", "Servir immédiatement sur un nid de riz basmati fumant."] },
+                    { name: "Burger Érable & Bacon", price: 9.80, items: ["Bœuf haché", "Bacon", "Cheddar"], img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", steps: ["Griller le bacon jusqu'à ce qu'il soit bien croustillant.", "Badigeonner le bacon de sirop d'érable en fin de cuisson.", "Cuire les galettes de bœuf assaisonnées au gril.", "Faire fondre le cheddar fort directement sur la viande.", "Assembler dans un pain brioché avec une mayo à la moutarde."] },
+                    { name: "Mijoté de Bœuf Tradition", price: 13.50, items: ["Bœuf", "Carottes", "Patates"], img: "https://images.unsplash.com/photo-1534939561126-755e622435ee", steps: ["Fariner et brunir les cubes de bœuf dans une cocotte.", "Ajouter les carottes, les oignons et les pommes de terre.", "Mouiller généreusement au bouillon de bœuf et thym.", "Laisser mijoter à feu doux pendant au moins 2 heures.", "Ajuster l'assaisonnement et servir avec du pain croûté."] },
+                    { name: "Tacos de Bœuf à la Salsa", price: 10.50, items: ["Bœuf", "Tortillas", "Maïs"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Sauter le bœuf haché avec cumin, paprika et oignons.", "Préparer une salsa fraîche avec maïs, lime et coriandre.", "Chauffer les tortillas à la poêle sèche jusqu'à souplesse.", "Garnir généreusement de viande et de salsa croquante.", "Terminer par une touche de crème sure et de piment."] },
+                    { name: "Brochettes Teriyaki Érable", price: 12.90, items: ["Bœuf", "Poivrons", "Ananas"], img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba", steps: ["Couper le bœuf et l'ananas en cubes de taille égale.", "Mariner 1 heure dans une sauce soja-érable maison.", "Enfiler sur des pics en alternant avec les poivrons.", "Griller 8 minutes en badigeonnant avec le reste de marinade.", "Servir chaud sur un lit de vermicelles de riz."] },
+                    { name: "Salade Thaï au Bœuf Saisi", price: 13.20, items: ["Bœuf", "Laitue", "Arachides"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Griller un steak d'aloyau saignant à la poêle.", "Trancher finement après 10 minutes de repos essentiel.", "Mélanger la laitue croquante, la menthe et le concombre.", "Arroser d'une vinaigrette lime, soja et huile de sésame.", "Garnir généreusement d'arachides grillées concassées."] }
                 ]
             },
             maxi: { 
                 name: "Maxi", color: "#0055aa", savings: "-41%", vedette: "Oeufs (12)", vPrice: "2.22$", 
-                url: "https://www.maxi.ca/print-flyer",
-                hero: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80", 
+                url: "https://www.maxi.ca/print-flyer", hero: "https://images.unsplash.com/photo-1542838132-92c53300491e", 
                 recipes: [
-                    { name: "Frittata du Dimanche", price: 6.20, items: ["Oeufs", "Patates", "Oignons"], img: "https://images.unsplash.com/photo-1510629954389-c1e0da47d414", steps: ["Dorer les patates.", "Battre les œufs vigoureusement.", "Verser sur les légumes.", "Cuire 10 min à couvert.", "Dorer le dessus au four."] },
-                    { name: "Oeufs Bénédictine Classiques", price: 8.50, items: ["Oeufs", "Jambon", "Muffins anglais"], img: "https://images.unsplash.com/photo-1525351484163-7529414344d8", steps: ["Pocher les œufs 3 min.", "Toaster les muffins anglais.", "Chauffer le jambon.", "Monter l'assemblage.", "Napper de hollandaise."] },
-                    { name: "Shakshuka Épicée", price: 7.40, items: ["Oeufs", "Tomates", "Féta", "Oignons"], img: "https://images.unsplash.com/photo-1590412200988-a436970781fa", steps: ["Mijoter sauce tomates-ail.", "Faire des puits dans la sauce.", "Casser les œufs dedans.", "Couvrir jusqu'à cuisson.", "Parsemer de féta."] },
-                    { name: "Quiche Lorraine Maxi", price: 10.50, items: ["Pâte à tarte", "Bacon", "Oeufs", "Crème"], img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2", steps: ["Précuire la pâte.", "Dorer le bacon.", "Mélanger œufs et crème.", "Verser sur la garniture.", "Cuire 35 min à 375F."] },
-                    { name: "Omelette aux Fines Herbes", price: 5.80, items: ["Oeufs", "Ciboulette", "Beurre"], img: "https://images.unsplash.com/photo-1494597564530-859f0920aa88", steps: ["Battre œufs et herbes.", "Fondre beurre noisette.", "Cuire à feu moyen.", "Plier délicatement.", "Servir bien baveuse."] },
-                    { name: "Pain Doré à la Vanille", price: 6.90, items: ["Pain", "Oeufs", "Lait", "Sirop d'érable"], img: "https://images.unsplash.com/photo-1484723091739-30a097e8f929", steps: ["Tremper le pain épais.", "Dorer au beurre.", "Saupoudrer de cannelle.", "Ajouter sirop d'érable.", "Servir avec petits fruits."] },
-                    { name: "Oeufs Cocotte au Fromage", price: 7.20, items: ["Oeufs", "Crème", "Cheddar"], img: "https://images.unsplash.com/photo-1495214783159-3503fd1b572d", steps: ["Beurrer des ramequins.", "Ajouter crème et fromage.", "Casser un œuf par plat.", "Cuire au bain-marie.", "Servir avec mouillettes."] }
+                    { name: "Frittata au Jambon & Érable", price: 6.50, items: ["Oeufs", "Jambon", "Cheddar"], img: "https://images.unsplash.com/photo-1510629954389-c1e0da47d414", steps: ["Dorer les dés de jambon à la poêle avec un peu de beurre.", "Battre 8 œufs avec une touche de crème et du poivre.", "Verser sur le jambon et cuire doucement pendant 8 minutes.", "Parsemer de cheddar et passer sous le gril du four.", "Napper d'un filet de sirop d'érable avant de couper en pointes."] },
+                    { name: "Pain Doré à la Cannelle", price: 5.40, items: ["Pain", "Oeufs", "Lait"], img: "https://images.unsplash.com/photo-1484723088339-47e826040825", steps: ["Mélanger les œufs, le lait, la vanille et la cannelle.", "Tremper des tranches de pain épaisses 30 secondes par face.", "Dorer au beurre jusqu'à ce que le pain soit bien gonflé.", "Servir avec du sirop d'érable chaud et du beurre.", "Décorer avec quelques petits fruits de saison."] },
+                    { name: "Oeufs Bénédictine Express", price: 8.90, items: ["Oeufs", "Muffins", "Jambon"], img: "https://images.unsplash.com/photo-1600335895229-6e75511892c8", steps: ["Pocher les œufs 3 minutes dans une eau frémissante vinaigrée.", "Griller les muffins anglais et réchauffer les tranches de jambon.", "Monter le jambon sur le pain, puis l'œuf poché par-dessus.", "Napper d'une sauce hollandaise onctueuse maison.", "Ajouter une pincée de paprika fumé pour la couleur."] },
+                    { name: "Quiche Lorraine des Sucres", price: 10.20, items: ["Pâte", "Oeufs", "Bacon"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Précuire la croûte de tarte à blanc pendant 10 minutes.", "Faire dorer le bacon jusqu'à ce qu'il soit très croustillant.", "Mélanger 4 œufs avec de la crème et de la muscade.", "Répartir le bacon dans le fond et verser l'appareil aux œufs.", "Cuire 35 minutes à 375F jusqu'à ce que la quiche soit dorée."] },
+                    { name: "Shakshuka aux Oeufs Coulants", price: 7.80, items: ["Oeufs", "Tomates", "Oignons"], img: "https://images.unsplash.com/photo-1590412200988-a436bb715f99", steps: ["Mijoter des oignons et des tomates avec du cumin.", "Laisser réduire la sauce jusqu'à ce qu'elle soit épaisse.", "Creuser des puits et casser les œufs directement dedans.", "Couvrir et cuire 5 minutes pour garder le jaune liquide.", "Garnir de persil frais et servir avec du pain pita."] },
+                    { name: "Omelette Mousseline Fine", price: 4.90, items: ["Oeufs", "Beurre", "Ciboulette"], img: "https://images.unsplash.com/photo-1510627489930-0c1b0ba9448f", steps: ["Battre les œufs vigoureusement pour incorporer de l'air.", "Faire fondre le beurre dans la poêle sans le brûler.", "Verser les œufs et remuer le centre avec une spatule.", "Ajouter la ciboulette ciselée et plier l'omelette en deux.", "Servir immédiatement pendant que le centre est encore baveux."] },
+                    { name: "Oeufs Cocotte au Fromage", price: 6.20, items: ["Oeufs", "Crème", "Cheddar"], img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55", steps: ["Verser une cuillère de crème au fond d'un petit ramequin.", "Casser l'œuf délicatement et ajouter le cheddar râpé.", "Placer au bain-marie dans un four préchauffé à 350F.", "Cuire 12 minutes jusqu'à ce que le blanc soit pris.", "Servir avec des mouillettes de pain beurrées au sel."] }
                 ]
             },
             metro: { 
                 name: "Métro", color: "#f97316", savings: "-28%", vedette: "Saumon Frais", vPrice: "8.99$/lb", 
-                url: "https://www.metro.ca/circulaire",
-                hero: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1200&q=80", 
+                url: "https://www.metro.ca/circulaire", hero: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", 
                 recipes: [
-                    { name: "Saumon Laqué à l'Érable", price: 16.50, items: ["Saumon", "Sirop d'Érable", "Soja", "Riz"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Mariner le saumon.", "Préchauffer le four.", "Cuire 12 min à 400F.", "Laquer à mi-cuisson.", "Servir sur riz basmati."] },
-                    { name: "Tartare de Saumon Frais", price: 18.20, items: ["Saumon", "Câpres", "Lime", "Croûtons"], img: "https://images.unsplash.com/photo-1598511726623-d732d03119f2", steps: ["Hacher le saumon au couteau.", "Assaisonner de lime.", "Ajouter câpres et échalotes.", "Mélanger délicatement.", "Servir sur croûtons."] },
-                    { name: "Pâtes au Saumon et Aneth", price: 14.80, items: ["Pâtes", "Saumon", "Crème", "Aneth"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856", steps: ["Cuire les pâtes.", "Dorer le saumon en dés.", "Ajouter la crème liquide.", "Mélanger avec l'aneth.", "Poivrer généreusement."] },
-                    { name: "Saumon en Papillote", price: 15.40, items: ["Saumon", "Citron", "Zucchini"], img: "https://images.unsplash.com/photo-1499125562188-1840a12157d2", steps: ["Déposer saumon sur papier.", "Ajouter légumes émincés.", "Fermer hermétiquement.", "Cuire 15 min vapeur.", "Servir avec huile d'olive."] },
-                    { name: "Bowl Poke Saumon", price: 17.00, items: ["Saumon", "Riz vinaigré", "Avocat", "Concombre"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Préparer riz vinaigré.", "Couper saumon en cubes.", "Trancher l'avocat.", "Disposer dans le bol.", "Napper sauce épicée."] },
-                    { name: "Salade de Saumon Grillé", price: 13.90, items: ["Saumon", "Laitue", "Féta", "Noix"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Griller le saumon.", "Refroidir légèrement.", "Mélanger la verdure.", "Ajouter féta et noix.", "Vinaigrette au citron."] },
-                    { name: "Croquettes de Saumon", price: 12.50, items: ["Saumon", "Patates", "Oeuf", "Chapelure"], img: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db", steps: ["Écraser saumon et patates.", "Former des galettes.", "Passer dans l'œuf et chapelure.", "Dorer à la poêle.", "Servir sauce tartare."] }
+                    { name: "Saumon Laqué à l'Érable", price: 16.50, items: ["Saumon", "Érable", "Soja"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Préparer la laque avec sirop d'érable et sauce soja.", "Disposer les pavés de saumon sur une plaque de cuisson.", "Cuire au four à 400F pendant environ 12 minutes.", "Badigeonner de laque à mi-cuisson pour une belle couleur.", "Servir avec un riz sauvage et quelques zestes de lime."] },
+                    { name: "Tartare de Saumon Minute", price: 18.20, items: ["Saumon", "Câpres", "Lime"], img: "https://images.unsplash.com/photo-1534080333201-1b6d0891636c", steps: ["Couper le saumon frais en petits dés réguliers au couteau.", "Mélanger avec des câpres, des échalotes et de la ciboulette.", "Assaisonner d'huile d'olive et de jus de lime au moment de servir.", "Garder au frais jusqu'à la toute dernière minute.", "Accompagner de croûtons de baguette bien croustillants."] },
+                    { name: "Pâtes au Saumon Crémeux", price: 14.80, items: ["Pâtes", "Saumon", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856", steps: ["Cuire les pâtes al dente dans une grande eau salée.", "Sauter les dés de saumon rapidement dans du beurre.", "Ajouter la crème liquide et laisser réduire doucement.", "Mélanger les pâtes avec la sauce et beaucoup d'aneth frais.", "Poivrer généreusement avec un poivre blanc moulu."] },
+                    { name: "Saumon en Papillote", price: 15.40, items: ["Saumon", "Citron", "Légumes"], img: "https://images.unsplash.com/photo-1485921325833-c519f76c4927", steps: ["Déposer le saumon sur une feuille de papier parchemin.", "Ajouter des rondelles de citron et des pointes d'asperges.", "Refermer hermétiquement la papillote pour garder la vapeur.", "Cuire au four 15 minutes pour une texture ultra fondante.", "Ouvrir délicatement pour profiter des parfums qui s'échappent."] },
+                    { name: "Poke Bowl au Saumon", price: 17.00, items: ["Saumon", "Riz", "Avocat"], img: "https://images.unsplash.com/photo-1546069901-eacef0df6022", steps: ["Mariner les dés de saumon dans du soja et de l'huile de sésame.", "Préparer un bol de riz vinaigré tiède comme base.", "Ajouter l'avocat, le concombre et quelques edamames.", "Disposer le saumon mariné sur le dessus du bol.", "Saupoudrer de graines de sésame et d'oignons verts."] },
+                    { name: "Salade de Saumon Grillé", price: 13.90, items: ["Saumon", "Laitue", "Féta"], img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", steps: ["Griller le pavé de saumon côté peau pendant 8 minutes.", "Déchirer la chair en gros morceaux à la fourchette.", "Mélanger avec une salade verte, des olives et du féta.", "Arroser d'une vinaigrette légère au citron et à l'origan.", "Un repas complet, frais et prêt en moins de 15 minutes."] },
+                    { name: "Croquettes de Saumon", price: 12.50, items: ["Saumon", "Patates", "Oeuf"], img: "https://images.unsplash.com/photo-1581541234321-498c8959d042", steps: ["Mélanger les restes de saumon cuit avec de la purée de pommes de terre.", "Ajouter un œuf, des herbes et un peu de chapelure.", "Façonner des galettes et les paner légèrement.", "Dorer à la poêle 3 minutes de chaque côté dans l'huile.", "Servir avec une sauce tartare ou une mayonnaise épicée."] }
                 ]
             },
             iga: { 
                 name: "IGA", color: "#059669", savings: "-25%", vedette: "Côtelettes de Porc", vPrice: "3.99$/lb", 
-                url: "https://www.iga.net/fr/circulaire",
-                hero: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=1200&q=80", 
+                url: "https://www.iga.net/fr/circulaire", hero: "https://images.unsplash.com/photo-1547592166-23ac45744acd", 
                 recipes: [
-                    { name: "Porc Grillé au Romarin", price: 12.50, items: ["Porc", "Romarin", "Ail", "Haricots"], img: "https://images.unsplash.com/photo-1544025162-d76694265947", steps: ["Frotter ail et romarin.", "Saisir à feu vif.", "Cuire 6 min par côté.", "Laisser reposer sous alu.", "Servir avec haricots."] },
-                    { name: "Sauté de Porc au Gingembre", price: 11.20, items: ["Porc", "Gingembre", "Poivrons", "Nouilles"], img: "https://images.unsplash.com/photo-1512058560566-42d9973b376c", steps: ["Couper porc en lanières.", "Saisir au gingembre frais.", "Ajouter les poivrons.", "Verser sauce soja.", "Servir sur nouilles."] },
-                    { name: "Tacos au Porc Effiloché", price: 14.80, items: ["Porc", "Sauce BBQ", "Tortillas", "Chou"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Mijoter porc 6 heures.", "Effilocher à la fourchette.", "Mélanger sauce BBQ.", "Garnir les tortillas.", "Ajouter chou croquant."] },
-                    { name: "Côtelettes à la Moutarde", price: 13.00, items: ["Porc", "Moutarde", "Crème", "Purée"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Poêler les côtelettes.", "Retirer de la poêle.", "Déglacer crème-moutarde.", "Remettre la viande.", "Servir avec purée."] },
-                    { name: "Porc Aigre-Doux IGA", price: 10.90, items: ["Porc", "Ananas", "Vinaigre", "Riz"], img: "https://images.unsplash.com/photo-1527324688101-0165b3a576b3", steps: ["Dorer les dés de porc.", "Ajouter ananas et oignons.", "Verser sauce vinaigrée.", "Épaissir la sauce.", "Servir sur riz."] },
-                    { name: "Brochettes de Porc Miel", price: 12.20, items: ["Porc", "Miel", "Zucchini"], img: "https://images.unsplash.com/photo-1559742811-822873691df0", steps: ["Mariner porc et miel.", "Enfiler sur pics.", "Griller 10 min BBQ.", "Badigeonner de marinade.", "Servir chaud."] },
-                    { name: "Ragoût de Porc Familial", price: 14.00, items: ["Porc", "Carottes", "Patates", "Bouillon"], img: "https://images.unsplash.com/photo-1547592166-23ac45744acd", steps: ["Brunir cubes de porc.", "Ajouter légumes et bouillon.", "Mijoter 1h30.", "Rectifier assaisonnement.", "Servir bien chaud."] }
+                    { name: "Porc Érable et Romarin", price: 12.50, items: ["Porc", "Érable", "Romarin"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Mariner les côtelettes 1h avec érable, huile et romarin.", "Saisir dans une poêle très chaude pour bien marquer.", "Réduire le feu et cuire 5 minutes par face.", "Déglacer avec le reste de la marinade pour une sauce sirupeuse.", "Laisser reposer la viande avant de servir pour plus de jus."] },
+                    { name: "Sauté de Porc Aigre-Doux", price: 11.40, items: ["Porc", "Ananas", "Vinaigre"], img: "https://images.unsplash.com/photo-1512485600893-b08ec1d99b1b", steps: ["Couper le porc en bouchées et les dorer vivement.", "Ajouter les morceaux d'ananas et les poivrons émincés.", "Verser un mélange de vinaigre de riz, soja et miel.", "Laisser réduire la sauce jusqu'à ce qu'elle nappe la viande.", "Servir sur un riz blanc garni d'oignons verts."] },
+                    { name: "Porc Effiloché Express", price: 15.00, items: ["Porc", "Sauce BBQ", "Épices"], img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836", steps: ["Frotter l'épaule de porc avec un mélange d'épices à BBQ.", "Cuire à basse température (250F) pendant environ 6 heures.", "Effilocher la viande avec deux fourchettes une fois tendre.", "Incorporer votre sauce BBQ préférée généreusement.", "Servir dans des pains ronds avec une salade de chou."] },
+                    { name: "Côtelettes à la Moutarde", price: 12.80, items: ["Porc", "Moutarde", "Crème"], img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd", steps: ["Poêler les côtelettes de porc avec un peu d'ail.", "Retirer la viande et ajouter de la crème dans la poêle.", "Incorporer deux cuillères de moutarde à l'ancienne.", "Remettre le porc dans la sauce pour le réchauffer.", "Accompagner d'une purée de pommes de terre onctueuse."] },
+                    { name: "Brochettes de Porc au Miel", price: 13.50, items: ["Porc", "Miel", "Zucchini"], img: "https://images.unsplash.com/photo-1532636875304-0c89119d9b4d", steps: ["Alterner cubes de porc et tranches de zucchini sur les pics.", "Badigeonner d'un mélange de miel, ail et sauce soja.", "Griller sur le BBQ ou sous le gril du four pendant 10 minutes.", "Tourner régulièrement pour une cuisson uniforme et dorée.", "Servir avec un couscous aux herbes fraîches."] },
+                    { name: "Ragoût de Porc au Fond de Veau", price: 14.20, items: ["Porc", "Patates", "Carottes"], img: "https://images.unsplash.com/photo-1547592166-23ac45744acd", steps: ["Faire dorer les cubes de porc dans une marmite.", "Ajouter les carottes, les patates et les épices (clou de girofle).", "Mouiller à hauteur avec de l'eau et un fond de veau.", "Mijoter doucement pendant 1h30 jusqu'à tendreté.", "Un plat réconfortant parfait pour les soirées fraîches."] },
+                    { name: "Porc aux Pommes", price: 13.90, items: ["Porc", "Pommes", "Érable"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Saisir le porc, puis réserver au chaud.", "Dans la même poêle, faire dorer des quartiers de pommes.", "Remettre le porc et arroser d'un trait de sirop d'érable.", "Laisser caraméliser quelques minutes à feu moyen.", "Servir avec une purée de courge ou de navet."] }
                 ]
             },
             provigo: { 
                 name: "Provigo", color: "#ed1c24", savings: "-33%", vedette: "Asperges Vertes", vPrice: "1.99$/botte", 
-                url: "https://www.provigo.ca/print-flyer",
-                hero: "https://images.unsplash.com/photo-1597362860722-39e62fc44c82?auto=format&fit=crop&w=1200&q=80", 
+                url: "https://www.provigo.ca/print-flyer", hero: "https://images.unsplash.com/photo-1556910103-1c02745aae4d", 
                 recipes: [
-                    { name: "Risotto aux Asperges", price: 10.50, items: ["Riz Arborio", "Asperges", "Parmesan", "Beurre"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Nacrer le riz arborio.", "Ajouter bouillon louche à louche.", "Intégrer les asperges à 10 min.", "Lier au parmesan et beurre.", "Servir crémeux."] },
-                    { name: "Asperges au Prosciutto", price: 13.20, items: ["Asperges", "Prosciutto", "Balsamique"], img: "https://images.unsplash.com/photo-1516100882582-76c9a586590c", steps: ["Blanchir les asperges.", "Enrouler de prosciutto.", "Passer 5 min au four.", "Napper de balsamique.", "Servir en entrée."] },
-                    { name: "Quiche aux Asperges", price: 11.80, items: ["Pâte", "Asperges", "Féta", "Oeufs"], img: "https://images.unsplash.com/photo-1568571780765-9276ac8b75a2", steps: ["Foncer le moule.", "Disposer les asperges.", "Mélanger œufs et féta.", "Verser sur le dessus.", "Cuire 40 min à 375F."] },
-                    { name: "Pâtes Citronnées", price: 9.40, items: ["Pâtes", "Asperges", "Citron", "Huile d'olive"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5856", steps: ["Cuire spaghettis.", "Sauter pointes d'asperges.", "Ajouter zeste de citron.", "Mélanger avec huile.", "Poivrer au moulin."] },
-                    { name: "Velouté d'Asperges", price: 7.50, items: ["Asperges", "Bouillon", "Crème"], img: "https://images.unsplash.com/photo-1464454709131-ffd692591ee5", steps: ["Cuire asperges et oignons.", "Ajouter le bouillon.", "Passer au mélangeur.", "Incorporer la crème.", "Garnir de pointes."] },
-                    { name: "Salade Printanière", price: 11.00, items: ["Asperges", "Radis", "Noix", "Miel"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Griller asperges tièdes.", "Trancher radis finement.", "Mélanger avec noix.", "Vinaigrette miel-moutarde.", "Servir immédiatement."] },
-                    { name: "Asperges Gratinées", price: 8.90, items: ["Asperges", "Parmesan", "Beurre"], img: "https://images.unsplash.com/photo-1551183053-bf91a1d81141", steps: ["Disposer asperges cuites.", "Saupoudrer de fromage.", "Ajouter noisettes de beurre.", "Gratiner 3 min au four.", "Servir très chaud."] }
+                    { name: "Risotto aux Asperges Vertes", price: 10.50, items: ["Riz", "Asperges", "Parmesan"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Faire revenir l'oignon et le riz arborio dans le beurre.", "Ajouter le bouillon de légumes louche après louche.", "Intégrer les pointes d'asperges à 10 minutes de la fin.", "Terminer par le parmesan et une noix de beurre.", "Le résultat doit être crémeux et les asperges encore vertes."] },
+                    { name: "Asperges au Prosciutto", price: 13.20, items: ["Asperges", "Prosciutto", "Balsamique"], img: "https://images.unsplash.com/photo-1516685018646-527ad952f864", steps: ["Blanchir les asperges 2 minutes à l'eau bouillante salée.", "Enrouler chaque asperge dans une fine tranche de prosciutto.", "Passer au four à 400F pendant 8 minutes pour le croustillant.", "Arroser d'un filet de réduction de vinaigre balsamique.", "Une entrée élégante qui se prépare en quelques minutes."] },
+                    { name: "Quiche aux Asperges", price: 11.80, items: ["Pâte", "Asperges", "Oeufs"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Disposer les tronçons d'asperges sur une pâte brisée.", "Mélanger 3 œufs avec de la crème et du poivre.", "Émietter du fromage féta sur les asperges.", "Verser l'appareil aux œufs sur la garniture.", "Cuire au four 35 minutes jusqu'à ce que la quiche soit ferme."] },
+                    { name: "Pâtes au Citron et Asperges", price: 9.40, items: ["Pâtes", "Asperges", "Citron"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les pâtes courtes (penne ou fusilli).", "Sauter les asperges à l'ail dans l'huile d'olive.", "Mélanger les pâtes, les asperges et le jus de citron.", "Ajouter beaucoup de zestes de citron et de poivre.", "Terminer par un filet d'huile de qualité au service."] },
+                    { name: "Velouté d'Asperges", price: 7.50, items: ["Asperges", "Bouillon", "Crème"], img: "https://images.unsplash.com/photo-1547592102-614caaa8915c", steps: ["Faire bouillir les asperges dans un bouillon de poulet.", "Réserver les pointes pour la décoration finale.", "Passer le reste au mélangeur avec une touche de crème.", "Rectifier l'assaisonnement avec du sel de mer.", "Servir bien chaud avec les pointes réservées sur le dessus."] },
+                    { name: "Salade de Radis et Asperges", price: 11.00, items: ["Asperges", "Radis", "Noix"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Couper les asperges crues en fines lamelles (mandoline).", "Ajouter les radis tranchés et des noix de grenobles.", "Préparer une vinaigrette au miel et à la moutarde.", "Mélanger délicatement pour ne pas briser les légumes.", "Parsemer de fromage de chèvre frais pour la gourmandise."] },
+                    { name: "Asperges Gratinées", price: 8.90, items: ["Asperges", "Fromage", "Beurre"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Disposer les asperges dans un plat à gratin beurré.", "Saler, poivrer et recouvrir de fromage gruyère râpé.", "Passer sous le gril du four pendant environ 5 minutes.", "Le fromage doit être bouillonnant et légèrement bruni.", "Servir en accompagnement d'une grillade ou d'un poisson."] }
                 ]
             }
         };
+
+        function getImgHTML(recipe, storeColor) {
+            const fallback = `<div class="fallback-content" style="background:${storeColor}">${recipe.name}</div>`;
+            return `${fallback}<img class="recipe-img" src="${recipe.img}" onerror="this.style.opacity='0'">`;
+        }
 
         function switchStore(id) {
             const config = storeData[id];
@@ -214,15 +218,17 @@
             document.getElementById('navBrandIcon').style.backgroundColor = config.color;
             document.getElementById('featuredItemName').innerText = config.vedette;
             document.getElementById('featuredPrice').innerText = config.vPrice;
-            document.getElementById('circulaireName').innerText = config.name;
-            document.getElementById('circulaireLink').href = config.url;
             document.getElementById('savingsPercent').innerText = config.savings;
+            document.getElementById('savingsPercent').style.color = config.color;
+            
+            document.getElementById('flyerLink').href = config.url;
+            document.getElementById('flyerName').innerText = config.name;
 
             document.querySelectorAll('.store-tab').forEach(b => { 
                 b.style.backgroundColor = 'transparent'; b.style.color = '#94a3b8'; 
             });
-            const active = document.getElementById(`btn-${id}`);
-            active.style.backgroundColor = config.color; active.style.color = 'white';
+            document.getElementById(`btn-${id}`).style.backgroundColor = config.color;
+            document.getElementById(`btn-${id}`).style.color = 'white';
             render(id);
         }
 
@@ -230,51 +236,41 @@
             const store = storeData[storeId];
             const grid = document.getElementById('recipeGrid');
             const grocery = document.getElementById('groceryList');
-            const featured = document.getElementById('featuredRecipeContainer');
-            
             grid.innerHTML = ''; grocery.innerHTML = '';
 
-            const f = store.recipes[0];
-            featured.innerHTML = `
-                <div class="recipe-card shadow-xl" style="border-color: ${store.color}44;">
-                    <div class="img-container">
-                        <div class="fallback-bg" style="background-color: ${store.color}">${f.name}</div>
-                        <img class="recipe-img" src="${f.img}" onerror="this.style.display='none'">
+            const first = store.recipes[0];
+            document.getElementById('featuredRecipe').innerHTML = `
+                <div class="recipe-card shadow-2xl" style="border-color: ${store.color}44;">
+                    <div class="img-container">${getImgHTML(first, store.color)}</div>
+                    <h3 class="font-black text-3xl uppercase italic mb-8">${first.name}</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-4xl font-black italic" style="color:${store.color}">${first.price.toFixed(2)} $</span>
+                        <button onclick='openModal("${storeId}", 0)' class="bg-slate-950 text-white text-[10px] font-black px-8 py-4 rounded-2xl uppercase italic">Voir la recette</button>
                     </div>
-                    <h3 class="font-black text-2xl uppercase italic mb-8">${f.name}</h3>
-                    <div class="flex justify-between items-center"><span class="text-4xl font-black italic" style="color:${store.color}">${f.price.toFixed(2)} $</span>
-                    <button onclick='openModal("${storeId}", 0)' class="bg-slate-950 text-white text-[10px] font-black px-8 py-4 rounded-2xl uppercase italic">Détails</button></div>
                 </div>`;
 
             store.recipes.slice(1).forEach((r, idx) => {
                 grid.innerHTML += `
-                    <div class="recipe-card shadow-sm hover:shadow-xl transition-all">
-                        <div class="img-container">
-                            <div class="fallback-bg" style="background-color: ${store.color}">${r.name}</div>
-                            <img class="recipe-img" src="${r.img}" onerror="this.style.display='none'">
-                        </div>
-                        <h3 class="font-black text-xl uppercase italic mb-8">${r.name}</h3>
+                    <div class="recipe-card" style="border-color: ${store.color}22;">
+                        <div class="img-container">${getImgHTML(r, store.color)}</div>
+                        <h3 class="font-black text-xl uppercase italic mb-8 h-14 overflow-hidden">${r.name}</h3>
                         <div class="flex justify-between items-center">
                             <span class="text-2xl font-black italic" style="color:${store.color}">${r.price.toFixed(2)} $</span>
-                            <button onclick='openModal("${storeId}", ${idx+1})' class="bg-slate-950 text-white text-[10px] font-black px-6 py-3 rounded-2xl uppercase italic">Détails</button>
+                            <button onclick='openModal("${storeId}", ${idx + 1})' class="bg-slate-950 text-white text-[10px] font-black px-6 py-3 rounded-2xl uppercase italic">Détails</button>
                         </div>
                     </div>`;
             });
 
-            const allItems = [...new Set(store.recipes.flatMap(r => r.items))].sort();
-            allItems.forEach(item => {
-                grocery.innerHTML += `
-                    <div class="grocery-item flex items-center space-x-3 p-4 bg-white/10 rounded-2xl border border-white/20 cursor-pointer" onclick="this.classList.toggle('checked')">
-                        <div class="w-5 h-5 border-2 border-white/30 rounded-md"></div>
-                        <span class="text-[10px] font-bold uppercase italic tracking-wider">${item}</span>
-                    </div>`;
+            [...new Set(store.recipes.flatMap(r => r.items))].sort().forEach(item => {
+                grocery.innerHTML += `<div class="p-4 bg-white/10 rounded-2xl border border-white/20 text-[9px] font-bold uppercase italic">${item}</div>`;
             });
 
             document.getElementById('comparisonBars').innerHTML = Object.keys(storeData).map(s => {
                 const val = parseInt(storeData[s].savings.replace('-',''));
-                return `<div class="text-center flex flex-col items-center">
+                return `<div class="flex flex-col items-center">
+                    <span class="text-[10px] font-black mb-2" style="color:${storeData[s].color}">${storeData[s].savings}</span>
                     <div class="w-8 bg-slate-100 rounded-full h-32 flex flex-col justify-end overflow-hidden">
-                        <div style="height:${val*1.8}% ; background-color:${storeData[s].color}"></div>
+                        <div style="height:${val*1.5}px; background-color:${storeData[s].color}"></div>
                     </div>
                     <span class="text-[8px] font-black uppercase mt-2 text-slate-400">${storeData[s].name}</span>
                 </div>`;
@@ -282,16 +278,16 @@
         }
 
         function openModal(storeId, idx) {
-            const r = storeData[storeId].recipes[idx];
+            const store = storeData[storeId];
+            const r = store.recipes[idx];
             document.getElementById('modalTitle').innerText = r.name;
-            document.getElementById('modalImg').src = r.img;
-            document.getElementById('modalImg').style.display = r.img ? 'block' : 'none';
+            document.getElementById('modalImgContainer').innerHTML = getImgHTML(r, store.color);
             document.getElementById('modalSteps').innerHTML = r.steps.map((s, i) => `
-                <div class="flex gap-4">
-                    <span class="font-black text-slate-200 text-3xl">0${i+1}</span>
-                    <p class="pt-1">${s}</p>
+                <div class="flex gap-6">
+                    <span class="text-slate-200 font-black italic text-5xl">0${i+1}</span>
+                    <p class="text-slate-700 leading-relaxed font-medium pt-2">${s}</p>
                 </div>`).join('');
-            document.getElementById('recipeModal').style.display = 'block';
+            document.getElementById('recipeModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
@@ -299,7 +295,7 @@
             document.getElementById('recipeModal').style.display = 'none'; 
             document.body.style.overflow = 'auto';
         }
-        
+
         switchStore('superc');
     </script>
 </body>
