@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMenu | Temps des Sucres 2026</title>
+    <title>SuperMenu | Semaine du 2 au 8 Avril 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -26,10 +26,10 @@
 
         .recipe-card {
             background: white; border-radius: 3.5rem; padding: 1.75rem;
-            border: 2px solid transparent; transition: all 0.4s ease; height: 100%;
+            border: 2px solid transparent; transition: all 0.4s ease; height: 480px; display: flex; flex-direction: column;
         }
 
-        .img-container { height: 240px; width: 100%; border-radius: 2.2rem; overflow: hidden; margin-bottom: 1.5rem; position: relative; background: var(--store-color); }
+        .img-container { height: 240px; width: 100%; border-radius: 2.2rem; overflow: hidden; margin-bottom: 1.5rem; position: relative; background: var(--store-color); flex-shrink: 0; }
         .recipe-img { height: 100%; width: 100%; object-fit: cover; position: absolute; z-index: 5; top:0; left:0; transition: opacity 0.3s; }
         
         .fallback-content {
@@ -47,8 +47,9 @@
 
         @media print {
             body * { visibility: hidden; }
-            #grocerySection, #grocerySection * { visibility: visible; color: black !important; }
-            #grocerySection { position: absolute; left: 0; top: 0; width: 100%; background: white !important; }
+            #grocerySection, #grocerySection * { visibility: visible; }
+            #grocerySection { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 0; shadow: none; }
+            #grocerySection button { display: none; }
         }
     </style>
 </head>
@@ -57,17 +58,17 @@
     <nav class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div id="navBrandIcon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg transition-colors">
+                <div id="navBrandIcon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg">
                     <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
                 </div>
                 <span class="text-2xl font-black uppercase not-italic tracking-tighter">SUPER<span class="text-slate-300">MENU</span></span>
             </div>
-            <div class="flex bg-slate-100 p-2 rounded-2xl space-x-1 overflow-x-auto">
-                <button onclick="switchStore('superc')" id="btn-superc" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Super C</button>
-                <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Maxi</button>
-                <button onclick="switchStore('metro')" id="btn-metro" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Métro</button>
-                <button onclick="switchStore('iga')" id="btn-iga" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">IGA</button>
-                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all whitespace-nowrap">Provigo</button>
+            <div class="flex bg-slate-100 p-2 rounded-2xl space-x-1">
+                <button onclick="switchStore('superc')" id="btn-superc" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Super C</button>
+                <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Maxi</button>
+                <button onclick="switchStore('metro')" id="btn-metro" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Métro</button>
+                <button onclick="switchStore('iga')" id="btn-iga" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">IGA</button>
+                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Provigo</button>
             </div>
         </div>
     </nav>
@@ -77,15 +78,10 @@
         <div class="hero-gradient"></div>
         <div class="max-w-5xl relative z-10">
             <div class="mb-6">
-                <span class="bg-white text-slate-950 px-4 py-2 rounded-full text-[10px] font-black uppercase italic tracking-widest">Édition Spéciale</span>
-                <p class="mt-4 text-xl md:text-2xl font-bold text-white/95 leading-tight not-italic">
-                    C'est le temps des sucres ! <br>
-                    <span class="text-white/70 text-lg font-medium">Nos 35 nouvelles recettes maximisent vos économies selon les circulaires du Québec.</span>
-                </p>
+                <span class="bg-white text-slate-950 px-4 py-2 rounded-full text-[10px] font-black uppercase italic tracking-widest">Offres de la semaine</span>
+                <p class="mt-4 text-xl md:text-2xl font-bold text-white/95 leading-tight not-italic">Nos 35 nouvelles recettes maximisent vos économies selon les circulaires du Québec.</p>
             </div>
-            
             <h1 class="text-6xl md:text-8xl font-black uppercase italic leading-[0.85] tracking-tighter mb-8" id="bannerTitle"></h1>
-            
             <div class="flex flex-wrap gap-4 mb-10">
                 <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl flex items-center gap-6">
                     <div>
@@ -95,14 +91,9 @@
                     <span id="featuredPrice" class="text-3xl font-black italic"></span>
                 </div>
             </div>
-
             <div class="flex flex-col items-start gap-4">
-                <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">
-                    Ouvrir la circulaire <span id="flyerName"></span>
-                </a>
-                <span class="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 ml-2">
-                    Semaine du 26 mars au 1er avril 2026
-                </span>
+                <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">Ouvrir la circulaire <span id="flyerName"></span></a>
+                <span class="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 ml-2">Semaine du 2 au 8 avril 2026</span>
             </div>
         </div>
     </header>
@@ -114,7 +105,7 @@
                 <div>
                     <h3 class="font-black text-4xl uppercase italic">COMPARATEUR</h3>
                     <p id="savingsPercent" class="text-8xl font-black italic my-4"></p>
-                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Rabais moyen sur les vedettes</p>
+                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Économies sur les essentiels</p>
                 </div>
                 <div class="flex items-end space-x-6 h-48" id="comparisonBars"></div>
             </div>
@@ -123,10 +114,10 @@
         <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24"></div>
 
         <section id="grocerySection" class="bg-slate-950 rounded-[4rem] p-16 text-white shadow-2xl">
-            <h2 class="text-5xl font-black uppercase italic mb-10">Liste de courses</h2>
+            <h2 class="text-5xl font-black uppercase italic mb-10">Liste de courses suggérée</h2>
             <div id="groceryList" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16"></div>
             <div class="flex justify-center">
-                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Générer la liste PDF (1 page)</button>
+                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Imprimer la liste (PDF)</button>
             </div>
         </section>
     </main>
@@ -144,68 +135,68 @@
     <script>
         const storeData = {
             superc: { 
-                name: "Super C", color: "#e31e24", savings: "-44%", vedette: "Aloyau", vPrice: "6.77$/lb", 
-                url: "https://www.superc.ca/circulaire", hero: "https://images.unsplash.com/photo-1544025162-d76694265947", 
+                name: "Super C", color: "#e31e24", savings: "-46%", vedette: "Bœuf", vPrice: "4.77$/lb", 
+                url: "https://www.superc.ca/circulaire", hero: "https://images.unsplash.com/photo-1558030006-450675393462", 
                 recipes: [
-                    { name: "Aloyau au Beurre d'Érable", price: 14.50, items: ["Bœuf", "Sirop d'Érable", "Beurre"], img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c", steps: ["Tempérer le steak 30 minutes hors du réfrigérateur.", "Saisir à feu très vif 4 minutes par face pour caraméliser.", "Mélanger du beurre mou avec du sirop d'érable pur.", "Déposer une noisette de beurre sur la viande chaude.", "Laisser reposer sous papier aluminium avant de trancher."] },
-                    { name: "Sauté de Bœuf au Gingembre", price: 11.20, items: ["Bœuf", "Gingembre", "Brocoli"], img: "https://images.unsplash.com/photo-1512058560366-cd2429593232", steps: ["Trancher le bœuf en très fines lanières contre le grain.", "Sauter rapidement avec de l'ail et du gingembre frais.", "Ajouter les têtes de brocoli et un fond d'eau.", "Déglacer avec une sauce à base de soja et de miel.", "Servir immédiatement sur un nid de riz basmati fumant."] },
-                    { name: "Burger Érable & Bacon", price: 9.80, items: ["Bœuf haché", "Bacon", "Cheddar"], img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", steps: ["Griller le bacon jusqu'à ce qu'il soit bien croustillant.", "Badigeonner le bacon de sirop d'érable en fin de cuisson.", "Cuire les galettes de bœuf assaisonnées au gril.", "Faire fondre le cheddar fort directement sur la viande.", "Assembler dans un pain brioché avec une mayo à la moutarde."] },
-                    { name: "Mijoté de Bœuf Tradition", price: 13.50, items: ["Bœuf", "Carottes", "Patates"], img: "https://images.unsplash.com/photo-1534939561126-755e622435ee", steps: ["Fariner et brunir les cubes de bœuf dans une cocotte.", "Ajouter les carottes, les oignons et les pommes de terre.", "Mouiller généreusement au bouillon de bœuf et thym.", "Laisser mijoter à feu doux pendant au moins 2 heures.", "Ajuster l'assaisonnement et servir avec du pain croûté."] },
-                    { name: "Tacos de Bœuf à la Salsa", price: 10.50, items: ["Bœuf", "Tortillas", "Maïs"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Sauter le bœuf haché avec cumin, paprika et oignons.", "Préparer une salsa fraîche avec maïs, lime et coriandre.", "Chauffer les tortillas à la poêle sèche jusqu'à souplesse.", "Garnir généreusement de viande et de salsa croquante.", "Terminer par une touche de crème sure et de piment."] },
-                    { name: "Brochettes Teriyaki Érable", price: 12.90, items: ["Bœuf", "Poivrons", "Ananas"], img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba", steps: ["Couper le bœuf et l'ananas en cubes de taille égale.", "Mariner 1 heure dans une sauce soja-érable maison.", "Enfiler sur des pics en alternant avec les poivrons.", "Griller 8 minutes en badigeonnant avec le reste de marinade.", "Servir chaud sur un lit de vermicelles de riz."] },
-                    { name: "Salade Thaï au Bœuf Saisi", price: 13.20, items: ["Bœuf", "Laitue", "Arachides"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Griller un steak d'aloyau saignant à la poêle.", "Trancher finement après 10 minutes de repos essentiel.", "Mélanger la laitue croquante, la menthe et le concombre.", "Arroser d'une vinaigrette lime, soja et huile de sésame.", "Garnir généreusement d'arachides grillées concassées."] }
+                    { name: "Bœuf Traditionnel au Four", price: 12.50, items: ["Rôti de bœuf", "Ail", "Thym"], img: "https://images.unsplash.com/photo-1558030006-450675393462", steps: ["Préchauffer le four à 325°F.", "Frotter la viande avec de l'ail haché et du thym frais.", "Saisir la pièce de bœuf dans une poêle chaude avant d'enfourner.", "Cuire jusqu'à l'obtention d'une température interne de 135°F pour une cuisson rosée.", "Laisser reposer 15 minutes sous papier aluminium avant de trancher."] },
+                    { name: "Sauté de Bœuf aux Poivrons", price: 10.20, items: ["Lanières de bœuf", "Poivrons", "Soja"], img: "https://images.unsplash.com/photo-1512058560366-cd2429593232", steps: ["Couper le bœuf en fines lanières.", "Faire sauter à feu vif avec des poivrons multicolores.", "Ajouter une sauce soja légère et un peu de gingembre.", "Cuire 5 minutes maximum pour garder la tendreté.", "Servir sur un riz blanc vapeur."] },
+                    { name: "Tacos de Bœuf Effiloché", price: 9.50, items: ["Bœuf à mijoter", "Tortillas", "Lime"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Cuire le bœuf à la mijoteuse pendant 6 heures.", "Effilocher la viande à l'aide de deux fourchettes.", "Assaisonner avec du cumin et de la coriandre.", "Chauffer les tortillas et garnir de viande.", "Ajouter un filet de lime fraîche."] },
+                    { name: "Burger de Bœuf Gourmet", price: 11.00, items: ["Bœuf haché", "Fromage", "Oignons"], img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", steps: ["Former des galettes de bœuf de 150g.", "Griller sur le BBQ ou à la poêle 4 minutes par côté.", "Ajouter une tranche de fromage fort en fin de cuisson.", "Caraméliser des oignons avec un peu de sucre.", "Assembler dans un pain brioché toasté."] },
+                    { name: "Brochettes de Bœuf Marinées", price: 13.80, items: ["Cubes de bœuf", "Champignons", "Huile"], img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba", steps: ["Mariner les cubes de bœuf dans l'huile et les herbes pendant 2h.", "Enfiler sur des pics en alternant avec des champignons.", "Griller à feu moyen-vif.", "Badigeonner de marinade restante durant la cuisson.", "Servir avec une salade verte croquante."] },
+                    { name: "Mijoté de Bœuf aux Carottes", price: 12.00, items: ["Bœuf", "Carottes", "Bouillon"], img: "https://images.unsplash.com/photo-1534939561126-755e622435ee", steps: ["Faire dorer les cubes de bœuf dans une cocotte.", "Ajouter les carottes coupées en rondelles et le bouillon.", "Couvrir et laisser mijoter à feu doux pendant 2 heures.", "Vérifier que la viande se détache facilement.", "Accompagner de pommes de terre bouillies."] },
+                    { name: "Salade de Bœuf Saisi", price: 14.50, items: ["Steak", "Roquette", "Balsamique"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Cuire le steak saignant.", "Trancher finement contre le grain.", "Disposer sur un lit de roquette fraîche.", "Arroser d'une réduction de vinaigre balsamique.", "Ajouter des copeaux de parmesan."] }
                 ]
             },
             maxi: { 
-                name: "Maxi", color: "#0055aa", savings: "-41%", vedette: "Oeufs (12)", vPrice: "2.22$", 
-                url: "https://www.maxi.ca/print-flyer", hero: "https://images.unsplash.com/photo-1542838132-92c53300491e", 
+                name: "Maxi", color: "#0055aa", savings: "-41%", vedette: "Poulet", vPrice: "1.99$/lb", 
+                url: "https://www.maxi.ca/flyer", hero: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2", 
                 recipes: [
-                    { name: "Frittata au Jambon & Érable", price: 6.50, items: ["Oeufs", "Jambon", "Cheddar"], img: "https://images.unsplash.com/photo-1510629954389-c1e0da47d414", steps: ["Dorer les dés de jambon à la poêle avec un peu de beurre.", "Battre 8 œufs avec une touche de crème et du poivre.", "Verser sur le jambon et cuire doucement pendant 8 minutes.", "Parsemer de cheddar et passer sous le gril du four.", "Napper d'un filet de sirop d'érable avant de couper en pointes."] },
-                    { name: "Pain Doré à la Cannelle", price: 5.40, items: ["Pain", "Oeufs", "Lait"], img: "https://images.unsplash.com/photo-1484723088339-47e826040825", steps: ["Mélanger les œufs, le lait, la vanille et la cannelle.", "Tremper des tranches de pain épaisses 30 secondes par face.", "Dorer au beurre jusqu'à ce que le pain soit bien gonflé.", "Servir avec du sirop d'érable chaud et du beurre.", "Décorer avec quelques petits fruits de saison."] },
-                    { name: "Oeufs Bénédictine Express", price: 8.90, items: ["Oeufs", "Muffins", "Jambon"], img: "https://images.unsplash.com/photo-1600335895229-6e75511892c8", steps: ["Pocher les œufs 3 minutes dans une eau frémissante vinaigrée.", "Griller les muffins anglais et réchauffer les tranches de jambon.", "Monter le jambon sur le pain, puis l'œuf poché par-dessus.", "Napper d'une sauce hollandaise onctueuse maison.", "Ajouter une pincée de paprika fumé pour la couleur."] },
-                    { name: "Quiche Lorraine des Sucres", price: 10.20, items: ["Pâte", "Oeufs", "Bacon"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Précuire la croûte de tarte à blanc pendant 10 minutes.", "Faire dorer le bacon jusqu'à ce qu'il soit très croustillant.", "Mélanger 4 œufs avec de la crème et de la muscade.", "Répartir le bacon dans le fond et verser l'appareil aux œufs.", "Cuire 35 minutes à 375F jusqu'à ce que la quiche soit dorée."] },
-                    { name: "Shakshuka aux Oeufs Coulants", price: 7.80, items: ["Oeufs", "Tomates", "Oignons"], img: "https://images.unsplash.com/photo-1590412200988-a436bb715f99", steps: ["Mijoter des oignons et des tomates avec du cumin.", "Laisser réduire la sauce jusqu'à ce qu'elle soit épaisse.", "Creuser des puits et casser les œufs directement dedans.", "Couvrir et cuire 5 minutes pour garder le jaune liquide.", "Garnir de persil frais et servir avec du pain pita."] },
-                    { name: "Omelette Mousseline Fine", price: 4.90, items: ["Oeufs", "Beurre", "Ciboulette"], img: "https://images.unsplash.com/photo-1510627489930-0c1b0ba9448f", steps: ["Battre les œufs vigoureusement pour incorporer de l'air.", "Faire fondre le beurre dans la poêle sans le brûler.", "Verser les œufs et remuer le centre avec une spatule.", "Ajouter la ciboulette ciselée et plier l'omelette en deux.", "Servir immédiatement pendant que le centre est encore baveux."] },
-                    { name: "Oeufs Cocotte au Fromage", price: 6.20, items: ["Oeufs", "Crème", "Cheddar"], img: "https://images.unsplash.com/photo-1494597564530-871f2b93ac55", steps: ["Verser une cuillère de crème au fond d'un petit ramequin.", "Casser l'œuf délicatement et ajouter le cheddar râpé.", "Placer au bain-marie dans un four préchauffé à 350F.", "Cuire 12 minutes jusqu'à ce que le blanc soit pris.", "Servir avec des mouillettes de pain beurrées au sel."] }
+                    { name: "Poulet Rôti aux Herbes", price: 8.50, items: ["Poulet entier", "Beurre", "Romarin"], img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781", steps: ["Enduire le poulet de beurre pommade et de romarin.", "Saler et poivrer généreusement l'intérieur et l'extérieur.", "Cuire au four à 375°F pendant 1h15.", "Arroser de son jus toutes les 20 minutes.", "Laisser reposer avant de découper."] },
+                    { name: "Cuisses de Poulet BBQ", price: 7.20, items: ["Cuisses de poulet", "Sauce BBQ", "Épices"], img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b", steps: ["Frotter les cuisses avec un mélange d'épices à steak.", "Griller à chaleur indirecte sur le BBQ.", "Appliquer la sauce BBQ uniquement les 10 dernières minutes.", "Cuire jusqu'à ce que la peau soit croustillante.", "Servir avec un épi de maïs."] },
+                    { name: "Sauté de Poulet aux Noix", price: 9.80, items: ["Poitrine de poulet", "Cajou", "Brocoli"], img: "https://images.unsplash.com/photo-1525755662778-989d0524087e", steps: ["Dorer les dés de poulet dans l'huile d'arachide.", "Ajouter les bouquets de brocoli et les noix de cajou.", "Déglacer avec un peu de bouillon de volaille.", "Laisser réduire la sauce.", "Garnir de graines de sésame."] },
+                    { name: "Poulet au Citron et Olives", price: 10.50, items: ["Hauts de cuisse", "Citron", "Olives"], img: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8", steps: ["Saisir le poulet côté peau.", "Ajouter des quartiers de citron et des olives vertes.", "Mijoter 20 minutes à couvert.", "Le citron va confire et créer une sauce onctueuse.", "Accompagner de couscous."] },
+                    { name: "Salade de Poulet Grillé", price: 8.90, items: ["Poulet", "Laitue", "Vinaigrette"], img: "https://images.unsplash.com/photo-1512852939750-1305098529bf", steps: ["Griller des lanières de poulet assaisonnées.", "Mélanger avec une laitue romaine croquante.", "Ajouter des croûtons et du fromage râpé.", "Verser une vinaigrette crémeuse à l'ail.", "Parfait pour un lunch rapide."] },
+                    { name: "Pâtes au Poulet Crémeux", price: 11.20, items: ["Poulet", "Pâtes", "Crème"], img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9", steps: ["Cuire les pâtes al dente.", "Préparer une sauce à base de crème et de parmesan.", "Intégrer le poulet cuit en dés.", "Mélanger le tout sur un feu doux.", "Poivrer généreusement."] },
+                    { name: "Brochettes Poulet et Ananas", price: 9.50, items: ["Poulet", "Ananas", "Poivrons"], img: "https://images.unsplash.com/photo-1544025162-d76694265947", steps: ["Alterner poulet et ananas sur les brochettes.", "Griller au BBQ.", "L'ananas caramélisé donne un goût sucré-salé.", "Servir avec un riz au coco.", "Un classique estival."] }
                 ]
             },
             metro: { 
-                name: "Métro", color: "#f97316", savings: "-28%", vedette: "Saumon Frais", vPrice: "8.99$/lb", 
-                url: "https://www.metro.ca/circulaire", hero: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", 
+                name: "Métro", color: "#f97316", savings: "-35%", vedette: "Saumon", vPrice: "9.99$/lb", 
+                url: "https://www.metro.ca/circulaire", hero: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", 
                 recipes: [
-                    { name: "Saumon Laqué à l'Érable", price: 16.50, items: ["Saumon", "Érable", "Soja"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Préparer la laque avec sirop d'érable et sauce soja.", "Disposer les pavés de saumon sur une plaque de cuisson.", "Cuire au four à 400F pendant environ 12 minutes.", "Badigeonner de laque à mi-cuisson pour une belle couleur.", "Servir avec un riz sauvage et quelques zestes de lime."] },
-                    { name: "Tartare de Saumon Minute", price: 18.20, items: ["Saumon", "Câpres", "Lime"], img: "https://images.unsplash.com/photo-1534080333201-1b6d0891636c", steps: ["Couper le saumon frais en petits dés réguliers au couteau.", "Mélanger avec des câpres, des échalotes et de la ciboulette.", "Assaisonner d'huile d'olive et de jus de lime au moment de servir.", "Garder au frais jusqu'à la toute dernière minute.", "Accompagner de croûtons de baguette bien croustillants."] },
-                    { name: "Pâtes au Saumon Crémeux", price: 14.80, items: ["Pâtes", "Saumon", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les pâtes al dente dans une grande eau salée.", "Sauter les dés de saumon rapidement dans du beurre.", "Ajouter la crème liquide et laisser réduire doucement.", "Mélanger les pâtes avec la sauce et beaucoup d'aneth frais.", "Poivrer généreusement avec un poivre blanc moulu."] },
-                    { name: "Saumon en Papillote", price: 15.40, items: ["Saumon", "Citron", "Légumes"], img: "https://images.unsplash.com/photo-1485921325833-c519f76c4927", steps: ["Déposer le saumon sur une feuille de papier parchemin.", "Ajouter des rondelles de citron et des pointes d'asperges.", "Refermer hermétiquement la papillote pour garder la vapeur.", "Cuire au four 15 minutes pour une texture ultra fondante.", "Ouvrir délicatement pour profiter des parfums qui s'échappent."] },
-                    { name: "Poke Bowl au Saumon", price: 17.00, items: ["Saumon", "Riz", "Avocat"], img: "https://images.unsplash.com/photo-1546069901-eacef0df6022", steps: ["Mariner les dés de saumon dans du soja et de l'huile de sésame.", "Préparer un bol de riz vinaigré tiède comme base.", "Ajouter l'avocat, le concombre et quelques edamames.", "Disposer le saumon mariné sur le dessus du bol.", "Saupoudrer de graines de sésame et d'oignons verts."] },
-                    { name: "Salade de Saumon Grillé", price: 13.90, items: ["Saumon", "Laitue", "Féta"], img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", steps: ["Griller le pavé de saumon côté peau pendant 8 minutes.", "Déchirer la chair en gros morceaux à la fourchette.", "Mélanger avec une salade verte, des olives et du féta.", "Arroser d'une vinaigrette légère au citron et à l'origan.", "Un repas complet, frais et prêt en moins de 15 minutes."] },
-                    { name: "Croquettes de Saumon", price: 12.50, items: ["Saumon", "Patates", "Oeuf"], img: "https://images.unsplash.com/photo-1581541234321-498c8959d042", steps: ["Mélanger les restes de saumon cuit avec de la purée de pommes de terre.", "Ajouter un œuf, des herbes et un peu de chapelure.", "Façonner des galettes et les paner légèrement.", "Dorer à la poêle 3 minutes de chaque côté dans l'huile.", "Servir avec une sauce tartare ou une mayonnaise épicée."] }
+                    { name: "Saumon Grillé au Citron", price: 15.50, items: ["Pavé de saumon", "Citron", "Aneth"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Préchauffer le gril.", "Déposer le saumon côté peau en premier.", "Badigeonner de jus de citron et d'aneth frais.", "Retourner délicatement après 5 minutes.", "Servir dès que la chair se détache à la fourchette."] },
+                    { name: "Tartare de Saumon Frais", price: 18.00, items: ["Saumon frais", "Câpres", "Échalotes"], img: "https://images.unsplash.com/photo-1534080333201-1b6d0891636c", steps: ["Couper le saumon en petits dés au couteau.", "Mélanger avec les câpres et les échalotes hachées.", "Ajouter une touche de moutarde de Dijon.", "Réserver au frais 30 minutes.", "Servir avec des croûtons."] },
+                    { name: "Saumon en Papillote", price: 16.20, items: ["Saumon", "Asperges", "Beurre"], img: "https://images.unsplash.com/photo-1485921325833-c519f76c4927", steps: ["Placer le saumon sur une feuille de papier parchemin.", "Ajouter des asperges et une noisette de beurre.", "Refermer hermétiquement.", "Cuire au four 15 minutes à 400°F.", "La vapeur préserve toutes les saveurs."] },
+                    { name: "Bol Poke au Saumon", price: 17.50, items: ["Saumon", "Riz poke", "Avocat"], img: "https://images.unsplash.com/photo-1546069901-eacef0df6022", steps: ["Mariner le saumon dans du soja et du sésame.", "Disposer sur un lit de riz vinaigré froid.", "Ajouter des tranches d'avocat et du concombre.", "Garnir de gingembre mariné.", "Saupoudrer de graines de sésame."] },
+                    { name: "Pâtes au Saumon Fumé", price: 14.80, items: ["Pâtes", "Saumon fumé", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les fettuccines.", "Mélanger de la crème sûre avec du jus de citron.", "Ajouter les morceaux de saumon fumé hors du feu.", "Incorporer les pâtes chaudes.", "Garnir de poivre rose."] },
+                    { name: "Croquettes de Saumon", price: 12.90, items: ["Saumon en conserve", "Pommes de terre", "Oeuf"], img: "https://images.unsplash.com/photo-1581541234321-498c8959d042", steps: ["Mélanger le saumon avec une purée de pommes de terre froide.", "Ajouter un œuf pour lier le tout.", "Façonner des galettes et les paner.", "Dorer à la poêle dans un peu d'huile.", "Servir avec une sauce tartare."] },
+                    { name: "Salade de Saumon et Féta", price: 13.50, items: ["Saumon", "Épinards", "Féta"], img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", steps: ["Griller le saumon et le défaire en flocons.", "Mélanger avec des pousses d'épinards.", "Émietter le fromage féta par-dessus.", "Arroser d'une vinaigrette au miel.", "Un repas léger et nutritif."] }
                 ]
             },
             iga: { 
-                name: "IGA", color: "#059669", savings: "-25%", vedette: "Côtelettes de Porc", vPrice: "3.99$/lb", 
-                url: "https://www.iga.net/fr/circulaire", hero: "https://images.unsplash.com/photo-1547592166-23ac45744acd", 
+                name: "IGA", color: "#059669", savings: "-28%", vedette: "Steak", vPrice: "16.50$/lb", 
+                url: "https://www.iga.net/fr/circulaire", hero: "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf", 
                 recipes: [
-                    { name: "Porc Érable et Romarin", price: 12.50, items: ["Porc", "Érable", "Romarin"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Mariner les côtelettes 1h avec érable, huile et romarin.", "Saisir dans une poêle très chaude pour bien marquer.", "Réduire le feu et cuire 5 minutes par face.", "Déglacer avec le reste de la marinade pour une sauce sirupeuse.", "Laisser reposer la viande avant de servir pour plus de jus."] },
-                    { name: "Sauté de Porc Aigre-Doux", price: 11.40, items: ["Porc", "Ananas", "Vinaigre"], img: "https://images.unsplash.com/photo-1512485600893-b08ec1d99b1b", steps: ["Couper le porc en bouchées et les dorer vivement.", "Ajouter les morceaux d'ananas et les poivrons émincés.", "Verser un mélange de vinaigre de riz, soja et miel.", "Laisser réduire la sauce jusqu'à ce qu'elle nappe la viande.", "Servir sur un riz blanc garni d'oignons verts."] },
-                    { name: "Porc Effiloché Express", price: 15.00, items: ["Porc", "Sauce BBQ", "Épices"], img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836", steps: ["Frotter l'épaule de porc avec un mélange d'épices à BBQ.", "Cuire à basse température (250F) pendant environ 6 heures.", "Effilocher la viande avec deux fourchettes une fois tendre.", "Incorporer votre sauce BBQ préférée généreusement.", "Servir dans des pains ronds avec une salade de chou."] },
-                    { name: "Côtelettes à la Moutarde", price: 12.80, items: ["Porc", "Moutarde", "Crème"], img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd", steps: ["Poêler les côtelettes de porc avec un peu d'ail.", "Retirer la viande et ajouter de la crème dans la poêle.", "Incorporer deux cuillères de moutarde à l'ancienne.", "Remettre le porc dans la sauce pour le réchauffer.", "Accompagner d'une purée de pommes de terre onctueuse."] },
-                    { name: "Brochettes de Porc au Miel", price: 13.50, items: ["Porc", "Miel", "Zucchini"], img: "https://images.unsplash.com/photo-1532636875304-0c89119d9b4d", steps: ["Alterner cubes de porc et tranches de zucchini sur les pics.", "Badigeonner d'un mélange de miel, ail et sauce soja.", "Griller sur le BBQ ou sous le gril du four pendant 10 minutes.", "Tourner régulièrement pour une cuisson uniforme et dorée.", "Servir avec un couscous aux herbes fraîches."] },
-                    { name: "Ragoût de Porc au Romarin", price: 14.20, items: ["Porc", "Patates", "Carottes"], img: "https://images.unsplash.com/photo-1547592166-23ac45744acd", steps: ["Faire dorer les cubes de porc dans une marmite.", "Ajouter les carottes, les patates et les épices (clou de girofle).", "Mouiller à hauteur avec de l'eau et un fond de veau.", "Mijoter doucement pendant 1h30 jusqu'à tendreté.", "Un plat réconfortant parfait pour les soirées fraîches."] },
-                    { name: "Porc aux Pommes & Miel", price: 13.90, items: ["Porc", "Pommes", "Érable"], img: "https://images.unsplash.com/photo-1432139509613-5c4255815697", steps: ["Saisir le porc, puis réserver au chaud.", "Dans la même poêle, faire dorer des quartiers de pommes.", "Remettre le porc et arroser d'un trait de sirop d'érable.", "Laisser caraméliser quelques minutes à feu moyen.", "Servir avec une purée de courge ou de navet."] }
+                    { name: "Steak Grillé au Beurre", price: 22.50, items: ["Steak", "Beurre", "Ail"], img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c", steps: ["Sortir le steak 30 minutes avant cuisson.", "Saisir à feu très vif dans une poêle en fonte.", "Ajouter du beurre et de l'ail à mi-cuisson.", "Arroser la viande continuellement.", "Laisser reposer 10 minutes avant de servir."] },
+                    { name: "Steak Frites Classique", price: 24.00, items: ["Steak", "Pommes de terre", "Huile"], img: "https://images.unsplash.com/photo-1558030006-450675393462", steps: ["Préparer des frites maison au four.", "Griller le steak selon la cuisson désirée.", "Saler à la fleur de sel.", "Servir avec une sauce au poivre.", "Le classique ultime du bistro."] },
+                    { name: "Salade de Steak et Bleu", price: 19.50, items: ["Steak", "Fromage bleu", "Noix"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Trancher le steak grillé finement.", "Mélanger avec de la laitue et du fromage bleu.", "Ajouter des noix de grenobles grillées.", "Verser une vinaigrette au vin rouge.", "L'amertume du bleu complète bien la viande."] },
+                    { name: "Steak au Poivre Concassé", price: 23.00, items: ["Steak", "Poivre noir", "Crème"], img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af", steps: ["Presser du poivre concassé sur les deux faces du steak.", "Cuire à la poêle.", "Déglacer avec un peu de cognac et de crème.", "Napper le steak de cette sauce onctueuse.", "Servir avec des haricots verts."] },
+                    { name: "Tacos de Steak et Salsa", price: 18.80, items: ["Steak", "Tortillas", "Tomates"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Couper le steak en petits cubes et sauter rapidement.", "Préparer une salsa de tomates et oignons frais.", "Garnir les tortillas chaudes.", "Ajouter de la coriandre fraîche.", "Servir avec des quartiers de lime."] },
+                    { name: "Steak de Flanc Mariné", price: 21.20, items: ["Flanc de bœuf", "Balsamique", "Miel"], img: "https://images.unsplash.com/photo-1544025162-d76694265947", steps: ["Mariner le flanc 12 heures au frigo.", "Griller entier sur le BBQ.", "Trancher très finement en biseau.", "Servir avec des légumes grillés.", "La marinade attendrit parfaitement la fibre."] },
+                    { name: "Philly Cheesesteak", price: 17.50, items: ["Bœuf émincé", "Pain", "Provolone"], img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d", steps: ["Sauter le bœuf avec des oignons et poivrons.", "Disposer dans un pain sous-marin ouvert.", "Recouvrir de fromage provolone.", "Passer sous le gril pour faire fondre le fromage.", "Un repas riche et satisfaisant."] }
                 ]
             },
             provigo: { 
-                name: "Provigo", color: "#ed1c24", savings: "-33%", vedette: "Asperges Vertes", vPrice: "1.99$/botte", 
-                url: "https://www.provigo.ca/print-flyer", hero: "https://images.unsplash.com/photo-1556910103-1c02745aae4d", 
+                name: "Provigo", color: "#ed1c24", savings: "-33%", vedette: "Fraise", vPrice: "2.44$/panier", 
+                url: "https://www.provigo.ca/flyer", hero: "https://images.unsplash.com/photo-1601599561213-832382fd07ba", 
                 recipes: [
-                    { name: "Risotto aux Asperges Printanier", price: 10.50, items: ["Riz", "Asperges", "Parmesan"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Faire revenir l'oignon et le riz arborio dans le beurre.", "Ajouter le bouillon de légumes louche après louche.", "Intégrer les pointes d'asperges à 10 minutes de la fin.", "Terminer par le parmesan et une noix de beurre.", "Le résultat doit être crémeux et les asperges encore vertes."] },
-                    { name: "Asperges au Prosciutto", price: 13.20, items: ["Asperges", "Prosciutto", "Balsamique"], img: "https://images.unsplash.com/photo-1516685018646-527ad952f864", steps: ["Blanchir les asperges 2 minutes à l'eau bouillante salée.", "Enrouler chaque asperge dans une fine tranche de prosciutto.", "Passer au four à 400F pendant 8 minutes pour le croustillant.", "Arroser d'un filet de réduction de vinaigre balsamique.", "Une entrée élégante qui se prépare en quelques minutes."] },
-                    { name: "Quiche aux Asperges & Féta", price: 11.80, items: ["Pâte", "Asperges", "Oeufs"], img: "https://images.unsplash.com/photo-1602464729960-f74701934305", steps: ["Disposer les tronçons d'asperges sur une pâte brisée.", "Mélanger 3 œufs avec de la crème et du poivre.", "Émietter du fromage féta sur les asperges.", "Verser l'appareil aux œufs sur la garniture.", "Cuire au four 35 minutes jusqu'à ce que la quiche soit ferme."] },
-                    { name: "Pâtes au Citron et Asperges", price: 9.40, items: ["Pâtes", "Asperges", "Citron"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les pâtes courtes (penne ou fusilli).", "Sauter les asperges à l'ail dans l'huile d'olive.", "Mélanger les pâtes, les asperges et le jus de citron.", "Ajouter beaucoup de zestes de citron et de poivre.", "Terminer par un filet d'huile de qualité au service."] },
-                    { name: "Velouté d'Asperges Onctueux", price: 7.50, items: ["Asperges", "Bouillon", "Crème"], img: "https://images.unsplash.com/photo-1547592102-614caaa8915c", steps: ["Faire bouillir les asperges dans un bouillon de poulet.", "Réserver les pointes pour la décoration finale.", "Passer le reste au mélangeur avec une touche de crème.", "Rectifier l'assaisonnement avec du sel de mer.", "Servir bien chaud avec les pointes réservées sur le dessus."] },
-                    { name: "Salade de Radis et Asperges", price: 11.00, items: ["Asperges", "Radis", "Noix"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Couper les asperges crues en fines lamelles (mandoline).", "Ajouter les radis tranchés et des noix de grenobles.", "Préparer une vinaigrette au miel et à la moutarde.", "Mélanger délicatement pour ne pas briser les légumes.", "Parsemer de fromage de chèvre frais pour la gourmandise."] },
-                    { name: "Asperges Gratinées au Gruyère", price: 8.90, items: ["Asperges", "Fromage", "Beurre"], img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371", steps: ["Disposer les asperges dans un plat à gratin beurré.", "Saler, poivrer et recouvrir de fromage gruyère râpé.", "Passer sous le gril du four pendant environ 5 minutes.", "Le fromage doit être bouillonnant et légèrement bruni.", "Servir en accompagnement d'une grillade ou d'un poisson."] }
+                    { name: "Tarte aux Fraises Fraîches", price: 9.50, items: ["Fraises", "Pâte sablée", "Crème"], img: "https://images.unsplash.com/photo-1606323831862-23c345b1dfd5", steps: ["Cuire la pâte sablée à blanc.", "Garnir d'une crème pâtissière onctueuse.", "Disposer les fraises entières ou tranchées.", "Napper d'un peu de gelée de fruits pour la brillance.", "Réserver au frais avant de servir."] },
+                    { name: "Salade Fraises et Épinards", price: 8.20, items: ["Fraises", "Bébé épinards", "Féta"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Laver les pousses d'épinards.", "Trancher les fraises en deux.", "Mélanger avec du fromage féta émietté.", "Ajouter des pacanes grillées.", "Verser une vinaigrette au pavot."] },
+                    { name: "Smoothie aux Fraises", price: 5.50, items: ["Fraises", "Yogourt", "Miel"], img: "https://images.unsplash.com/photo-1577805947697-89e18249d767", steps: ["Mettre les fraises et le yogourt dans le mélangeur.", "Ajouter une cuillère de miel pour le sucre.", "Mixer jusqu'à consistance lisse.", "Ajouter quelques glaçons si désiré.", "Servir dans un grand verre."] },
+                    { name: "Shortcake aux Fraises", price: 10.80, items: ["Fraises", "Gâteau éponge", "Crème chantilly"], img: "https://images.unsplash.com/photo-1464305795204-6f5bdf7f8740", steps: ["Couper le gâteau en deux tranches.", "Imbiber d'un peu de sirop de fraise.", "Couvrir de fraises et de crème fouettée.", "Refermer avec la deuxième tranche.", "Décorer le dessus avec une fraise entière."] },
+                    { name: "Fraises au Chocolat", price: 12.00, items: ["Fraises", "Chocolat noir", "Beurre"], img: "https://images.unsplash.com/photo-1511381939415-e44015466834", steps: ["Faire fondre le chocolat au bain-marie.", "Tremper chaque fraise à moitié dans le chocolat.", "Déposer sur une plaque recouverte de papier parchemin.", "Laisser durcir au réfrigérateur.", "Une gâterie simple et élégante."] },
+                    { name: "Confiture de Fraises Minute", price: 7.40, items: ["Fraises", "Sucre", "Citron"], img: "https://images.unsplash.com/photo-1490818387583-1baba5e638af", steps: ["Écraser les fraises grossièrement.", "Mélanger avec le sucre et le jus de citron.", "Cuire à feu moyen 15 minutes.", "Mettre en pot dès que la texture s'épaissit.", "Délicieux sur des toasts le matin."] },
+                    { name: "Bruschetta aux Fraises", price: 9.90, items: ["Fraises", "Pain baguette", "Basilic"], img: "https://images.unsplash.com/photo-1572656631137-7935297eff55", steps: ["Griller des tranches de baguette.", "Mélanger dés de fraises, basilic et huile d'olive.", "Disposer sur le pain.", "Ajouter une goutte de crème de balsamique.", "Une entrée surprenante et fraîche."] }
                 ]
             }
         };
@@ -225,7 +216,6 @@
             document.getElementById('featuredPrice').innerText = config.vPrice;
             document.getElementById('savingsPercent').innerText = config.savings;
             document.getElementById('savingsPercent').style.color = config.color;
-            
             document.getElementById('flyerLink').href = config.url;
             document.getElementById('flyerName').innerText = config.name;
 
