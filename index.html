@@ -2,80 +2,111 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SUPERMENU | 9-15 Avril 2026</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <style>
         :root { --store-color: #e31e24; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; overflow-x: hidden; }
         
+        /* HEADER RESPONSIVE */
         .hero-banner { 
             min-height: 650px; background-color: var(--store-color);
-            display: flex; align-items: center; padding: 0 8%; 
-            position: relative; margin-bottom: 5rem; color: white; transition: 0.4s ease;
+            display: flex; align-items: center; padding: 2rem 5%; 
+            position: relative; margin-bottom: 3rem; color: white; transition: 0.4s ease;
         }
-        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; width: 100%; align-items: center; }
-        .hero-img-container { width: 320px; height: 450px; border-radius: 0.5rem; overflow: hidden; box-shadow: 25px 25px 60px rgba(0,0,0,0.4); border: 3px solid white; flex-shrink: 0; }
+        .hero-grid { 
+            display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; width: 100%; align-items: center; 
+        }
+        
+        .hero-img-container { 
+            width: 280px; height: 380px; border-radius: 0.5rem; overflow: hidden; 
+            box-shadow: 25px 25px 60px rgba(0,0,0,0.4); border: 3px solid white; flex-shrink: 0; 
+        }
         .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .comparateur-side { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .main-title { font-size: 4.5rem; font-weight: 900; line-height: 0.8; text-transform: uppercase; letter-spacing: -3px; }
-        .mission-text { font-size: 0.9rem; font-weight: 700; margin-top: 1.5rem; opacity: 0.9; line-height: 1.4; max-width: 400px; }
+        .comparateur-side { 
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); 
+            padding: 2rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+        .main-title { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; line-height: 0.8; text-transform: uppercase; letter-spacing: -3px; }
+        .mission-text { font-size: 0.9rem; font-weight: 700; margin-top: 1rem; opacity: 0.9; line-height: 1.4; max-width: 400px; }
         
-        .comp-val { font-size: 6rem; font-weight: 900; line-height: 1; letter-spacing: -4px; margin-bottom: 1rem; }
-        .bar-chart-container { display: flex; align-items: flex-end; gap: 15px; height: 150px; margin-top: 2rem; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
-        .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+        .comp-val { font-size: clamp(3rem, 10vw, 6rem); font-weight: 900; line-height: 1; letter-spacing: -4px; margin-bottom: 1rem; }
+        .bar-chart-container { display: flex; align-items: flex-end; gap: 10px; height: 120px; margin-top: 2rem; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 15px; }
+        .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; min-width: 0; }
         .bar-fill { width: 100%; transition: height 0.6s ease; border-radius: 2px 2px 0 0; }
-        .bar-label { font-size: 8px; font-weight: 900; text-transform: uppercase; }
-        .bar-pct { font-size: 10px; font-weight: 900; }
+        .bar-label { font-size: 7px; font-weight: 900; text-transform: uppercase; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .bar-pct { font-size: 9px; font-weight: 900; }
 
-        .layout-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; padding: 0 8% 50px; }
-        .img-wrapper { height: 400px; width: 100%; margin-bottom: 1.5rem; position: relative; background: #eee; overflow: hidden; }
+        /* GRILLE DE RECETTES RESPONSIVE */
+        .layout-container { 
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; padding: 0 5% 50px; 
+        }
+        
+        /* MOBILE OVERRIDES */
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; }
+            .layout-container { grid-template-columns: repeat(2, 1fr); }
+            .hero-banner { min-height: auto; padding: 4rem 5%; }
+            .hero-img-container { width: 200px; height: 280px; margin: 0 auto 2rem; }
+            .vedette-info { text-align: center; }
+            .vedette-flex { flex-direction: column; gap: 1rem; }
+        }
+
+        @media (max-width: 640px) {
+            .layout-container { grid-template-columns: 1fr; }
+            .nav-menu { display: flex; overflow-x: auto; gap: 1rem; padding-bottom: 10px; width: 100%; }
+            .nav-link { white-space: nowrap; font-size: 0.7rem; }
+            .modal-content { grid-template-columns: 1fr; height: 95vh; }
+            .modal-scroll { padding: 2rem; }
+            .list-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .img-wrapper { height: 350px; width: 100%; margin-bottom: 1.5rem; position: relative; background: #eee; overflow: hidden; border-radius: 4px; }
         .img-wrapper img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 2; }
-        .img-fallback { z-index: 1; width: 100%; height: 100%; background: var(--store-color); color: white; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; font-weight: 900; font-size: 1.8rem; text-transform: uppercase; }
+        .img-fallback { z-index: 1; width: 100%; height: 100%; background: var(--store-color); color: white; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; font-weight: 900; font-size: 1.5rem; text-transform: uppercase; }
 
-        #recipeModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
-        .modal-content { background: white; width: 95%; max-width: 1200px; height: 85vh; display: grid; grid-template-columns: 1fr 1.2fr; border-radius: 1rem; overflow: hidden; }
-        .modal-scroll { padding: 4rem; overflow-y: auto; color: black; }
+        #recipeModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; padding: 10px; }
+        .modal-content { background: white; width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1fr 1.2fr; border-radius: 1rem; overflow: hidden; }
+        .modal-scroll { padding: 3rem; overflow-y: auto; color: black; }
 
-        .shopping-section { background: #f9f9f9; padding: 5rem 8%; border-top: 2px solid #eee; }
-        .list-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
-
-        .nav-link { font-weight: 800; text-transform: uppercase; font-size: 0.8rem; color: #999; padding: 10px 0; transition: 0.3s; }
+        .shopping-section { background: #f9f9f9; padding: 4rem 5%; border-top: 2px solid #eee; }
+        .nav-link { font-weight: 800; text-transform: uppercase; font-size: 0.8rem; color: #999; padding: 8px 0; transition: 0.3s; }
         .nav-link.active { color: var(--store-color); border-bottom: 3px solid var(--store-color); }
         @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body onload="switchStore('superc')">
 
-    <nav class="no-print flex justify-between items-center px-[8%] py-6 bg-white sticky top-0 z-50 shadow-sm">
+    <nav class="no-print flex flex-col md:flex-row justify-between items-center px-[5%] py-4 bg-white sticky top-0 z-50 shadow-sm gap-4">
         <div class="flex items-center gap-2">
-            <div class="text-2xl font-black italic">SUPERMENU.</div>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="#e31e24" xmlns="http://www.w3.org/2000/svg">
+            <div class="text-xl font-black italic">SUPERMENU.</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#e31e24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
             </svg>
         </div>
-        <div class="flex gap-8">
+        <div class="nav-menu flex gap-4 md:gap-8">
             <button onclick="switchStore('superc')" id="btn-superc" class="nav-link">Super C</button>
             <button onclick="switchStore('maxi')" id="btn-maxi" class="nav-link">Maxi</button>
             <button onclick="switchStore('metro')" id="btn-metro" class="nav-link">Métro</button>
             <button onclick="switchStore('iga')" id="btn-iga" class="nav-link">IGA</button>
             <button onclick="switchStore('provigo')" id="btn-provigo" class="nav-link">Provigo</button>
         </div>
-        <div class="w-[40px]"></div>
     </nav>
 
     <header class="hero-banner" id="heroBg">
         <div class="hero-grid">
-            <div class="flex items-center gap-12">
+            <div class="vedette-flex flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 <div class="hero-img-container"><img id="vImg" src="" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800'"></div>
-                <div>
-                    <p class="font-bold uppercase tracking-widest text-[10px] opacity-70 mb-2">Du 9 au 15 Avril 2026</p>
-                    <h2 class="text-6xl font-black uppercase leading-none" id="vName">---</h2>
-                    <div class="text-8xl font-black mt-4 tracking-tighter" id="vPrice">0.00$</div>
+                <div class="vedette-info">
+                    <p class="font-bold uppercase tracking-widest text-[10px] opacity-70 mb-2">9 au 15 Avril 2026</p>
+                    <h2 class="text-4xl md:text-6xl font-black uppercase leading-none" id="vName">---</h2>
+                    <div class="text-6xl md:text-8xl font-black mt-2 md:mt-4 tracking-tighter" id="vPrice">0.00$</div>
                     <p class="mission-text">Nos 35 recettes uniques maximisent vos économies selon les circulaires du Québec.</p>
-                    <a id="circLink" href="#" target="_blank" class="inline-block mt-8 px-6 py-3 border-2 border-white font-black uppercase text-[10px]">Circulaire Officielle</a>
+                    <a id="circLink" href="#" target="_blank" class="inline-block mt-6 px-6 py-3 border-2 border-white font-black uppercase text-[10px] hover:bg-white hover:text-black transition">Circulaire</a>
                 </div>
             </div>
             <div class="comparateur-side">
@@ -90,21 +121,21 @@
     <main class="layout-container" id="mainGrid"></main>
 
     <section class="shopping-section no-print">
-        <div class="flex justify-between items-center">
-            <h2 class="text-5xl font-black uppercase italic">Ma Liste d'emplettes</h2>
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+            <h2 class="text-3xl md:text-5xl font-black uppercase italic text-center md:text-left">Ma Liste d'emplettes</h2>
             <button onclick="window.print()" class="px-6 py-3 bg-black text-white font-black uppercase text-[10px]">Imprimer Liste</button>
         </div>
-        <div class="list-grid" id="shoppingList"></div>
+        <div class="list-grid grid grid-cols-2 md:grid-cols-4 gap-4 mt-8" id="shoppingList"></div>
     </section>
 
     <div id="recipeModal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="bg-slate-200"><img id="modalImg" class="w-full h-full object-cover" src=""></div>
+            <div class="bg-slate-200 hidden md:block"><img id="modalImg" class="w-full h-full object-cover" src=""></div>
             <div class="modal-scroll">
-                <h2 id="modalTitle" class="text-5xl font-black uppercase italic mb-6"></h2>
-                <p id="modalDesc" class="text-xl font-bold italic border-l-8 border-black pl-6 mb-12 opacity-70"></p>
-                <div id="modalIngs" class="grid grid-cols-2 gap-4 mb-12 font-bold italic"></div>
-                <div id="modalSteps" class="space-y-6"></div>
+                <h2 id="modalTitle" class="text-3xl md:text-5xl font-black uppercase italic mb-6"></h2>
+                <p id="modalDesc" class="text-lg md:text-xl font-bold italic border-l-8 border-black pl-6 mb-8 opacity-70"></p>
+                <div id="modalIngs" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 font-bold italic text-sm"></div>
+                <div id="modalSteps" class="space-y-4 text-sm"></div>
             </div>
         </div>
     </div>
@@ -173,16 +204,15 @@
             Object.keys(storeData).forEach(k => {
                 const item = storeData[k];
                 const pctVal = parseInt(item.disc.replace('-',''));
-                const h = pctVal * 1.8;
+                const h = pctVal * 1.5;
                 const isActive = (k === id);
-                
                 const barColor = isActive ? 'white' : item.color;
                 const opacity = isActive ? '1' : '0.6';
 
                 barHtml += `
                     <div class="bar-wrapper">
                         <span class="bar-pct" style="opacity:${opacity}">${item.disc}</span>
-                        <div class="bar-fill" style="height:${h}px; background-color:${barColor}; opacity:${opacity}; ${isActive ? 'border:2px solid white;' : ''}"></div>
+                        <div class="bar-fill" style="height:${h}px; background-color:${barColor}; opacity:${opacity}; ${isActive ? 'border:1.5px solid white;' : ''}"></div>
                         <span class="bar-label" style="opacity:${opacity}">${item.name}</span>
                     </div>`;
             });
@@ -192,14 +222,14 @@
             s.recipes.forEach((r, idx) => {
                 gridHtml += `
                     <div class="recipe-card border-b-2 border-black pb-8">
-                        <div class="img-wrapper">
+                        <div class="img-wrapper" onclick="openDetails('${id}', ${idx})">
                             <img src="${r.img}" alt="${r.n}" onerror="this.style.display='none'">
                             <div class="img-fallback">${r.n}</div>
                         </div>
-                        <h3 class="text-2xl font-black uppercase mb-4 leading-tight">${r.n}</h3>
+                        <h3 class="text-xl md:text-2xl font-black uppercase mb-4 leading-tight">${r.n}</h3>
                         <div class="flex justify-between items-center">
-                            <p class="text-3xl font-bold" style="color:var(--store-color)">${r.p}</p>
-                            <button onclick="openDetails('${id}', ${idx})" class="text-[10px] font-black uppercase border-b-2 border-black">Détails</button>
+                            <p class="text-2xl md:text-3xl font-bold" style="color:var(--store-color)">${r.p}</p>
+                            <button onclick="openDetails('${id}', ${idx})" class="text-[9px] font-black uppercase border-b-2 border-black">Détails</button>
                         </div>
                     </div>`;
             });
@@ -207,7 +237,7 @@
 
             let ings = [];
             s.recipes.forEach(r => ings = [...ings, ...r.i]);
-            document.getElementById('shoppingList').innerHTML = [...new Set(ings)].map(i => `<div class="py-2 border-b border-gray-200 font-bold italic">□ ${i}</div>`).join('');
+            document.getElementById('shoppingList').innerHTML = [...new Set(ings)].map(i => `<div class="py-2 border-b border-gray-200 font-bold italic text-xs md:text-sm">□ ${i}</div>`).join('');
 
             document.querySelectorAll('.nav-link').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${id}`));
         }
@@ -219,7 +249,7 @@
             document.getElementById('modalImg').src = r.img;
             document.getElementById('modalIngs').innerHTML = r.i.map(ing => `<div>• ${ing}</div>`).join('');
             document.getElementById('modalSteps').innerHTML = r.s.map((step, i) => `
-                <div class="flex gap-4"><span class="font-black text-2xl opacity-20">0${i+1}</span><p class="font-bold italic">${step}</p></div>
+                <div class="flex gap-4"><span class="font-black text-xl opacity-20">0${i+1}</span><p class="font-bold italic">${step}</p></div>
             `).join('');
             document.getElementById('recipeModal').style.display = 'flex';
         }
