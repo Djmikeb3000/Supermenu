@@ -2,296 +2,223 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperMenu | Semaine du 2 au 8 Avril 2026</title>
+    <title>SUPERMENU | 9-15 Avril 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;0,900&display=swap" rel="stylesheet">
     <style>
         :root { --store-color: #e31e24; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; transition: all 0.5s ease; font-style: italic; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #1a1a1a; margin: 0; }
         
         .hero-banner { 
-            position: relative; height: 650px; border-radius: 0 0 4rem 4rem; 
-            display: flex; align-items: center; padding: 0 8%; color: white;
-            overflow: hidden; background-color: #111;
+            min-height: 650px; background-color: var(--store-color);
+            display: flex; align-items: center; padding: 0 8%; 
+            position: relative; margin-bottom: 5rem; color: white; transition: 0.4s ease;
         }
-        .hero-img-bg {
-            position: absolute; right: 0; top: 0; width: 75%; height: 100%;
-            background-size: cover; background-position: center; z-index: 1; transition: background-image 0.6s ease;
-        }
-        .hero-gradient {
-            position: absolute; inset: 0; z-index: 2;
-            background: linear-gradient(90deg, var(--store-color) 0%, var(--store-color) 25%, rgba(0,0,0,0) 85%);
-        }
+        .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; width: 100%; align-items: center; }
+        .hero-img-container { width: 320px; height: 450px; border-radius: 0.5rem; overflow: hidden; box-shadow: 25px 25px 60px rgba(0,0,0,0.4); border: 3px solid white; flex-shrink: 0; }
+        .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-        .recipe-card {
-            background: white; border-radius: 3.5rem; padding: 1.75rem;
-            border: 2px solid transparent; transition: all 0.4s ease; height: 480px; display: flex; flex-direction: column;
-        }
-
-        .img-container { height: 240px; width: 100%; border-radius: 2.2rem; overflow: hidden; margin-bottom: 1.5rem; position: relative; background: var(--store-color); flex-shrink: 0; }
-        .recipe-img { height: 100%; width: 100%; object-fit: cover; position: absolute; z-index: 5; top:0; left:0; transition: opacity 0.3s; }
+        .comparateur-side { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(25px); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .main-title { font-size: 4.5rem; font-weight: 900; line-height: 0.8; text-transform: uppercase; letter-spacing: -3px; }
+        .mission-text { font-size: 0.9rem; font-weight: 700; margin-top: 1.5rem; opacity: 0.9; line-height: 1.4; max-width: 400px; }
         
-        .fallback-content {
-            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            padding: 25px; text-align: center; color: white; font-weight: 800; font-size: 1.1rem;
-            text-transform: uppercase; z-index: 2; line-height: 1.2;
-        }
+        .comp-val { font-size: 6rem; font-weight: 900; line-height: 1; letter-spacing: -4px; margin-bottom: 1rem; }
+        .bar-chart-container { display: flex; align-items: flex-end; gap: 15px; height: 150px; margin-top: 2rem; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
+        .bar-wrapper { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+        .bar-fill { width: 100%; transition: height 0.6s ease; border-radius: 2px 2px 0 0; }
+        .bar-label { font-size: 8px; font-weight: 900; text-transform: uppercase; }
+        .bar-pct { font-size: 10px; font-weight: 900; }
 
-        #recipeModal { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,0.9); backdrop-filter: blur(15px); padding: 40px; overflow-y: auto; }
-        .modal-content { background: white; max-width: 1100px; margin: auto; border-radius: 3.5rem; display: flex; flex-direction: column; overflow: hidden; min-height: 80vh; }
-        @media (min-width: 768px) { .modal-content { flex-direction: row; } }
-        .modal-text-side { flex: 1; padding: 3rem; overflow-y: auto; font-style: normal; }
-        .modal-img-side { width: 100%; height: 300px; position: relative; background: var(--store-color); }
-        @media (min-width: 768px) { .modal-img-side { width: 45%; height: auto; } }
+        .layout-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; padding: 0 8% 50px; }
+        .img-wrapper { height: 400px; width: 100%; margin-bottom: 1.5rem; position: relative; background: #eee; overflow: hidden; }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; position: absolute; z-index: 2; }
+        .img-fallback { z-index: 1; width: 100%; height: 100%; background: var(--store-color); color: white; display: flex; align-items: center; justify-content: center; padding: 2rem; text-align: center; font-weight: 900; font-size: 1.8rem; text-transform: uppercase; }
 
-        @media print {
-            body * { visibility: hidden; }
-            #grocerySection, #grocerySection * { visibility: visible; }
-            #grocerySection { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; padding: 0; shadow: none; }
-            #grocerySection button { display: none; }
-        }
+        #recipeModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 95%; max-width: 1200px; height: 85vh; display: grid; grid-template-columns: 1fr 1.2fr; border-radius: 1rem; overflow: hidden; }
+        .modal-scroll { padding: 4rem; overflow-y: auto; color: black; }
+
+        .shopping-section { background: #f9f9f9; padding: 5rem 8%; border-top: 2px solid #eee; }
+        .list-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+
+        .nav-link { font-weight: 800; text-transform: uppercase; font-size: 0.8rem; color: #999; padding: 10px 0; transition: 0.3s; }
+        .nav-link.active { color: var(--store-color); border-bottom: 3px solid var(--store-color); }
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
-<body>
+<body onload="switchStore('superc')">
 
-    <nav class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div id="navBrandIcon" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                    <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                </div>
-                <span class="text-2xl font-black uppercase not-italic tracking-tighter">SUPER<span class="text-slate-300">MENU</span></span>
-            </div>
-            <div class="flex bg-slate-100 p-2 rounded-2xl space-x-1">
-                <button onclick="switchStore('superc')" id="btn-superc" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Super C</button>
-                <button onclick="switchStore('maxi')" id="btn-maxi" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Maxi</button>
-                <button onclick="switchStore('metro')" id="btn-metro" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Métro</button>
-                <button onclick="switchStore('iga')" id="btn-iga" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">IGA</button>
-                <button onclick="switchStore('provigo')" id="btn-provigo" class="store-tab text-[10px] font-black px-4 py-3 rounded-xl uppercase transition-all">Provigo</button>
-            </div>
+    <nav class="no-print flex justify-between items-center px-[8%] py-6 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="text-2xl font-black italic">SUPERMENU.</div>
+        <div class="flex gap-8">
+            <button onclick="switchStore('superc')" id="btn-superc" class="nav-link">Super C</button>
+            <button onclick="switchStore('maxi')" id="btn-maxi" class="nav-link">Maxi</button>
+            <button onclick="switchStore('metro')" id="btn-metro" class="nav-link">Métro</button>
+            <button onclick="switchStore('iga')" id="btn-iga" class="nav-link">IGA</button>
+            <button onclick="switchStore('provigo')" id="btn-provigo" class="nav-link">Provigo</button>
         </div>
+        <div class="w-[40px]"></div>
     </nav>
 
-    <header class="hero-banner">
-        <div class="hero-img-bg" id="heroImg"></div>
-        <div class="hero-gradient"></div>
-        <div class="max-w-5xl relative z-10">
-            <div class="mb-6">
-                <span class="bg-white text-slate-950 px-4 py-2 rounded-full text-[10px] font-black uppercase italic tracking-widest">Offres de la semaine</span>
-                <p class="mt-4 text-xl md:text-2xl font-bold text-white/95 leading-tight not-italic">Nos 35 nouvelles recettes maximisent vos économies selon les circulaires du Québec.</p>
-            </div>
-            <h1 class="text-6xl md:text-8xl font-black uppercase italic leading-[0.85] tracking-tighter mb-8" id="bannerTitle"></h1>
-            <div class="flex flex-wrap gap-4 mb-10">
-                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl flex items-center gap-6">
-                    <div>
-                        <span class="text-[9px] font-black uppercase tracking-widest text-white/50 block">Vedette Circulaire</span>
-                        <span id="featuredItemName" class="text-2xl font-black italic uppercase"></span>
-                    </div>
-                    <span id="featuredPrice" class="text-3xl font-black italic"></span>
+    <header class="hero-banner" id="heroBg">
+        <div class="hero-grid">
+            <div class="flex items-center gap-12">
+                <div class="hero-img-container"><img id="vImg" src="" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800'"></div>
+                <div>
+                    <p class="font-bold uppercase tracking-widest text-[10px] opacity-70 mb-2">Du 9 au 15 Avril 2026</p>
+                    <h2 class="text-6xl font-black uppercase leading-none" id="vName">---</h2>
+                    <div class="text-8xl font-black mt-4 tracking-tighter" id="vPrice">0.00$</div>
+                    <p class="mission-text">Nos 35 recettes uniques maximisent vos économies selon les circulaires du Québec.</p>
+                    <a id="circLink" href="#" target="_blank" class="inline-block mt-8 px-6 py-3 border-2 border-white font-black uppercase text-[10px]">Circulaire Officielle</a>
                 </div>
             </div>
-            <div class="flex flex-col items-start gap-4">
-                <a id="flyerLink" href="#" target="_blank" class="inline-block bg-white text-slate-950 px-10 py-5 rounded-2xl font-black uppercase italic text-[10px] hover:scale-105 transition-transform shadow-2xl">Ouvrir la circulaire <span id="flyerName"></span></a>
-                <span class="text-[11px] font-black uppercase tracking-[0.2em] text-white/60 ml-2">Semaine du 2 au 8 avril 2026</span>
+            <div class="comparateur-side">
+                <h1 class="main-title" id="mainTitle">LE MENU</h1>
+                <p class="text-[10px] font-black uppercase tracking-widest mt-4 opacity-60">Économies possibles</p>
+                <div class="comp-val" id="mainDiscount">-00%</div>
+                <div class="bar-chart-container" id="barBox"></div>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-20">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
-            <div id="featuredRecipe"></div>
-            <div class="lg:col-span-2 bg-white border border-slate-100 rounded-[4rem] p-12 shadow-sm flex flex-col md:flex-row justify-between items-center">
-                <div>
-                    <h3 class="font-black text-4xl uppercase italic">COMPARATEUR</h3>
-                    <p id="savingsPercent" class="text-8xl font-black italic my-4"></p>
-                    <p class="text-slate-400 text-[11px] uppercase font-black tracking-widest">Économies sur les essentiels</p>
-                </div>
-                <div class="flex items-end space-x-6 h-48" id="comparisonBars"></div>
-            </div>
+    <main class="layout-container" id="mainGrid"></main>
+
+    <section class="shopping-section no-print">
+        <div class="flex justify-between items-center">
+            <h2 class="text-5xl font-black uppercase italic">Ma Liste d'emplettes</h2>
+            <button onclick="window.print()" class="px-6 py-3 bg-black text-white font-black uppercase text-[10px]">Imprimer Liste</button>
         </div>
+        <div class="list-grid" id="shoppingList"></div>
+    </section>
 
-        <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-24"></div>
-
-        <section id="grocerySection" class="bg-slate-950 rounded-[4rem] p-16 text-white shadow-2xl">
-            <h2 class="text-5xl font-black uppercase italic mb-10">Liste de courses suggérée</h2>
-            <div id="groceryList" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-16"></div>
-            <div class="flex justify-center">
-                <button onclick="window.print()" class="bg-white text-slate-950 px-16 py-6 rounded-2xl font-black uppercase italic text-sm">Imprimer la liste (PDF)</button>
-            </div>
-        </section>
-    </main>
-
-    <div id="recipeModal" onclick="closeModal()">
+    <div id="recipeModal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-img-side" id="modalImgContainer"></div>
-            <div class="modal-text-side">
-                <h2 id="modalTitle" class="text-5xl font-black uppercase italic mb-10"></h2>
-                <div id="modalSteps" class="space-y-8"></div>
+            <div class="bg-slate-200"><img id="modalImg" class="w-full h-full object-cover" src=""></div>
+            <div class="modal-scroll">
+                <h2 id="modalTitle" class="text-5xl font-black uppercase italic mb-6"></h2>
+                <p id="modalDesc" class="text-xl font-bold italic border-l-8 border-black pl-6 mb-12 opacity-70"></p>
+                <div id="modalIngs" class="grid grid-cols-2 gap-4 mb-12 font-bold italic"></div>
+                <div id="modalSteps" class="space-y-6"></div>
             </div>
         </div>
     </div>
 
     <script>
         const storeData = {
-            superc: { 
-                name: "Super C", color: "#e31e24", savings: "-46%", vedette: "Bœuf", vPrice: "4.77$/lb", 
-                url: "https://www.superc.ca/circulaire", hero: "https://images.unsplash.com/photo-1558030006-450675393462", 
-                recipes: [
-                    { name: "Bœuf Traditionnel au Four", price: 12.50, items: ["Rôti de bœuf", "Ail", "Thym"], img: "https://images.unsplash.com/photo-1558030006-450675393462", steps: ["Préchauffer le four à 325°F.", "Frotter la viande avec de l'ail haché et du thym frais.", "Saisir la pièce de bœuf dans une poêle chaude avant d'enfourner.", "Cuire jusqu'à l'obtention d'une température interne de 135°F pour une cuisson rosée.", "Laisser reposer 15 minutes sous papier aluminium avant de trancher."] },
-                    { name: "Sauté de Bœuf aux Poivrons", price: 10.20, items: ["Lanières de bœuf", "Poivrons", "Soja"], img: "https://images.unsplash.com/photo-1512058560366-cd2429593232", steps: ["Couper le bœuf en fines lanières.", "Faire sauter à feu vif avec des poivrons multicolores.", "Ajouter une sauce soja légère et un peu de gingembre.", "Cuire 5 minutes maximum pour garder la tendreté.", "Servir sur un riz blanc vapeur."] },
-                    { name: "Tacos de Bœuf Effiloché", price: 9.50, items: ["Bœuf à mijoter", "Tortillas", "Lime"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Cuire le bœuf à la mijoteuse pendant 6 heures.", "Effilocher la viande à l'aide de deux fourchettes.", "Assaisonner avec du cumin et de la coriandre.", "Chauffer les tortillas et garnir de viande.", "Ajouter un filet de lime fraîche."] },
-                    { name: "Burger de Bœuf Gourmet", price: 11.00, items: ["Bœuf haché", "Fromage", "Oignons"], img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", steps: ["Former des galettes de bœuf de 150g.", "Griller sur le BBQ ou à la poêle 4 minutes par côté.", "Ajouter une tranche de fromage fort en fin de cuisson.", "Caraméliser des oignons avec un peu de sucre.", "Assembler dans un pain brioché toasté."] },
-                    { name: "Brochettes de Bœuf Marinées", price: 13.80, items: ["Cubes de bœuf", "Champignons", "Huile"], img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba", steps: ["Mariner les cubes de bœuf dans l'huile et les herbes pendant 2h.", "Enfiler sur des pics en alternant avec des champignons.", "Griller à feu moyen-vif.", "Badigeonner de marinade restante durant la cuisson.", "Servir avec une salade verte croquante."] },
-                    { name: "Mijoté de Bœuf aux Carottes", price: 12.00, items: ["Bœuf", "Carottes", "Bouillon"], img: "https://images.unsplash.com/photo-1534939561126-755e622435ee", steps: ["Faire dorer les cubes de bœuf dans une cocotte.", "Ajouter les carottes coupées en rondelles et le bouillon.", "Couvrir et laisser mijoter à feu doux pendant 2 heures.", "Vérifier que la viande se détache facilement.", "Accompagner de pommes de terre bouillies."] },
-                    { name: "Salade de Bœuf Saisi", price: 14.50, items: ["Steak", "Roquette", "Balsamique"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Cuire le steak saignant.", "Trancher finement contre le grain.", "Disposer sur un lit de roquette fraîche.", "Arroser d'une réduction de vinaigre balsamique.", "Ajouter des copeaux de parmesan."] }
-                ]
-            },
-            maxi: { 
-                name: "Maxi", color: "#0055aa", savings: "-41%", vedette: "Poulet", vPrice: "1.99$/lb", 
-                url: "https://www.maxi.ca/flyer", hero: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2", 
-                recipes: [
-                    { name: "Poulet Rôti aux Herbes", price: 8.50, items: ["Poulet entier", "Beurre", "Romarin"], img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781", steps: ["Enduire le poulet de beurre pommade et de romarin.", "Saler et poivrer généreusement l'intérieur et l'extérieur.", "Cuire au four à 375°F pendant 1h15.", "Arroser de son jus toutes les 20 minutes.", "Laisser reposer avant de découper."] },
-                    { name: "Cuisses de Poulet BBQ", price: 7.20, items: ["Cuisses de poulet", "Sauce BBQ", "Épices"], img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b", steps: ["Frotter les cuisses avec un mélange d'épices à steak.", "Griller à chaleur indirecte sur le BBQ.", "Appliquer la sauce BBQ uniquement les 10 dernières minutes.", "Cuire jusqu'à ce que la peau soit croustillante.", "Servir avec un épi de maïs."] },
-                    { name: "Sauté de Poulet aux Noix", price: 9.80, items: ["Poitrine de poulet", "Cajou", "Brocoli"], img: "https://images.unsplash.com/photo-1525755662778-989d0524087e", steps: ["Dorer les dés de poulet dans l'huile d'arachide.", "Ajouter les bouquets de brocoli et les noix de cajou.", "Déglacer avec un peu de bouillon de volaille.", "Laisser réduire la sauce.", "Garnir de graines de sésame."] },
-                    { name: "Poulet au Citron et Olives", price: 10.50, items: ["Hauts de cuisse", "Citron", "Olives"], img: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8", steps: ["Saisir le poulet côté peau.", "Ajouter des quartiers de citron et des olives vertes.", "Mijoter 20 minutes à couvert.", "Le citron va confire et créer une sauce onctueuse.", "Accompagner de couscous."] },
-                    { name: "Salade de Poulet Grillé", price: 8.90, items: ["Poulet", "Laitue", "Vinaigrette"], img: "https://images.unsplash.com/photo-1512852939750-1305098529bf", steps: ["Griller des lanières de poulet assaisonnées.", "Mélanger avec une laitue romaine croquante.", "Ajouter des croûtons et du fromage râpé.", "Verser une vinaigrette crémeuse à l'ail.", "Parfait pour un lunch rapide."] },
-                    { name: "Pâtes au Poulet Crémeux", price: 11.20, items: ["Poulet", "Pâtes", "Crème"], img: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9", steps: ["Cuire les pâtes al dente.", "Préparer une sauce à base de crème et de parmesan.", "Intégrer le poulet cuit en dés.", "Mélanger le tout sur un feu doux.", "Poivrer généreusement."] },
-                    { name: "Brochettes Poulet et Ananas", price: 9.50, items: ["Poulet", "Ananas", "Poivrons"], img: "https://images.unsplash.com/photo-1544025162-d76694265947", steps: ["Alterner poulet et ananas sur les brochettes.", "Griller au BBQ.", "L'ananas caramélisé donne un goût sucré-salé.", "Servir avec un riz au coco.", "Un classique estival."] }
-                ]
-            },
-            metro: { 
-                name: "Métro", color: "#f97316", savings: "-35%", vedette: "Saumon", vPrice: "9.99$/lb", 
-                url: "https://www.metro.ca/circulaire", hero: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", 
-                recipes: [
-                    { name: "Saumon Grillé au Citron", price: 15.50, items: ["Pavé de saumon", "Citron", "Aneth"], img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2", steps: ["Préchauffer le gril.", "Déposer le saumon côté peau en premier.", "Badigeonner de jus de citron et d'aneth frais.", "Retourner délicatement après 5 minutes.", "Servir dès que la chair se détache à la fourchette."] },
-                    { name: "Tartare de Saumon Frais", price: 18.00, items: ["Saumon frais", "Câpres", "Échalotes"], img: "https://images.unsplash.com/photo-1534080333201-1b6d0891636c", steps: ["Couper le saumon en petits dés au couteau.", "Mélanger avec les câpres et les échalotes hachées.", "Ajouter une touche de moutarde de Dijon.", "Réserver au frais 30 minutes.", "Servir avec des croûtons."] },
-                    { name: "Saumon en Papillote", price: 16.20, items: ["Saumon", "Asperges", "Beurre"], img: "https://images.unsplash.com/photo-1485921325833-c519f76c4927", steps: ["Placer le saumon sur une feuille de papier parchemin.", "Ajouter des asperges et une noisette de beurre.", "Refermer hermétiquement.", "Cuire au four 15 minutes à 400°F.", "La vapeur préserve toutes les saveurs."] },
-                    { name: "Bol Poke au Saumon", price: 17.50, items: ["Saumon", "Riz poke", "Avocat"], img: "https://images.unsplash.com/photo-1546069901-eacef0df6022", steps: ["Mariner le saumon dans du soja et du sésame.", "Disposer sur un lit de riz vinaigré froid.", "Ajouter des tranches d'avocat et du concombre.", "Garnir de gingembre mariné.", "Saupoudrer de graines de sésame."] },
-                    { name: "Pâtes au Saumon Fumé", price: 14.80, items: ["Pâtes", "Saumon fumé", "Crème"], img: "https://images.unsplash.com/photo-1473093226795-af9932fe5855", steps: ["Cuire les fettuccines.", "Mélanger de la crème sûre avec du jus de citron.", "Ajouter les morceaux de saumon fumé hors du feu.", "Incorporer les pâtes chaudes.", "Garnir de poivre rose."] },
-                    { name: "Croquettes de Saumon", price: 12.90, items: ["Saumon en conserve", "Pommes de terre", "Oeuf"], img: "https://images.unsplash.com/photo-1581541234321-498c8959d042", steps: ["Mélanger le saumon avec une purée de pommes de terre froide.", "Ajouter un œuf pour lier le tout.", "Façonner des galettes et les paner.", "Dorer à la poêle dans un peu d'huile.", "Servir avec une sauce tartare."] },
-                    { name: "Salade de Saumon et Féta", price: 13.50, items: ["Saumon", "Épinards", "Féta"], img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288", steps: ["Griller le saumon et le défaire en flocons.", "Mélanger avec des pousses d'épinards.", "Émietter le fromage féta par-dessus.", "Arroser d'une vinaigrette au miel.", "Un repas léger et nutritif."] }
-                ]
-            },
-            iga: { 
-                name: "IGA", color: "#059669", savings: "-28%", vedette: "Steak", vPrice: "16.50$/lb", 
-                url: "https://www.iga.net/fr/circulaire", hero: "https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf", 
-                recipes: [
-                    { name: "Steak Grillé au Beurre", price: 22.50, items: ["Steak", "Beurre", "Ail"], img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c", steps: ["Sortir le steak 30 minutes avant cuisson.", "Saisir à feu très vif dans une poêle en fonte.", "Ajouter du beurre et de l'ail à mi-cuisson.", "Arroser la viande continuellement.", "Laisser reposer 10 minutes avant de servir."] },
-                    { name: "Steak Frites Classique", price: 24.00, items: ["Steak", "Pommes de terre", "Huile"], img: "https://images.unsplash.com/photo-1558030006-450675393462", steps: ["Préparer des frites maison au four.", "Griller le steak selon la cuisson désirée.", "Saler à la fleur de sel.", "Servir avec une sauce au poivre.", "Le classique ultime du bistro."] },
-                    { name: "Salade de Steak et Bleu", price: 19.50, items: ["Steak", "Fromage bleu", "Noix"], img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c", steps: ["Trancher le steak grillé finement.", "Mélanger avec de la laitue et du fromage bleu.", "Ajouter des noix de grenobles grillées.", "Verser une vinaigrette au vin rouge.", "L'amertume du bleu complète bien la viande."] },
-                    { name: "Steak au Poivre Concassé", price: 23.00, items: ["Steak", "Poivre noir", "Crème"], img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af", steps: ["Presser du poivre concassé sur les deux faces du steak.", "Cuire à la poêle.", "Déglacer avec un peu de cognac et de crème.", "Napper le steak de cette sauce onctueuse.", "Servir avec des haricots verts."] },
-                    { name: "Tacos de Steak et Salsa", price: 18.80, items: ["Steak", "Tortillas", "Tomates"], img: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47", steps: ["Couper le steak en petits cubes et sauter rapidement.", "Préparer une salsa de tomates et oignons frais.", "Garnir les tortillas chaudes.", "Ajouter de la coriandre fraîche.", "Servir avec des quartiers de lime."] },
-                    { name: "Steak de Flanc Mariné", price: 21.20, items: ["Flanc de bœuf", "Balsamique", "Miel"], img: "https://images.unsplash.com/photo-1544025162-d76694265947", steps: ["Mariner le flanc 12 heures au frigo.", "Griller entier sur le BBQ.", "Trancher très finement en biseau.", "Servir avec des légumes grillés.", "La marinade attendrit parfaitement la fibre."] },
-                    { name: "Philly Cheesesteak", price: 17.50, items: ["Bœuf émincé", "Pain", "Provolone"], img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d", steps: ["Sauter le bœuf avec des oignons et poivrons.", "Disposer dans un pain sous-marin ouvert.", "Recouvrir de fromage provolone.", "Passer sous le gril pour faire fondre le fromage.", "Un repas riche et satisfaisant."] }
-                ]
-            },
-            provigo: { 
-                name: "Provigo", color: "#ed1c24", savings: "-33%", vedette: "Fraise", vPrice: "2.44$/panier", 
-                url: "https://www.provigo.ca/flyer", hero: "https://images.unsplash.com/photo-1601599561213-832382fd07ba", 
-                recipes: [
-                    { name: "Tarte aux Fraises Fraîches", price: 9.50, items: ["Fraises", "Pâte sablée", "Crème"], img: "https://images.unsplash.com/photo-1606323831862-23c345b1dfd5", steps: ["Cuire la pâte sablée à blanc.", "Garnir d'une crème pâtissière onctueuse.", "Disposer les fraises entières ou tranchées.", "Napper d'un peu de gelée de fruits pour la brillance.", "Réserver au frais avant de servir."] },
-                    { name: "Salade Fraises et Épinards", price: 8.20, items: ["Fraises", "Bébé épinards", "Féta"], img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd", steps: ["Laver les pousses d'épinards.", "Trancher les fraises en deux.", "Mélanger avec du fromage féta émietté.", "Ajouter des pacanes grillées.", "Verser une vinaigrette au pavot."] },
-                    { name: "Smoothie aux Fraises", price: 5.50, items: ["Fraises", "Yogourt", "Miel"], img: "https://images.unsplash.com/photo-1577805947697-89e18249d767", steps: ["Mettre les fraises et le yogourt dans le mélangeur.", "Ajouter une cuillère de miel pour le sucre.", "Mixer jusqu'à consistance lisse.", "Ajouter quelques glaçons si désiré.", "Servir dans un grand verre."] },
-                    { name: "Shortcake aux Fraises", price: 10.80, items: ["Fraises", "Gâteau éponge", "Crème chantilly"], img: "https://images.unsplash.com/photo-1464305795204-6f5bdf7f8740", steps: ["Couper le gâteau en deux tranches.", "Imbiber d'un peu de sirop de fraise.", "Couvrir de fraises et de crème fouettée.", "Refermer avec la deuxième tranche.", "Décorer le dessus avec une fraise entière."] },
-                    { name: "Fraises au Chocolat", price: 12.00, items: ["Fraises", "Chocolat noir", "Beurre"], img: "https://images.unsplash.com/photo-1511381939415-e44015466834", steps: ["Faire fondre le chocolat au bain-marie.", "Tremper chaque fraise à moitié dans le chocolat.", "Déposer sur une plaque recouverte de papier parchemin.", "Laisser durcir au réfrigérateur.", "Une gâterie simple et élégante."] },
-                    { name: "Confiture de Fraises Minute", price: 7.40, items: ["Fraises", "Sucre", "Citron"], img: "https://images.unsplash.com/photo-1490818387583-1baba5e638af", steps: ["Écraser les fraises grossièrement.", "Mélanger avec le sucre et le jus de citron.", "Cuire à feu moyen 15 minutes.", "Mettre en pot dès que la texture s'épaissit.", "Délicieux sur des toasts le matin."] },
-                    { name: "Bruschetta aux Fraises", price: 9.90, items: ["Fraises", "Pain baguette", "Basilic"], img: "https://images.unsplash.com/photo-1572656631137-7935297eff55", steps: ["Griller des tranches de baguette.", "Mélanger dés de fraises, basilic et huile d'olive.", "Disposer sur le pain.", "Ajouter une goutte de crème de balsamique.", "Une entrée surprenante et fraîche."] }
-                ]
-            }
+            superc: { name: "Super C", color: "#e31e24", disc: "-46%", vName: "Rôti de Palette", vPrice: "4.88$/lb", vImg: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?q=80&w=800", link: "https://www.superc.ca/circulaire", recipes: [
+                {n: "Mijoté au Vin (Vedette)", img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=600", p: "12.50$", d: "Le braisé ultime fondant.", i: ["Rôti de palette","Vin rouge","Carottes","Oignons","Bouillon"], s: ["Saisir la viande.","Couper légumes.","Mouiller au vin.","Mijoter 4h à 300F.","Réduire le jus."]},
+                {n: "Burger Gourmet", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600", p: "11.00$", d: "Juteux et savoureux.", i: ["Bœuf haché","Pains briochés","Cheddar","Laitue","Tomate"], s: ["Former galettes.","Griller 4min/côté.","Fondre fromage.","Toaster pains.","Assembler."]},
+                {n: "Tacos Effilochés", img: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?q=80&w=600", p: "9.50$", d: "Style mexicain.", i: ["Restes rôti","Tortillas","Lime","Coriandre","Oignon"], s: ["Effilocher viande.","Chauffer tortillas.","Assaisonner.","Garnir.","Servir avec lime."]},
+                {n: "Sauté Gingembre", img: "https://images.unsplash.com/photo-1512058560566-427a1bd5a56f?q=80&w=600", p: "10.20$", d: "Express et santé.", i: ["Lanières bœuf","Gingembre","Brocoli","Soya","Riz"], s: ["Wok très chaud.","Saisir bœuf.","Ajouter brocoli.","Verser soya.","Servir sur riz."]},
+                {n: "Brochettes Cowboy", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=600", p: "13.80$", d: "Parfait au grill.", i: ["Cubes bœuf","Poivrons","Oignons","Huile","Épices"], s: ["Mariner viande.","Enfiler pics.","Préchauffer grill.","Griller 8 min.","Reposer 5 min."]},
+                {n: "Strogonoff Rapide", img: "https://images.unsplash.com/photo-1534939561126-755ecf1519f0?q=80&w=600", p: "12.00$", d: "Riche et crémeux.", i: ["Bœuf haché","Champignons","Crème sûre","Nouilles","Paprika"], s: ["Brunir viande.","Sauter champignons.","Ajouter paprika.","Mélanger crème.","Servir sur nouilles."]},
+                {n: "Salade Steak Thai", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600", p: "14.50$", d: "Frais et piquant.", i: ["Bœuf grillé","Menthe","Concombre","Lime","Piment"], s: ["Griller steak.","Trancher fin.","Mélanger herbes.","Préparer sauce.","Dresser frais."]}
+            ]},
+            maxi: { name: "Maxi", color: "#0055aa", disc: "-41%", vName: "Poulet Entier", vPrice: "1.99$/lb", vImg: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?q=80&w=800", link: "https://www.maxi.ca/circulaire", recipes: [
+                {n: "Poulet Rôti (Vedette)", img: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?q=80&w=600", p: "9.00$", d: "Peau craquante.", i: ["Poulet entier","Beurre","Thym","Ail","Sel"], s: ["Éponger poulet.","Beurrer peau.","Assaisonner.","Rôtir 1h15 à 375F.","Reposer avant découpe."]},
+                {n: "Cuisses BBQ", img: "https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=600", p: "8.50$", d: "Marinade collante.", i: ["Cuisses","Sauce BBQ","Miel","Ail","Huile"], s: ["Mélanger sauce.","Mariner cuisses.","Griller feu moyen.","Badigeonner fin.","Servir chaud."]},
+                {n: "Soupe Repas", img: "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=600", p: "7.00$", d: "Réconfortant.", i: ["Restes poulet","Nouilles","Carottes","Céleri","Bouillon"], s: ["Sauter légumes.","Ajouter bouillon.","Bouillir.","Cuire nouilles.","Ajouter poulet."]},
+                {n: "Salade César", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=600", p: "11.00$", d: "Classique frais.", i: ["Poitrine","Romaine","Parmesan","Croûtons","Sauce"], s: ["Griller poulet.","Laver romaine.","Trancher viande.","Mélanger tout.","Servir immédiatement."]},
+                {n: "Curry Coco", img: "https://images.unsplash.com/photo-1603894584134-f132f1707099?q=80&w=600", p: "12.00$", d: "Exotique.", i: ["Poulet cubes","Lait coco","Curry","Épinards","Riz"], s: ["Saisir poulet.","Ajouter curry.","Verser coco.","Mijoter 10 min.","Servir sur riz."]},
+                {n: "Sandwich Club", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=600", p: "11.50$", d: "Lunch parfait.", i: ["Poulet","Bacon","Pain","Tomate","Mayo"], s: ["Toaster pain.","Dorer bacon.","Trancher poulet.","Monter étages.","Couper triangles."]},
+                {n: "Poulet Teriyaki", img: "https://images.unsplash.com/photo-1603133872878-684f208fb84b?q=80&w=600", p: "10.00$", d: "Sauté rapide.", i: ["Poulet","Poivrons","Sauce Teriyaki","Sésame","Riz"], s: ["Sauter poulet.","Ajouter légumes.","Verser sauce.","Épaissir.","Parsemer sésame."]}
+            ]},
+            metro: { name: "Métro", color: "#f97316", disc: "-35%", vName: "Contre-filet", vPrice: "8.99$/lb", vImg: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?q=80&w=800", link: "https://www.metro.ca/circulaire", recipes: [
+                {n: "Steak au Poivre (Vedette)", img: "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=600", p: "19.00$", d: "Finesse sauce crème.", i: ["Contre-filet","Poivre","Crème","Beurre","Cognac"], s: ["Poivrer steak.","Saisir au beurre.","Déglacer Cognac.","Ajouter crème.","Napper la viande."]},
+                {n: "Tagliata Roquette", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=600", p: "18.00$", d: "Chic italien.", i: ["Contre-filet","Roquette","Parmesan","Balsamique","Huile"], s: ["Griller steak saignant.","Trancher lamelles.","Dresser roquette.","Ajouter parmesan.","Vinaigrette finale."]},
+                {n: "Philly Steak", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=600", p: "15.00$", d: "Fondant fromage.", i: ["Tranches bœuf","Provolone","Poivrons","Oignons","Pain"], s: ["Sauter oignons.","Cuire bœuf fin.","Poser fromage.","Griller pain.","Garnir généreusement."]},
+                {n: "Wok Teriyaki", img: "https://images.unsplash.com/photo-1512058560566-427a1bd5a56f?q=80&w=600", p: "16.50$", d: "Sauté express.", i: ["Bœuf","Pois mange-tout","Carottes","Sauce","Riz"], s: ["Wok fumant.","Saisir bœuf.","Sauter légumes.","Lier sauce.","Servir chaud."]},
+                {n: "Burger Steakhouse", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600", p: "17.00$", d: "Le haut de gamme.", i: ["Bœuf haché","Oignons frits","Bleu","Pain brioche","Arugula"], s: ["Former galette.","Griller.","Fondre fromage.","Caraméliser oignons.","Monter burger."]},
+                {n: "Salade Steak & Avocat", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600", p: "16.00$", d: "Complet et frais.", i: ["Steak","Avocat","Tomates","Lime","Coriandre"], s: ["Cuire steak.","Couper légumes.","Trancher viande.","Mélanger sauce.","Dresser assiette."]},
+                {n: "Brochettes Romarin", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=600", p: "20.00$", d: "Arômes de Provence.", i: ["Cubes bœuf","Romarin","Huile d'olive","Ail","Sel"], s: ["Mariner cubes.","Enfiler branches.","Saisir grill.","Saler fin.","Servir chaud."]}
+            ]},
+            iga: { name: "IGA", color: "#059669", disc: "-28%", vName: "Saumon Frais", vPrice: "9.99$/lb", vImg: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=800", link: "https://www.iga.net/fr/circulaire", recipes: [
+                {n: "Saumon Érable (Vedette)", img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=600", p: "15.00$", d: "Croûte sucrée.", i: ["Saumon","Sirop érable","Moutarde","Noix","Citron"], s: ["Mélanger sirop/moutarde.","Tartiner saumon.","Ajouter noix.","Cuire 12min à 400F.","Arroser citron."]},
+                {n: "Tartare Saumon", img: "https://images.unsplash.com/photo-1546039907-7fa05f864c02?q=80&w=600", p: "16.00$", d: "Frais du jour.", i: ["Saumon cru","Câpres","Échalotes","Ciboulette","Huile"], s: ["Cuber saumon.","Hacher aromates.","Mélanger froid.","Assaisonner.","Servir croûtons."]},
+                {n: "Poké Bowl", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=600", p: "14.50$", d: "Équilibre parfait.", i: ["Saumon","Riz sushi","Avocat","Edamame","Mayo"], s: ["Cuire riz.","Préparer légumes.","Trancher saumon.","Dresser bol.","Napper mayo."]},
+                {n: "Saumon Papillote", img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?q=80&w=600", p: "13.00$", d: "Vapeur douce.", i: ["Saumon","Asperges","Citron","Beurre","Aneth"], s: ["Placer parchemin.","Garnir légumes.","Beurrer saumon.","Fermer hermétique.","Cuire 15 min."]},
+                {n: "Pasta Saumon Fumé", img: "https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?q=80&w=600", p: "14.00$", d: "Onctueux.", i: ["Pâtes","Saumon","Crème","Aneth","Oignons"], s: ["Bouillir pâtes.","Chauffer crème.","Ajouter saumon.","Mélanger herbes.","Poivrer généreusement."]},
+                {n: "Brochettes Zucchini", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=600", p: "15.50$", d: "Léger au grill.", i: ["Cubes saumon","Zucchini","Citron","Huile","Sel"], s: ["Enfiler alterné.","Huiler citron.","Griller 2min/côté.","Surveiller cœur.","Servir riz."]},
+                {n: "Saumon Teriyaki", img: "https://images.unsplash.com/photo-1516685018646-5483c8448f48?q=80&w=600", p: "14.00$", d: "Inspiration Asie.", i: ["Saumon","Sauce Teriyaki","Sésame","Gingembre","Bok Choy"], s: ["Mariner saumon.","Saisir côté peau.","Poêler Bok Choy.","Verser sauce.","Garnir sésame."]}
+            ]},
+            provigo: { name: "Provigo", color: "#dc2626", disc: "-33%", vName: "Crevettes Tigrées", vPrice: "7.77$/sac", vImg: "https://images.unsplash.com/photo-1559737558-2f5a35f4520b?q=80&w=800", link: "https://www.provigo.ca/circulaire", recipes: [
+                {n: "Crevettes Ail (Vedette)", img: "https://images.unsplash.com/photo-1559737558-2f5a35f4520b?q=80&w=600", p: "10.00$", d: "Un classique rapide.", i: ["Crevettes","Ail","Beurre","Persil","Citron"], s: ["Éponger crevettes.","Mousser beurre/ail.","Sauter 3 min.","Hacher persil.","Déglacer citron."]},
+                {n: "Tacos Baja", img: "https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?q=80&w=600", p: "12.50$", d: "Fraîcheur été.", i: ["Crevettes","Chou","Tortillas","Radis","Crème"], s: ["Assaisonner cumin.","Poêler rapide.","Chauffer pains.","Garnir chou.","Finir crème."]},
+                {n: "Crevettes Coco", img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=600", p: "13.00$", d: "Doux et épicé.", i: ["Crevettes","Lait coco","Curry","Pois","Riz"], s: ["Revenir curry.","Ajouter coco.","Mijoter crevettes.","Cuire pois.","Servir chaud."]},
+                {n: "Pasta Rosée", img: "https://images.unsplash.com/photo-1563379926898-05f4575a45d8?q=80&w=600", p: "12.00$", d: "Festin crémeux.", i: ["Linguine","Crevettes","Tomate","Crème","Ail"], s: ["Cuire pâtes.","Sauter crevettes.","Lier sauce crème.","Mélanger pâtes.","Poivrer."]},
+                {n: "Brochettes Ananas", img: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?q=80&w=600", p: "11.50$", d: "Sucré-salé grillé.", i: ["Crevettes","Ananas","Poivron","BBQ","Épices"], s: ["Enfiler pics.","Badigeonner sauce.","Griller 4 min.","Retourner.","Servir chaud."]},
+                {n: "Tempura Japonais", img: "https://images.unsplash.com/photo-1581184953963-d15972933db1?q=80&w=600", p: "14.00$", d: "Croustillant léger.", i: ["Crevettes","Farine tempura","Eau","Huile","Soya"], s: ["Pâte eau glacée.","Tremper crevettes.","Frire huile chaude.","Égoutter papier.","Servir sauce soya."]},
+                {n: "Salade Avocat", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600", p: "13.50$", d: "Lunch santé.", i: ["Crevettes","Avocat","Maïs","Tomates","Lime"], s: ["Cuire crevettes.","Couper avocat.","Mélanger légumes.","Assaisonner lime.","Servir frais."]}
+            ]}
         };
 
-        function getImgHTML(recipe, storeColor) {
-            const fallback = `<div class="fallback-content" style="background:${storeColor}">${recipe.name}</div>`;
-            return `${fallback}<img class="recipe-img" src="${recipe.img}" onerror="this.style.opacity='0'">`;
-        }
-
         function switchStore(id) {
-            const config = storeData[id];
-            document.body.style.setProperty('--store-color', config.color);
-            document.getElementById('bannerTitle').innerHTML = `LE MENU <br> ${config.name}`;
-            document.getElementById('heroImg').style.backgroundImage = `url('${config.hero}')`;
-            document.getElementById('navBrandIcon').style.backgroundColor = config.color;
-            document.getElementById('featuredItemName').innerText = config.vedette;
-            document.getElementById('featuredPrice').innerText = config.vPrice;
-            document.getElementById('savingsPercent').innerText = config.savings;
-            document.getElementById('savingsPercent').style.color = config.color;
-            document.getElementById('flyerLink').href = config.url;
-            document.getElementById('flyerName').innerText = config.name;
+            const s = storeData[id];
+            document.documentElement.style.setProperty('--store-color', s.color);
+            document.getElementById('mainTitle').innerHTML = `LE MENU<br>${s.name.toUpperCase()}`;
+            document.getElementById('vName').innerText = s.vName;
+            document.getElementById('vPrice').innerText = s.vPrice;
+            document.getElementById('vImg').src = s.vImg;
+            document.getElementById('mainDiscount').innerText = s.disc;
+            document.getElementById('heroBg').style.backgroundColor = s.color;
+            document.getElementById('circLink').href = s.link;
 
-            document.querySelectorAll('.store-tab').forEach(b => { 
-                b.style.backgroundColor = 'transparent'; b.style.color = '#94a3b8'; 
+            let barHtml = '';
+            Object.keys(storeData).forEach(k => {
+                const item = storeData[k];
+                const pctVal = parseInt(item.disc.replace('-',''));
+                const h = pctVal * 1.8;
+                const isActive = (k === id);
+                
+                // Barres avec couleurs officielles des bannières
+                const barColor = isActive ? 'white' : item.color;
+                const opacity = isActive ? '1' : '0.6';
+
+                barHtml += `
+                    <div class="bar-wrapper">
+                        <span class="bar-pct" style="opacity:${opacity}">${item.disc}</span>
+                        <div class="bar-fill" style="height:${h}px; background-color:${barColor}; opacity:${opacity}; ${isActive ? 'border:2px solid white;' : ''}"></div>
+                        <span class="bar-label" style="opacity:${opacity}">${item.name}</span>
+                    </div>`;
             });
-            document.getElementById(`btn-${id}`).style.backgroundColor = config.color;
-            document.getElementById(`btn-${id}`).style.color = 'white';
-            render(id);
-        }
+            document.getElementById('barBox').innerHTML = barHtml;
 
-        function render(storeId) {
-            const store = storeData[storeId];
-            const grid = document.getElementById('recipeGrid');
-            const grocery = document.getElementById('groceryList');
-            grid.innerHTML = ''; grocery.innerHTML = '';
-
-            const first = store.recipes[0];
-            document.getElementById('featuredRecipe').innerHTML = `
-                <div class="recipe-card shadow-2xl" style="border-color: ${store.color}44;">
-                    <div class="img-container">${getImgHTML(first, store.color)}</div>
-                    <h3 class="font-black text-3xl uppercase italic mb-8">${first.name}</h3>
-                    <div class="flex justify-between items-center">
-                        <span class="text-4xl font-black italic" style="color:${store.color}">${first.price.toFixed(2)} $</span>
-                        <button onclick='openModal("${storeId}", 0)' class="bg-slate-950 text-white text-[10px] font-black px-8 py-4 rounded-2xl uppercase italic">Voir recette</button>
-                    </div>
-                </div>`;
-
-            store.recipes.slice(1).forEach((r, idx) => {
-                grid.innerHTML += `
-                    <div class="recipe-card" style="border-color: ${store.color}22;">
-                        <div class="img-container">${getImgHTML(r, store.color)}</div>
-                        <h3 class="font-black text-xl uppercase italic mb-8 h-14 overflow-hidden">${r.name}</h3>
+            let gridHtml = '';
+            s.recipes.forEach((r, idx) => {
+                gridHtml += `
+                    <div class="recipe-card border-b-2 border-black pb-8">
+                        <div class="img-wrapper">
+                            <img src="${r.img}" alt="${r.n}" onerror="this.style.display='none'">
+                            <div class="img-fallback">${r.n}</div>
+                        </div>
+                        <h3 class="text-2xl font-black uppercase mb-4 leading-tight">${r.n}</h3>
                         <div class="flex justify-between items-center">
-                            <span class="text-2xl font-black italic" style="color:${store.color}">${r.price.toFixed(2)} $</span>
-                            <button onclick='openModal("${storeId}", ${idx + 1})' class="bg-slate-950 text-white text-[10px] font-black px-6 py-3 rounded-2xl uppercase italic">Détails</button>
+                            <p class="text-3xl font-bold" style="color:var(--store-color)">${r.p}</p>
+                            <button onclick="openDetails('${id}', ${idx})" class="text-[10px] font-black uppercase border-b-2 border-black">Détails</button>
                         </div>
                     </div>`;
             });
+            document.getElementById('mainGrid').innerHTML = gridHtml;
 
-            [...new Set(store.recipes.flatMap(r => r.items))].sort().forEach(item => {
-                grocery.innerHTML += `<div class="p-4 bg-white/10 rounded-2xl border border-white/20 text-[9px] font-bold uppercase italic">${item}</div>`;
-            });
+            let ings = [];
+            s.recipes.forEach(r => ings = [...ings, ...r.i]);
+            document.getElementById('shoppingList').innerHTML = [...new Set(ings)].map(i => `<div class="py-2 border-b border-gray-200 font-bold italic">□ ${i}</div>`).join('');
 
-            document.getElementById('comparisonBars').innerHTML = Object.keys(storeData).map(s => {
-                const val = parseInt(storeData[s].savings.replace('-',''));
-                return `<div class="flex flex-col items-center">
-                    <span class="text-[10px] font-black mb-2" style="color:${storeData[s].color}">${storeData[s].savings}</span>
-                    <div class="w-8 bg-slate-100 rounded-full h-32 flex flex-col justify-end overflow-hidden">
-                        <div style="height:${val*1.5}px; background-color:${storeData[s].color}"></div>
-                    </div>
-                    <span class="text-[8px] font-black uppercase mt-2 text-slate-400">${storeData[s].name}</span>
-                </div>`;
-            }).join('');
+            document.querySelectorAll('.nav-link').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${id}`));
         }
 
-        function openModal(storeId, idx) {
-            const store = storeData[storeId];
-            const r = store.recipes[idx];
-            document.getElementById('modalTitle').innerText = r.name;
-            document.getElementById('modalImgContainer').innerHTML = getImgHTML(r, store.color);
-            document.getElementById('modalSteps').innerHTML = r.steps.map((s, i) => `
-                <div class="flex gap-6">
-                    <span class="text-slate-200 font-black italic text-5xl">0${i+1}</span>
-                    <p class="text-slate-700 leading-relaxed font-medium pt-2">${s}</p>
-                </div>`).join('');
+        function openDetails(storeId, idx) {
+            const r = storeData[storeId].recipes[idx];
+            document.getElementById('modalTitle').innerText = r.n;
+            document.getElementById('modalDesc').innerText = r.d;
+            document.getElementById('modalImg').src = r.img;
+            document.getElementById('modalIngs').innerHTML = r.i.map(ing => `<div>• ${ing}</div>`).join('');
+            document.getElementById('modalSteps').innerHTML = r.s.map((step, i) => `
+                <div class="flex gap-4"><span class="font-black text-2xl opacity-20">0${i+1}</span><p class="font-bold italic">${step}</p></div>
+            `).join('');
             document.getElementById('recipeModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
         }
-
-        function closeModal() { 
-            document.getElementById('recipeModal').style.display = 'none'; 
-            document.body.style.overflow = 'auto';
-        }
-
-        switchStore('superc');
     </script>
 </body>
 </html>
+```
