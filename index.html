@@ -8,20 +8,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
     <style>
         :root { --store-color: #e31e24; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcfcfc; color: #1a1a1a; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcfcfc; color: #1a1a1a; overflow-x: hidden; }
         .magazine-title { font-family: 'Playfair Display', serif; }
-        .nav-link { padding: 15px 0; transition: 0.3s; border-bottom: 4px solid transparent; opacity: 0.5; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        
+        /* Nav adaptative pour mobile */
+        .nav-container { overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .nav-container::-webkit-scrollbar { display: none; }
+        
+        .nav-link { padding: 12px 0; transition: 0.3s; border-bottom: 4px solid transparent; opacity: 0.5; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; flex-shrink: 0; }
         .nav-link.active { opacity: 1; border-bottom-color: var(--store-color); color: var(--store-color) !important; }
-        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 2.5rem; }
         
-        .recipe-card-img { height: 300px; border-radius: 2rem; overflow: hidden; position: relative; background-color: var(--store-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 2rem; }
+        
+        .recipe-card-img { height: 250px; border-radius: 1.5rem; overflow: hidden; position: relative; background-color: var(--store-color); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
         .recipe-card-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
-        .fallback-text { position: relative; z-index: 1; padding: 30px; text-align: center; font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: 1.8rem; color: #fff; line-height: 1.1; }
+        .fallback-text { position: relative; z-index: 1; padding: 20px; text-align: center; font-family: 'Playfair Display', serif; font-weight: 900; font-style: italic; font-size: 1.5rem; color: #fff; line-height: 1.1; }
         
-        #recipeModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.97); align-items: center; justify-content: center; padding: 20px; }
-        .modal-inner { background: white; width: 100%; max-width: 1200px; height: 90vh; display: grid; grid-template-columns: 480px 1fr; border-radius: 4rem; overflow: hidden; position: relative; }
-        .close-btn { position: absolute; top: 30px; right: 40px; font-size: 40px; font-weight: 200; cursor: pointer; z-index: 110; color: #1a1a1a; }
-        .modal-visual { background-color: var(--store-color); position: relative; display: flex; align-items: center; justify-content: center; }
+        /* Modal Responsive */
+        #recipeModal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.97); align-items: center; justify-content: center; padding: 10px; }
+        .modal-inner { background: white; width: 100%; max-width: 1100px; height: 95vh; display: flex; flex-direction: column; border-radius: 2rem; overflow: hidden; position: relative; }
+        
+        @media (min-width: 1024px) {
+            .modal-inner { display: grid; grid-template-columns: 400px 1fr; border-radius: 4rem; height: 90vh; }
+            .recipe-card-img { height: 300px; }
+        }
+
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 35px; font-weight: 200; cursor: pointer; z-index: 110; color: #1a1a1a; background: white; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .modal-visual { background-color: var(--store-color); position: relative; display: flex; align-items: center; justify-content: center; min-height: 250px; }
         .modal-visual img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
 
         @media print { .no-print { display: none !important; } }
@@ -29,65 +42,65 @@
 </head>
 <body onload="switchStore('superc')">
 
-    <nav class="bg-white/90 backdrop-blur-md border-b px-[5%] py-4 flex justify-between items-center sticky top-0 z-50 no-print">
-        <div class="text-3xl font-black italic tracking-tighter uppercase">🛒 Supermenu</div>
-        <div class="flex gap-8">
-            <span onclick="switchStore('superc')" id="btn-superc" class="nav-link">Super C</span>
-            <span onclick="switchStore('maxi')" id="btn-maxi" class="nav-link">Maxi</span>
-            <span onclick="switchStore('metro')" id="btn-metro" class="nav-link">Métro</span>
-            <span onclick="switchStore('iga')" id="btn-iga" class="nav-link">IGA</span>
-            <span onclick="switchStore('provigo')" id="btn-provigo" class="nav-link">Provigo</span>
+    <nav class="bg-white/95 backdrop-blur-md border-b sticky top-0 z-50 no-print">
+        <div class="px-[5%] py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-2xl font-black italic tracking-tighter uppercase">🛒 Supermenu</div>
+            <div class="nav-container w-full md:w-auto">
+                <div class="flex gap-6 md:gap-8 justify-start md:justify-end px-4 md:px-0">
+                    <span onclick="switchStore('superc')" id="btn-superc" class="nav-link">Super C</span>
+                    <span onclick="switchStore('maxi')" id="btn-maxi" class="nav-link">Maxi</span>
+                    <span onclick="switchStore('metro')" id="btn-metro" class="nav-link">Métro</span>
+                    <span onclick="switchStore('iga')" id="btn-iga" class="nav-link">IGA</span>
+                    <span onclick="switchStore('provigo')" id="btn-provigo" class="nav-link">Provigo</span>
+                </div>
+            </div>
         </div>
     </nav>
 
     <header class="p-[5%] text-white transition-all duration-700 no-print" id="heroBg">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-            <div class="flex flex-col md:flex-row gap-10 items-center md:items-start">
-                <div class="w-64 h-80 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/20 bg-zinc-800 flex items-center justify-center">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+            <div class="flex flex-col md:flex-row gap-8 items-center md:items-start text-center md:text-left">
+                <div class="w-48 h-60 md:w-64 md:h-80 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-4 border-white/20 bg-zinc-800 flex items-center justify-center flex-shrink-0">
                     <img id="vImg" class="w-full h-full object-cover" src="">
-                    <span id="vFallback" class="fallback-text hidden">Produit Vedette</span>
+                    <span id="vFallback" class="fallback-text hidden">Vedette</span>
                 </div>
-                <div class="text-center md:text-left">
-                    <div class="bg-black/20 backdrop-blur-md px-6 py-2 rounded-full inline-block mb-6">
-                        <p class="text-[10px] font-black uppercase tracking-[0.3em]">Du 16 au 22 avril 2026</p>
+                <div>
+                    <div class="bg-black/20 backdrop-blur-md px-5 py-2 rounded-full inline-block mb-4">
+                        <p class="text-[9px] font-black uppercase tracking-[0.2em]">Du 16 au 22 avril 2026</p>
                     </div>
-                    <p class="text-xs font-bold uppercase mb-2 opacity-80 italic">Produit Vedette</p>
-                    <h2 class="text-7xl font-black uppercase leading-[0.85] mb-4 tracking-tighter" id="vName">---</h2>
-                    <div class="text-7xl font-black mb-6 italic tracking-tighter" id="vPrice">---</div>
-                    <p class="text-sm font-bold leading-relaxed mb-8 opacity-95 max-w-sm italic">
-                        "Ma mission : Protéger votre patrimoine alimentaire par l'IA et l'optimisation des circulaires."
-                    </p>
-                    <a id="flyerLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black px-12 py-5 rounded-full font-black uppercase text-[12px] tracking-widest hover:scale-105 transition-all shadow-2xl">Accéder à la circulaire</a>
+                    <h2 class="text-5xl md:text-7xl font-black uppercase leading-[0.9] mb-4 tracking-tighter" id="vName">---</h2>
+                    <div class="text-5xl md:text-6xl font-black mb-6 italic tracking-tighter" id="vPrice">---</div>
+                    <a id="flyerLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-white text-black px-8 py-4 md:px-12 md:py-5 rounded-full font-black uppercase text-[10px] md:text-[12px] tracking-widest hover:scale-105 transition-all shadow-2xl">La Circulaire</a>
                 </div>
             </div>
             
-            <div class="glass-card p-12">
-                <div class="flex justify-between items-end mb-10">
+            <div class="glass-card p-8 md:p-12">
+                <div class="flex justify-between items-end mb-8">
                     <div>
-                        <h2 id="menuStoreName" class="text-7xl font-black uppercase tracking-tighter italic leading-none">---</h2>
-                        <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mt-4 italic">Comparateur d'économies circulaires</p>
+                        <h2 id="menuStoreName" class="text-4xl md:text-6xl font-black uppercase tracking-tighter italic leading-none">---</h2>
+                        <p class="text-[9px] font-black uppercase tracking-[0.2em] opacity-60 mt-3 italic">Économies Maximisées</p>
                     </div>
-                    <div id="bigPercent" class="text-8xl font-black tracking-tighter leading-none">0%</div>
+                    <div id="bigPercent" class="text-6xl md:text-8xl font-black tracking-tighter leading-none">0%</div>
                 </div>
-                <div class="flex items-end gap-3 h-32" id="barBox"></div>
+                <div class="flex items-end gap-2 md:gap-3 h-24" id="barBox"></div>
             </div>
         </div>
     </header>
 
-    <main class="p-[5%] no-print">
-        <div class="text-center py-20">
-            <h2 class="magazine-title text-5xl font-black text-zinc-900">Votre menu de <span class="italic text-zinc-300">7 recettes</span> stratégiques</h2>
+    <main class="px-[5%] py-10 no-print">
+        <div class="text-center py-10 md:py-20">
+            <h2 class="magazine-title text-3xl md:text-5xl font-black text-zinc-900 leading-tight">7 recettes <span class="italic text-zinc-300">stratégiques</span></h2>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12" id="mainGrid"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12" id="mainGrid"></div>
     </main>
 
     <section class="p-[5%] no-print">
-        <div class="bg-zinc-50 rounded-[3rem] p-12 border border-zinc-200 shadow-sm">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-                <h2 class="text-4xl font-black uppercase tracking-tighter italic border-l-8 border-zinc-900 pl-8">Ma Liste d'emplettes</h2>
-                <button onclick="window.print()" class="bg-zinc-900 text-white px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-black transition-all shadow-lg mt-6 md:mt-0">🖨️ Imprimer mon menu</button>
+        <div class="bg-zinc-50 rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 border border-zinc-200 shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tighter italic border-l-8 border-zinc-900 pl-6">Liste d'emplettes</h2>
+                <button onclick="window.print()" class="w-full md:w-auto bg-zinc-900 text-white px-8 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-black transition-all">🖨️ Imprimer</button>
             </div>
-            <div id="fullShoppingList" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+            <div id="fullShoppingList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"></div>
         </div>
     </section>
 
@@ -98,18 +111,19 @@
                 <span id="modalFallbackText" class="fallback-text"></span>
                 <img id="modalImg" src="" onerror="this.style.display='none'">
             </div>
-            <div class="p-16 overflow-y-auto bg-white">
-                <h2 id="modalTitle" class="text-5xl font-black uppercase mb-12 tracking-tighter border-l-8 border-black pl-8 leading-none"></h2>
-                <div class="mb-12">
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-6 italic">Ingrédients du marché</h4>
-                    <div id="modalIngs" class="grid grid-cols-2 gap-4 text-[14px] font-bold text-zinc-800"></div>
+            <div class="p-8 md:p-16 overflow-y-auto bg-white flex-1">
+                <h2 id="modalTitle" class="text-3xl md:text-5xl font-black uppercase mb-8 md:mb-12 tracking-tighter border-l-8 border-black pl-6 leading-tight"></h2>
+                <div class="mb-10">
+                    <h4 class="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-4 italic">Ingrédients du marché</h4>
+                    <div id="modalIngs" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[13px] md:text-[14px] font-bold text-zinc-800"></div>
                 </div>
-                <div id="modalSteps" class="space-y-10 border-t pt-10"></div>
+                <div id="modalSteps" class="space-y-8 border-t pt-8"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // ... (Même storeData que précédemment, incluant le lien Maxi corrigé)
         const storeData = {
             superc: { 
                 name: "Super C", color: "#e31e24", disc: "-46%", vName: "Rôti de palette", vPrice: "4.88$/lb", 
@@ -139,48 +153,9 @@
                     { n: "Sloppy Joes", img: "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg", i: ["Bœuf", "Sauce tomate", "Poivron", "Oignon", "Pains"], s: ["Sautez la viande avec les poivrons.","Ajoutez la sauce tomate et un peu de sucre.","Réduisez jusqu'à texture épaisse.","Grillez l'intérieur des pains ronds.","Servez la viande débordante du pain."] }
                 ]
             },
-            metro: { 
-                name: "Métro", color: "#f97316", disc: "-35%", vName: "Poitrine Poulet", vPrice: "4.44$/lb", 
-                vImg: "https://images.pexels.com/photos/233305/pexels-photo-233305.jpeg", 
-                flyer: "https://www.metro.ca/circulaire",
-                recipes: [
-                    { n: "Poulet au Citron", img: "https://images.unsplash.com/photo-1632778149428-f4044a2c270d?w=600", i: ["Poulet", "Citron", "Thym", "Beurre", "Ail"], s: ["Aplatissez les poitrines de poulet.","Dorez-les au beurre noisette.","Déglacez avec le jus de citron frais.","Ajoutez le thym et l'ail haché.","Mijotez 5 minutes pour lier la sauce."] },
-                    { n: "Alfredo Poulet", img: "https://images.pexels.com/photos/1435896/pexels-photo-1435896.jpeg", i: ["Poulet", "Pâtes", "Crème", "Parmesan", "Poivre"], s: ["Grillez le poulet à part et tranchez-le.","Cuisez les pâtes al dente.","Liez les pâtes à la crème et au fromage.","Incorporez le poulet sur le dessus.","Poivrez généreusement au moulin."] },
-                    { n: "Poulet Satay", img: "https://images.pexels.com/photos/2641886/pexels-photo-2641886.jpeg", i: ["Poulet", "Arachide", "Coco", "Curry", "Lime"], s: ["Marinez le poulet dans le lait de coco.","Enfilez les morceaux en brochettes.","Grillez vivement au BBQ ou au poêlon.","Préparez la sauce aux arachides.","Servez avec un riz jasmin et de la lime."] },
-                    { n: "Escalopes Parmesan", img: "https://images.pexels.com/photos/10361458/pexels-photo-10361458.jpeg", i: ["Poulet", "Chapelure", "Tomate", "Mozzarella", "Basilic"], s: ["Panez le poulet à l'anglaise.","Frire à la poêle jusqu'à dorure.","Nappez d'un peu de sauce tomate.","Gratinez à la mozzarella au four.","Ajoutez le basilic frais au service."] },
-                    { n: "Salade Cobb", img: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg", i: ["Poulet", "Bacon", "Avocat", "Œufs", "Laitue"], s: ["Cuisez le poulet et laissez-le tiédir.","Grillez le bacon bien croustillant.","Coupez les œufs durs en quartiers.","Disposez tous les éléments en rangs.","Arrosez d'une vinaigrette au bleu ou ranch."] },
-                    { n: "Poulet Teriyaki", img: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg", i: ["Poulet", "Soya", "Miel", "Sésame", "Poivron"], s: ["Coupez le poulet en gros dés.","Sautez au wok avec les poivrons.","Versez la sauce miel et soya.","Laissez laquer la viande 3 minutes.","Garnissez de sésame grillé."] },
-                    { n: "Quesadillas", img: "https://images.pexels.com/photos/2092507/pexels-photo-2092507.jpeg", i: ["Poulet", "Tortillas", "Fromage", "Salsa", "Oignon"], s: ["Hachez finement le poulet cuit.","Garnissez une moitié de tortilla.","Pliez et pressez fermement.","Dorez à la poêle sans gras.","Tranchez en triangles égaux."] }
-                ]
-            },
-            iga: { 
-                name: "IGA", color: "#006738", disc: "-28%", vName: "Filet de Morue", vPrice: "11.99$/lb", 
-                vImg: "https://images.pexels.com/photos/1640771/pexels-photo-1640771.jpeg", 
-                flyer: "https://www.iga.ca/circulaire",
-                recipes: [
-                    { n: "Morue Panko", img: "https://images.pexels.com/photos/3655916/pexels-photo-3655916.jpeg", i: ["Morue", "Panko", "Citron", "Persil", "Beurre"], s: ["Badigeonnez le poisson de beurre fondu.","Pressez le panko mélangé aux herbes.","Zestez un peu de citron sur le dessus.","Cuisez au four à 400°F pendant 12 min.","Servez avec des asperges vapeur."] },
-                    { n: "Tacos Poisson", img: "", i: ["Morue", "Chou", "Lime", "Tortillas", "Cumin"], s: ["Épicez la morue au cumin et paprika.","Dorez à la poêle rapidement.","Hachez le chou rouge très finement.","Chauffez les tortillas de maïs.","Assemblez avec une sauce crémeuse."] },
-                    { n: "Papillote Herbes", img: "https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg", i: ["Morue", "Zucchini", "Aneth", "Citron", "Huile"], s: ["Préparez des carrés de papier parchemin.","Déposez le lit de courgettes.","Huilez le poisson et salez.","Fermez le paquet hermétiquement.","Cuisez 15 minutes au four chaud."] },
-                    { n: "Morue Portugaise", img: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg", i: ["Morue", "Patates", "Olives", "Oignon", "Ail"], s: ["Tranchez finement les patates et oignons.","Alternez les rangs dans un plat.","Inondez généreusement d'huile d'olive.","Confisez au four à 350°F.","Ajoutez les olives noires en fin de cuisson."] },
-                    { n: "Fish & Chips", img: "https://images.pexels.com/photos/1123250/pexels-photo-1123250.jpeg", i: ["Morue", "Bière", "Farine", "Levure", "Patates"], s: ["Faites une pâte lisse à la bière froide.","Farinez le poisson avant de le tremper.","Frire à 350°F jusqu'à dorure.","Cuisez les frites à part.","Servez avec une sauce tartare maison."] },
-                    { n: "Morue Beurre Ail", img: "", i: ["Morue", "Beurre", "Ail", "Persil", "Câpres"], s: ["Saisissez la chair dans une poêle chaude.","Baissez le feu et mettez le beurre.","Arrosez le poisson avec le beurre fondu.","Ajoutez les câpres et l'ail à la fin.","Nappez généreusement au service."] },
-                    { n: "Bowl de Morue", img: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg", i: ["Morue", "Quinoa", "Avocat", "Edamame", "Sésame"], s: ["Pochez la morue dans un bouillon court.","Cuisez le quinoa al dente.","Tranchez l'avocat mûr.","Dressez harmonieusement dans un grand bol.","Versez un filet de sauce soja/sésame."] }
-                ]
-            },
-            provigo: { 
-                name: "Provigo", color: "#dc2626", disc: "-33%", vName: "Jambon Toupie", vPrice: "2.88$/lb", 
-                vImg: "https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg", 
-                flyer: "https://www.provigo.ca/circulaire",
-                recipes: [
-                    { n: "Jambon Érable", img: "https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg", i: ["Jambon", "Sirop", "Moutarde", "Ananas", "Girofle"], s: ["Quadrillez le gras superficiel du jambon.","Piquez de quelques clous de girofle.","Glacez au mélange sirop et moutarde.","Arrosez toutes les 20 minutes au four.","Tranchez finement pour le service."] },
-                    { n: "Quiche Jambon", img: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=600", i: ["Jambon", "Œufs", "Crème", "Gruyère", "Pâte"], s: ["Foncez le moule avec la pâte brisée.","Répartissez les dés de jambon.","Battez les œufs avec la crème épaisse.","Versez l'appareil sur la garniture.","Dorez 35 minutes à 375°F."] },
-                    { n: "Pizza Hawaii", img: "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg", i: ["Jambon", "Ananas", "Mozzarella", "Pâte", "Sauce"], s: ["Étalez la pâte le plus finement possible.","Nappez de sauce tomate aux herbes.","Garnissez généreusement de jambon/ananas.","Couvrez de fromage mozzarella.","Cuisez à très haute température (450°F)."] },
-                    { n: "Croque-Monsieur", img: "https://images.pexels.com/photos/236488/pexels-photo-236488.jpeg", i: ["Jambon", "Pain", "Béchamel", "Fromage", "Beurre"], s: ["Beurrez l'extérieur du pain de mie.","Garnissez de jambon et gruyère.","Nappez le dessus de sauce béchamel.","Ajoutez encore une couche de fromage.","Gratinez sous le gril jusqu'à bullage."] },
-                    { n: "Pennes Jambon", img: "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg", i: ["Jambon", "Pennes", "Pois", "Crème", "Parmesan"], s: ["Bouillez les pennes dans l'eau salée.","Sautez le jambon coupé en lanières.","Ajoutez les petits pois et la crème.","Réduisez pour épaissir la sauce.","Saupoudrez de parmesan fraîchement râpé."] },
-                    { n: "Salade Macaroni", img: "", i: ["Jambon", "Pâtes", "Céleri", "Mayo", "Poivron"], s: ["Rincez les pâtes à l'eau froide.","Coupez le jambon en cubes réguliers.","Liez avec une mayonnaise au citron.","Assaisonnez de sel et poivre noir.","Servez bien froid après 1 heure au frais."] },
-                    { n: "Muffins Brunch", img: "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg", i: ["Jambon", "Œufs", "Fromage", "Oignons", "Poivre"], s: ["Tapissez les moules avec le jambon.","Cassez un œuf frais dans chaque cavité.","Ajoutez les oignons verts ciselés.","Parsemez de fromage suisse râpé.","Cuisez 15 minutes au four à 350°F."] }
-                ]
-            }
+            metro: { name: "Métro", color: "#f97316", disc: "-35%", vName: "Poitrine Poulet", vPrice: "4.44$/lb", vImg: "https://images.pexels.com/photos/233305/pexels-photo-233305.jpeg", flyer: "https://www.metro.ca/circulaire", recipes: [ { n: "Poulet au Citron", img: "https://images.unsplash.com/photo-1632778149428-f4044a2c270d?w=600", i: ["Poulet", "Citron", "Thym", "Beurre", "Ail"], s: ["Aplatissez les poitrines de poulet.","Dorez-les au beurre noisette.","Déglacez avec le jus de citron frais.","Ajoutez le thym et l'ail haché.","Mijotez 5 minutes pour lier la sauce."] }, { n: "Alfredo Poulet", img: "https://images.pexels.com/photos/1435896/pexels-photo-1435896.jpeg", i: ["Poulet", "Pâtes", "Crème", "Parmesan", "Poivre"], s: ["Grillez le poulet à part et tranchez-le.","Cuisez les pâtes al dente.","Liez les pâtes à la crème et au fromage.","Incorporez le poulet sur le dessus.","Poivrez généreusement au moulin."] }, { n: "Poulet Satay", img: "https://images.pexels.com/photos/2641886/pexels-photo-2641886.jpeg", i: ["Poulet", "Arachide", "Coco", "Curry", "Lime"], s: ["Marinez le poulet dans le lait de coco.","Enfilez les morceaux en brochettes.","Grillez vivement au BBQ ou au poêlon.","Préparez la sauce aux arachides.","Servez avec un riz jasmin et de la lime."] }, { n: "Escalopes Parmesan", img: "https://images.pexels.com/photos/10361458/pexels-photo-10361458.jpeg", i: ["Poulet", "Chapelure", "Tomate", "Mozzarella", "Basilic"], s: ["Panez le poulet à l'anglaise.","Frire à la poêle jusqu'à dorure.","Nappez d'un peu de sauce tomate.","Gratinez à la mozzarella au four.","Ajoutez le basilic frais au service."] }, { n: "Salade Cobb", img: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg", i: ["Poulet", "Bacon", "Avocat", "Œufs", "Laitue"], s: ["Cuisez le poulet et laissez-le tiédir.","Grillez le bacon bien croustillant.","Coupez les œufs durs en quartiers.","Disposez tous les éléments en rangs.","Arrosez d'une vinaigrette au bleu ou ranch."] }, { n: "Poulet Teriyaki", img: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg", i: ["Poulet", "Soya", "Miel", "Sésame", "Poivron"], s: ["Coupez le poulet en gros dés.","Sautez au wok avec les poivrons.","Versez la sauce miel et soya.","Laissez laquer la viande 3 minutes.","Garnissez de sésame grillé."] }, { n: "Quesadillas", img: "https://images.pexels.com/photos/2092507/pexels-photo-2092507.jpeg", i: ["Poulet", "Tortillas", "Fromage", "Salsa", "Oignon"], s: ["Hachez finement le poulet cuit.","Garnissez une moitié de tortilla.","Pliez et pressez fermement.","Dorez à la poêle sans gras.","Tranchez en triangles égaux."] } ] },
+            iga: { name: "IGA", color: "#006738", disc: "-28%", vName: "Filet de Morue", vPrice: "11.99$/lb", vImg: "https://images.pexels.com/photos/1640771/pexels-photo-1640771.jpeg", flyer: "https://www.iga.ca/circulaire", recipes: [ { n: "Morue Panko", img: "https://images.pexels.com/photos/3655916/pexels-photo-3655916.jpeg", i: ["Morue", "Panko", "Citron", "Persil", "Beurre"], s: ["Badigeonnez le poisson de beurre fondu.","Pressez le panko mélangé aux herbes.","Zestez un peu de citron sur le dessus.","Cuisez au four à 400°F pendant 12 min.","Servez avec des asparagus vapeur."] }, { n: "Tacos Poisson", img: "", i: ["Morue", "Chou", "Lime", "Tortillas", "Cumin"], s: ["Épicez la morue au cumin et paprika.","Dorez à la poêle rapidement.","Hachez le chou rouge très finement.","Chauffez les tortillas de maïs.","Assemblez avec une sauce crémeuse."] }, { n: "Papillote Herbes", img: "https://images.pexels.com/photos/725991/pexels-photo-725991.jpeg", i: ["Morue", "Zucchini", "Aneth", "Citron", "Huile"], s: ["Préparez des carrés de papier parchemin.","Déposez le lit de courgettes.","Huilez le poisson et salez.","Fermez le paquet hermétiquement.","Cuisez 15 minutes au four chaud."] }, { n: "Morue Portugaise", img: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg", i: ["Morue", "Patates", "Olives", "Oignon", "Ail"], s: ["Tranchez finement les patates et oignons.","Alternez les rangs dans un plat.","Inondez généreusement d'huile d'olive.","Confisez au four à 350°F.","Ajoutez les olives noires en fin de cuisson."] }, { n: "Fish & Chips", img: "https://images.pexels.com/photos/1123250/pexels-photo-1123250.jpeg", i: ["Morue", "Bière", "Farine", "Levure", "Patates"], s: ["Faites une pâte lisse à la bière froide.","Farinez le poisson avant de le tremper.","Frire à 350°F jusqu'à dorure.","Cuisez les frites à part.","Servez avec une sauce tartare maison."] }, { n: "Morue Beurre Ail", img: "", i: ["Morue", "Beurre", "Ail", "Persil", "Câpres"], s: ["Saisissez la chair dans une poêle chaude.","Baissez le feu et mettez le beurre.","Arrosez le poisson avec le beurre fondu.","Ajoutez les câpres et l'ail à la fin.","Nappez généreusement au service."] }, { n: "Bowl de Morue", img: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg", i: ["Morue", "Quinoa", "Avocat", "Edamame", "Sésame"], s: ["Pochez la morue dans un bouillon court.","Cuisez le quinoa al dente.","Tranchez l'avocat mûr.","Dressez harmonieusement dans un grand bol.","Versez un filet de sauce soja/sésame."] } ] },
+            provigo: { name: "Provigo", color: "#dc2626", disc: "-33%", vName: "Jambon Toupie", vPrice: "2.88$/lb", vImg: "https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg", flyer: "https://www.provigo.ca/circulaire", recipes: [ { n: "Jambon Érable", img: "https://images.pexels.com/photos/2233729/pexels-photo-2233729.jpeg", i: ["Jambon", "Sirop", "Moutarde", "Ananas", "Girofle"], s: ["Quadrillez le gras superficiel du jambon.","Piquez de quelques clous de girofle.","Glacez au mélange sirop et moutarde.","Arrosez toutes les 20 minutes au four.","Tranchez finement pour le service."] }, { n: "Quiche Jambon", img: "https://images.unsplash.com/photo-1594007654729-407eedc4be65?w=600", i: ["Jambon", "Œufs", "Crème", "Gruyère", "Pâte"], s: ["Foncez le moule avec la pâte brisée.","Répartissez les dés de jambon.","Battez les œufs avec la crème épaisse.","Versez l'appareil sur la garniture.","Dorez 35 minutes à 375°F."] }, { n: "Pizza Hawaii", img: "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg", i: ["Jambon", "Ananas", "Mozzarella", "Pâte", "Sauce"], s: ["Étalez la pâte le plus finement possible.","Nappez de sauce tomate aux herbes.","Garnissez généreusement de jambon/ananas.","Couvrez de fromage mozzarella.","Cuisez à très haute température (450°F)."] }, { n: "Croque-Monsieur", img: "https://images.pexels.com/photos/236488/pexels-photo-236488.jpeg", i: ["Jambon", "Pain", "Béchamel", "Fromage", "Beurre"], s: ["Beurrez l'extérieur du pain de mie.","Garnissez de jambon et gruyère.","Nappez le dessus de sauce béchamel.","Ajoutez encore une couche de fromage.","Gratinez sous le gril jusqu'à bullage."] }, { n: "Pennes Jambon", img: "https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg", i: ["Jambon", "Pennes", "Pois", "Crème", "Parmesan"], s: ["Bouillez les pennes dans l'eau salée.","Sautez le jambon coupé en lanières.","Ajoutez les petits pois et la crème.","Réduisez pour épaissir la sauce.","Saupoudrez de parmesan fraîchement râpé."] }, { n: "Salade Macaroni", img: "", i: ["Jambon", "Pâtes", "Céleri", "Mayo", "Poivron"], s: ["Rincez les pâtes à l'eau froide.","Coupez le jambon en cubes réguliers.","Liez avec une mayonnaise au citron.","Assaisonnez de sel et poivre noir.","Servez bien froid après 1 heure au frais."] }, { n: "Muffins Brunch", img: "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg", i: ["Jambon", "Œufs", "Fromage", "Oignons", "Poivre"], s: ["Tapissez les moules avec le jambon.","Cassez un œuf frais dans chaque cavité.","Ajoutez les oignons verts ciselés.","Parsemez de fromage suisse râpé.","Cuisez 15 minutes au four à 350°F."] } ] }
         };
 
         function switchStore(id) {
@@ -210,10 +185,10 @@
                 const s = storeData[k];
                 const active = k === activeId;
                 html += `<div class="flex-1 flex flex-col items-center">
-                    <span class="text-[11px] font-black mb-3 ${active?'text-white':'text-white/60'}">${s.disc}</span>
-                    <div class="w-full rounded-2xl transition-all duration-700 border-2 ${active?'border-white shadow-lg':'border-white/20'}" 
-                         style="height:${Math.abs(parseInt(s.disc))*1.5}px; background:${s.color}; opacity:${active?'1':'0.4'}"></div>
-                    <span class="text-[9px] font-black uppercase mt-4 text-center leading-none ${active?'text-white':'text-white/40'}">${s.name}</span>
+                    <span class="text-[9px] md:text-[11px] font-black mb-2 ${active?'text-white':'text-white/60'}">${s.disc}</span>
+                    <div class="w-full rounded-lg md:rounded-2xl transition-all duration-700 border ${active?'border-white shadow-lg':'border-white/20'}" 
+                         style="height:${Math.abs(parseInt(s.disc))*1.2}px; background:${s.color}; opacity:${active?'1':'0.4'}"></div>
+                    <span class="text-[7px] md:text-[9px] font-black uppercase mt-3 text-center leading-none ${active?'text-white':'text-white/40'}">${s.name}</span>
                 </div>`;
             });
             document.getElementById('barBox').innerHTML = html;
@@ -224,15 +199,15 @@
             let html = '', listHtml = '';
             s.recipes.forEach((r, i) => {
                 html += `<div class="flex flex-col cursor-pointer group" onclick="openModal('${id}', ${i})">
-                    <div class="recipe-card-img mb-8">
+                    <div class="recipe-card-img mb-6 md:mb-8">
                         <div class="fallback-text">${r.n}</div>
                         <img src="${r.img}" onerror="this.style.display='none'">
                     </div>
-                    <div class="px-4 text-center">
-                        <h3 class="font-black uppercase text-xl group-hover:text-[var(--store-color)] transition-colors">${r.n}</h3>
+                    <div class="px-2 text-center">
+                        <h3 class="font-black uppercase text-lg md:text-xl group-hover:text-[var(--store-color)] transition-colors">${r.n}</h3>
                     </div>
                 </div>`;
-                listHtml += `<div class="p-8 bg-white rounded-3xl border border-zinc-100 shadow-sm"><h4 class="font-black text-xs uppercase mb-4 text-[var(--store-color)]">${r.n}</h4><ul class="text-[12px] font-bold text-zinc-600 space-y-1">${r.i.map(ing => `<li>• ${ing}</li>`).join('')}</ul></div>`;
+                listHtml += `<div class="p-6 bg-white rounded-2xl border border-zinc-100 shadow-sm"><h4 class="font-black text-[10px] uppercase mb-3 text-[var(--store-color)]">${r.n}</h4><ul class="text-[11px] font-bold text-zinc-600 space-y-1">${r.i.map(ing => `<li>• ${ing}</li>`).join('')}</ul></div>`;
             });
             document.getElementById('mainGrid').innerHTML = html;
             document.getElementById('fullShoppingList').innerHTML = listHtml;
@@ -247,11 +222,15 @@
             mImg.src = r.img;
             mImg.style.display = r.img ? 'block' : 'none';
             document.getElementById('modalIngs').innerHTML = r.i.map(ing => `<div>• ${ing}</div>`).join('');
-            document.getElementById('modalSteps').innerHTML = r.s.map((step, i) => `<div class="flex gap-6"><span class="font-black text-4xl italic opacity-40" style="color:${storeData[sid].color}">${i+1}</span><p class="font-bold text-zinc-700 pt-2 leading-relaxed">${step}</p></div>`).join('');
+            document.getElementById('modalSteps').innerHTML = r.s.map((step, i) => `<div class="flex gap-4 md:gap-6"><span class="font-black text-3xl md:text-4xl italic opacity-40" style="color:${storeData[sid].color}">${i+1}</span><p class="font-bold text-zinc-700 pt-1 text-sm md:text-base leading-relaxed">${step}</p></div>`).join('');
             document.getElementById('recipeModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() { document.getElementById('recipeModal').style.display = 'none'; }
+        function closeModal() { 
+            document.getElementById('recipeModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
